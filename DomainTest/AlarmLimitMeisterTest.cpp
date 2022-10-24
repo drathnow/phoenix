@@ -22,12 +22,12 @@
 
 #include "MockAlarmRange.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
 using namespace std;
-using namespace zios::foundation;
-using namespace zios::test;
+using namespace dios::foundation;
+using namespace dios::test;
 
 using testing::Mock;
 using testing::InSequence;

@@ -3,7 +3,7 @@
 #include <domain.h>
 #include <Measurement.h>
 
-namespace zios::domain
+namespace dios::domain
 {
 
 class MeasurementTest: public testing::Test

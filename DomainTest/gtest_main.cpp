@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <log4cplus/log4cplus.h>
+#include <Clock.h>
+#include <MockClock.h>
 
 using namespace log4cplus;
 using namespace testing;

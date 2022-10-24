@@ -8,7 +8,7 @@
 #include <type_traits>
 #include <Clock.h>
 
-namespace zios::domain
+namespace dios::domain
 {
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
@@ -31,7 +31,7 @@ public:
         }
     }
 
-    MOCK_METHOD(AlarmStatus, alarmStatusForValue, (T value, zios::foundation::Clock& clock, uint16_t setTimeSeconds, uint16_t clearTimeSeconds), (override));
+    MOCK_METHOD(AlarmStatus, alarmStatusForValue, (T value, dios::foundation::Clock& clock, uint16_t setTimeSeconds, uint16_t clearTimeSeconds), (override));
     MOCK_METHOD(void, clear, (), (override));
     MOCK_METHOD(bool, isValid, (), (const, override));
     MOCK_METHOD(bool, isActive, (), (const, override));

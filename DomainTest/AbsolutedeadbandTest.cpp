@@ -3,7 +3,7 @@
 #include <gmock/gmock.h>
 #include <cstdint>
 
-namespace zios::domain
+namespace dios::domain
 {
 
 class AbsoluteDeadbandTest: public testing::Test

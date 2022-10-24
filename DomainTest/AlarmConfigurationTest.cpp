@@ -19,13 +19,13 @@
 #include <AlarmConfiguration.h>
 #include <AlarmConfigurationSerializer.h>
 
-namespace zios
+namespace dios
 {
 namespace domain
 {
 
 using namespace std;
-using namespace zios::foundation;
+using namespace dios::foundation;
 
 using testing::Mock;
 

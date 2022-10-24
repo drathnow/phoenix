@@ -10,10 +10,10 @@
 
 #include "MockAlarmRange.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
-using namespace zios::test;
+using namespace dios::test;
 
 using testing::Return;
 using testing::Eq;

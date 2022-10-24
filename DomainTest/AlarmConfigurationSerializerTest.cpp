@@ -5,7 +5,7 @@
 #include <AlarmConfiguration.h>
 #include <AlarmConfigurationSerializer.h>
 
-namespace zios::domain
+namespace dios::domain
 {
 
 using namespace std;

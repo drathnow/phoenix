@@ -4,7 +4,7 @@
 #include <cstdint>
 
 
-namespace zios::domain
+namespace dios::domain
 {
 
 class PercentageDeadbandTest: public testing::Test
