@@ -25,7 +25,7 @@ public:
     MockClock _systemClock;
     JobQueue _jobQueueUnderTest;
 
-    static ExtendedPriorityQueue<tqe>& theQueueForJobQueue(JobQueue& jobQueueUnderTest)
+    static ExtendedPriorityQueue<JobQueue::tqe>& theQueueForJobQueue(JobQueue& jobQueueUnderTest)
     {
         return jobQueueUnderTest._theQueue;
     }
@@ -87,4 +87,5 @@ TEST_F(WhenJobQueueIsAskedToSubmitAJob, shouldSubmitJobAndOrderJobsAccordingToTi
     delete theQueueForJobQueue(_jobQueueUnderTest).top().job;
     theQueueForJobQueue(_jobQueueUnderTest).pop();
 }
+
 }

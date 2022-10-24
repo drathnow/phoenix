@@ -16,6 +16,15 @@ LIBS += -llog4cplus
 
 all: $(OUT_DIR) dependents $(OUT_DIR)/$(OUT_SO) $(SHARED_DIR)/$(OUT_SO)
 
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(CPP_DEPS)),)
+-include $(CPP_DEPS)
+endif
+ifneq ($(strip $(C_DEPS)),)
+-include $(C_DEPS)
+endif
+endif
+
 dependents:
 
 $(OUT_DIR):

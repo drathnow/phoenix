@@ -7,9 +7,8 @@
 namespace zios::foundation
 {
 
-class ByteSwap
+struct ByteSwap
 {
-public:
     static const std::string NONE_NAME;
     static const std::string BYTE2143_NAME;
     static const std::string BYTE4321_NAME;
@@ -25,13 +24,8 @@ public:
         UNKNOWN = 99
     };
 
-    virtual ~ByteSwap();
-
     static void valueToByteSwapOrder(uint32_t &value, BSBYTE_ORDER byteOrder);
     static BSBYTE_ORDER byteOrderForName(const std::string &name);
-
-private:
-    ByteSwap();
 };
 
 } /* namespace zios */

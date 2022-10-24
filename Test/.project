@@ -3,6 +3,7 @@
 	<name>Test</name>
 	<comment></comment>
 	<projects>
+		<project>Foundation</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

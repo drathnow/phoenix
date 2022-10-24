@@ -6,10 +6,13 @@
 #include <tuple>
 #include <functional>
 
+template<typename T>
 class Runnable
 {
 public:
+    virtual ~Runnable();
 
+    virtual T run() = 0;
 };
 
 #endif /* __RUNNABLE_H___ */

@@ -14,11 +14,22 @@ LIB_PATH += -L../sharedlibs/$(CONFIG)
 
 LIBS += -lpthread
 LIBS += -lFoundation
+LIBS += -lpthread
 LIBS += -lgtest 
 LIBS += -lgmock
+LIBS += -ltestutil
 LIBS += -llog4cplus
 
 all: $(OUT_DIR) dependents $(OUT_DIR)/$(OUT_EXE)
+
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(CPP_DEPS)),)
+-include $(CPP_DEPS)
+endif
+ifneq ($(strip $(CC_DEPS)),)
+-include $(CC_DEPS)
+endif
+endif
 
 dependents:
 	cd ../Foundation && $(MAKE) all

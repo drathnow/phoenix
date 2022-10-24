@@ -1,10 +1,9 @@
+#include <bits/types/time_t.h>
+#include <EventSchedule.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <MockClock.h>
 #include <ctime>
-
-#include <iostream>
-#include "EventSchedule.h"
 
 namespace zios::foundation
 {
@@ -24,7 +23,7 @@ TEST(WhenEventScheduleIsAskedNextDueTime, shouldReturnCurrentTimeIfStartTimeIsCu
         .WillOnce(Return(now))
         .WillOnce(Return(now+21));
 
-    EventSchedule eventScheduleUnderTest(now+20, 10, 0, systemClock);
+    EventSchedule eventScheduleUnderTest(now+20, 10, 0, &systemClock);
     ASSERT_EQ(now+20, eventScheduleUnderTest.nextDueTime());
     ASSERT_EQ(now+30, eventScheduleUnderTest.nextDueTime());
 }
@@ -37,7 +36,7 @@ TEST(WhenEventScheduleIsAskedNextDueTime, shouldReturnNextTimeIfCurrentTimeIsPas
     EXPECT_CALL(systemClock, currentTime())
         .WillOnce(Return(now+21));
 
-    EventSchedule eventScheduleUnderTest(now+20, 10, 0, systemClock);
+    EventSchedule eventScheduleUnderTest(now+20, 10, 0, &systemClock);
     ASSERT_EQ(now+30, eventScheduleUnderTest.nextDueTime());
 }
 
@@ -49,7 +48,7 @@ TEST(WhenEventScheduleIsAskedNextDueTime, shouldReturnZeroIfDurationHasExpired)
     EXPECT_CALL(systemClock, currentTime())
         .WillOnce(Return(now+31));
 
-    EventSchedule eventScheduleUnderTest(now, 10, 30, systemClock);
+    EventSchedule eventScheduleUnderTest(now, 10, 30, &systemClock);
     ASSERT_EQ(0, eventScheduleUnderTest.nextDueTime());
 }
 
@@ -61,7 +60,7 @@ TEST(WhenEventScheduleIsAskedNextDueTime, shouldReturnNextTimeFromNowIfStartTime
     EXPECT_CALL(systemClock, currentTime())
         .WillOnce(Return(now-10));
 
-    EventSchedule eventScheduleUnderTest(now, 10, 0, systemClock);
+    EventSchedule eventScheduleUnderTest(now, 10, 0, &systemClock);
     ASSERT_EQ(now, eventScheduleUnderTest.nextDueTime());
 }
 

@@ -15,6 +15,11 @@ public:
     MOCK_METHOD(time_t, currentTime, (), (const, override));
     MOCK_METHOD(bool, isDst, (), (const, override));
     MOCK_METHOD(int64_t, currentTimeMS, (), (const, override));
+
+    bool operator==(const zios::foundation::Clock& rhs)
+    {
+        return this == &rhs;
+    }
 };
 
 }

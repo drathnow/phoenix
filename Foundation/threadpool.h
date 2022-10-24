@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include <blocking_queue.h>
-#include <threadsafe_queue.h>
+#include "blocking_queue.h"
+#include "threadsafe_queue.h"
 
 #include <condition_variable>
 #include <functional>
@@ -42,42 +42,60 @@ public:
     using rlock = std::shared_lock<std::shared_mutex>;
 
 public:
-    threadpool() = default;
+    threadpool(int threadCount = 4);
     ~threadpool();
     threadpool(const threadpool&) = delete;
     threadpool(threadpool&&) = delete;
     threadpool& operator=(const threadpool&) = delete;
     threadpool& operator=(threadpool&&) = delete;
 
-    void init(int num);
+public:
     void terminate();  // stop and process all delegated tasks
     void cancel();     // stop and drop all tasks remained in queue
 
-    bool inited() const;
-    bool is_running() const;
+public:
+    bool isRunning() const;
     int size() const;
-    int task_size() const;
-
-    template<class F, class ... Args>
-    auto async(F &&f, Args &&... args) const -> std::future<decltype(f(args...))>;
 
 private:
-    bool inited_ { false };
-    bool stop_ { false };
-    bool cancel_ { false };
-    std::vector<std::thread> workers_;
-    mutable QueueType tasks_;
-    mutable std::shared_mutex mtx_;
-    mutable std::condition_variable_any cond_;
-    mutable std::once_flag once_;
-
     bool _is_running() const
     {
-        return inited_ && !stop_ && !cancel_;
+        return !_stopped && !_cancelled;
     }
 
-    void spawn();
+private:
+    void workerMainLoop();
+
+public:
+    template<class Ret, class F, class ... Args>
+    std::future<Ret> submit(F &&f, Args &&... args);
+
+private:
+    bool _stopped{ false };
+    bool _cancelled{ false };
+    std::vector<std::thread> _workers;
+    mutable QueueType _taskQueue;
+    mutable std::shared_mutex _mtx;
+    mutable std::condition_variable_any _conditionVariable;
+    mutable std::once_flag _once;
 };
+
+template<typename QueueType>
+threadpool<QueueType>::threadpool(int threadCount)
+{
+    std::call_once(_once, [this, threadCount]()
+    {
+        wlock lock(_mtx);
+        _stopped = false;
+        _cancelled = false;
+        _workers.reserve(threadCount);
+        for (int i = 0; i < threadCount; ++i)
+        {
+            _workers.emplace_back(std::bind(&threadpool<QueueType>::workerMainLoop, this));
+        }
+    });
+
+}
 
 template<typename QueueType>
 inline threadpool<QueueType>::~threadpool()
@@ -86,37 +104,20 @@ inline threadpool<QueueType>::~threadpool()
 }
 
 template<typename QueueType>
-inline void threadpool<QueueType>::init(int num)
-{
-    std::call_once(once_, [this, num]()
-    {
-        wlock lock(mtx_);
-        stop_ = false;
-        cancel_ = false;
-        workers_.reserve(num);
-        for (int i = 0; i < num; ++i)
-        {
-            workers_.emplace_back(std::bind(&threadpool<QueueType>::spawn, this));
-        }
-        inited_ = true;
-    });
-}
-
-template<typename QueueType>
 inline void threadpool<QueueType>::terminate()
 {
     {
-        wlock lock(mtx_);
+        wlock lock(_mtx);
         if (_is_running())
         {
-            stop_ = true;
+            _stopped = true;
         } else
         {
             return;
         }
     }
-    cond_.notify_all();
-    for (auto &worker : workers_)
+    _conditionVariable.notify_all();
+    for (auto &worker : _workers)
     {
         worker.join();
     }
@@ -126,67 +127,53 @@ template<typename QueueType>
 inline void threadpool<QueueType>::cancel()
 {
     {
-        wlock lock(mtx_);
+        wlock lock(_mtx);
         if (_is_running())
         {
-            cancel_ = true;
+            _cancelled = true;
         } else
         {
             return;
         }
     }
-    tasks_.clear();
-    cond_.notify_all();
-    for (auto &worker : workers_)
+    _taskQueue.clear();
+    _conditionVariable.notify_all();
+    for (auto &worker : _workers)
     {
         worker.join();
     }
 }
 
 template<typename QueueType>
-inline bool threadpool<QueueType>::inited() const
+inline bool threadpool<QueueType>::isRunning() const
 {
-    rlock lock(mtx_);
-    return inited_;
-}
-
-template<typename QueueType>
-inline bool threadpool<QueueType>::is_running() const
-{
-    rlock lock(mtx_);
+    rlock lock(_mtx);
     return _is_running();
 }
 
 template<typename QueueType>
 inline int threadpool<QueueType>::size() const
 {
-    rlock lock(mtx_);
-    return workers_.size();
+    rlock lock(_mtx);
+    return _workers.size();
 }
 
 template<typename QueueType>
-inline int threadpool<QueueType>::task_size() const
-{
-    rlock lock(mtx_);
-    return tasks_.size();
-}
-
-template<typename QueueType>
-inline void threadpool<QueueType>::spawn()
+inline void threadpool<QueueType>::workerMainLoop()
 {
     for (;;)
     {
         bool pop = false;
         std::function<void()> task;
         {
-            wlock lock(mtx_);
-            cond_.wait(lock, [this, &pop, &task]
+            wlock lock(_mtx);
+            _conditionVariable.wait(lock, [this, &pop, &task]
             {
-                pop = tasks_.pop(task);
-                return cancel_ || stop_ || pop;
+                pop = _taskQueue.pop(task);
+                return _cancelled || _stopped || pop;
             });
         }
-        if (cancel_ || (stop_ && !pop))
+        if (_cancelled || (_stopped && !pop))
         {
             return;
         }
@@ -195,16 +182,16 @@ inline void threadpool<QueueType>::spawn()
 }
 
 template<typename QueueType>
-template<class F, class ... Args>
-auto threadpool<QueueType>::async(F &&f, Args &&... args) const -> std::future<decltype(f(args...))>
+template<class Ret, class F, class ... Args>
+std::future<Ret> threadpool<QueueType>::submit(F &&f, Args &&... args)
 {
-    using return_t = decltype(f(args...));
+    using return_t = Ret;
     using future_t = std::future<return_t>;
     using task_t = std::packaged_task<return_t()>;
 
     {
-        rlock lock(mtx_);
-        if (stop_ || cancel_)
+        rlock lock(_mtx);
+        if (_stopped || _cancelled)
             throw std::runtime_error("Delegating task to a threadpool "
                     "that has been terminated or canceled.");
     }
@@ -212,9 +199,10 @@ auto threadpool<QueueType>::async(F &&f, Args &&... args) const -> std::future<d
     auto bind_func = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
     std::shared_ptr<task_t> task = std::make_shared<task_t>(std::move(bind_func));
     future_t fut = task->get_future();
-    tasks_.emplace([task]() -> void
+    _taskQueue.emplace([task]() -> void
     {   (*task)();});
-    cond_.notify_one();
+    _conditionVariable.notify_one();
     return fut;
 }
+
 }  // namespace yuuki

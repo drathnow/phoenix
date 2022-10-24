@@ -14,19 +14,28 @@ namespace zios::foundation
 class EventSchedule 
 {
 public:
-    EventSchedule(time_t startTime, int32_t intervalSeconds, int32_t durationSeconds, const Clock& clock = MonotonicClock::globalMonotonicClock);
+    static EventSchedule NoEventSchedule;
+
+    EventSchedule() = default;
+    EventSchedule(time_t startTime, int32_t intervalSeconds, int32_t durationSeconds, const Clock* clock = &MonotonicClock::globalMonotonicClock);
     EventSchedule(const EventSchedule& otherEventSchedule);
+    EventSchedule(EventSchedule&& otherEventSchedule);
     ~EventSchedule();
 
+    EventSchedule& operator=(EventSchedule&& other);
+    EventSchedule& operator=(const EventSchedule& other);
+
     time_t nextDueTime() const;
+    time_t nextDueTimeFromTime(time_t time) const;
 
     static time_t nextDueTime(time_t startTime, int32_t intervalSeconds, int32_t durationSeconds, const Clock& clock = MonotonicClock::globalMonotonicClock);
+    static time_t nextDueTimeFromTime(time_t startTime, int32_t intervalSeconds, int32_t durationSeconds, time_t fromTime);
 
 private:
-    time_t _startTime;
-    int32_t _intervalSeconds;
-    int32_t _durationSeconds;
-    const Clock& _clock;
+    time_t _startTime{0};
+    int32_t _intervalSeconds{0};
+    int32_t _durationSeconds{0};
+    const Clock* _clock{nullptr};
 };
 
 }

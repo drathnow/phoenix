@@ -44,9 +44,11 @@ private:
     };
 
     mutable std::shared_mutex head_mutex_;
-    std::unique_ptr<node> head_ { nullptr };
+    std::unique_ptr<node> head_
+    { nullptr };
     mutable std::shared_mutex tail_mutex_;
-    node *tail_ { nullptr };
+    node *tail_
+    { nullptr };
 
 public:
     threadsafe_queue() :

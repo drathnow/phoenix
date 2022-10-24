@@ -17,14 +17,6 @@ const std::string ByteSwap::BYTE4321_NAME("4321");
 const std::string ByteSwap::BYTE1234_NAME("1234");
 const std::string ByteSwap::BYTE3412_NAME("3412");
 
-ByteSwap::ByteSwap()
-{
-}
-
-ByteSwap::~ByteSwap()
-{
-}
-
 /**
  *  Big Endian
  *      byte#      : | 3 | 2 | 1 | 0 |

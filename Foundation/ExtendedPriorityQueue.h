@@ -29,4 +29,27 @@ public:
     }
 };
 
+template<typename T>
+class ExtendedPriorityQueueLess : public std::priority_queue<T, std::vector<T>, std::less<T>>
+{
+public:
+    ExtendedPriorityQueueLess() {}
+    ~ExtendedPriorityQueueLess() {}
+
+    typename std::vector<T>::iterator begin()
+    {
+        return this->c.begin();
+    }
+
+    typename std::vector<T>::iterator end()
+    {
+        return this->c.end();
+    }
+
+    void erase(typename std::vector<T>::iterator& iter)
+    {
+        this->c.erase(iter);
+    }
+};
+
 #endif  //  __EXTENDEDPRIORITYQUEUE_H_

@@ -1,10 +1,10 @@
 #ifndef __PORT_H___
 #define __PORT_H___
 
-class Port
+class port
 {
 public:
-    virtual ~Port() {}
+    virtual ~port() {}
 
     virtual int read(char& buffer, int bufferSize) = 0;
     virtual int write(const char& data, int dataLength) = 0;

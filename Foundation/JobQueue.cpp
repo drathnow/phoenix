@@ -26,17 +26,26 @@ JobQueue::~JobQueue()
     }
 }
 
-Job* JobQueue::nextDueJob()
+Job* JobQueue::nextDueJob(int timeoutSeconds)
 {
     Job* job = nullptr;
-    
-    std::unique_lock<mutex> lock(_mutex, std::try_to_lock);
-    if (!lock.owns_lock())
-        return job;
+    time_t now = _clock.currentTime();
 
+    std::unique_lock<mutex> lock(_mutex);
     if (_theQueue.empty())
     {
-        _conditionVariable.wait(lock);
+        if (timeoutSeconds > 0)
+        {
+            _conditionVariable.wait_for(lock, chrono::seconds(timeoutSeconds));
+            if (timeoutSeconds + now > _clock.currentTime())
+            {
+                return nullptr;
+            }
+        }
+        else
+        {
+            _conditionVariable.wait(lock);
+        }
     }
 
     while (!_theQueue.empty())
@@ -48,7 +57,17 @@ Job* JobQueue::nextDueJob()
             break;
         }
 
-        _conditionVariable.wait_until(lock, std::chrono::system_clock::from_time_t(_theQueue.top().dueTime));
+        //
+        // If a timeout was specified, we have to determine if the timeout is less than the
+        // time we would have to wait for the next entry to be due
+        //
+        int32_t waitTimeSeconds = _theQueue.top().dueTime - now;
+        if (timeoutSeconds > 0 && timeoutSeconds < waitTimeSeconds)
+        {
+            waitTimeSeconds = timeoutSeconds;
+        }
+
+        _conditionVariable.wait_for(lock, std::chrono::seconds(waitTimeSeconds));
 
         //
         // Have to do this check again just in case something woke us from our slumber by signalling the condition
@@ -93,7 +112,7 @@ uint32_t JobQueue::submit(Job& job, time_t dueTime)
     time_t diff = dueTime - now;
     time_t due = now + diff;
 
-    _theQueue.push(tqe(due, &job, nextId()));
+    _theQueue.emplace(due, &job, nextId());
     _conditionVariable.notify_all();
     
     return 0;
