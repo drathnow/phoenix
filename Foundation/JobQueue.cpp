@@ -6,7 +6,7 @@
 
 #include "JobQueue.h"
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 using namespace std;

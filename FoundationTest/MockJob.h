@@ -4,7 +4,7 @@
 #include <gmock/gmock.h>
 #include <JobQueue.h>
 
-using namespace zios::foundation;
+using namespace dios::foundation;
 
 class MockJob : public Job
 {

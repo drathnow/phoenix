@@ -19,7 +19,7 @@
 #include <exception>
 #include <sstream>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 /**
@@ -76,6 +76,6 @@ protected:
     std::string _message;
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* EXCEPTION_H_ */

@@ -9,12 +9,12 @@
 #include "BbbGpio.h"
 #include <file.h>
 
-namespace zios::bbb
+namespace dios::bbb
 {
 
 using namespace std;
-using namespace zios::hal;
-using namespace zios::foundation;
+using namespace dios::hal;
+using namespace dios::foundation;
 
 BbbGpio::BbbGpio(pin_t pin, const char *name, const char *label) noexcept :
         _pin(pin),
@@ -97,7 +97,7 @@ void BbbGpio::setDirection(Direction direction)
     ::fclose(file);
 }
 
-zios::hal::gpio::Direction BbbGpio::direction() const
+dios::hal::gpio::Direction BbbGpio::direction() const
 {
     char buf[8];
 
@@ -141,4 +141,4 @@ static BbbGpio* BbbGpio::createGpio(pin_t pin, const char* name, const char* lab
     return new BbbGpio(pin, name, label);
 }
 
-} /* namespace zios */
+} /* namespace dios */

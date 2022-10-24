@@ -21,12 +21,12 @@
 #include <stdint.h>
 #include <BitField.h>
 
-using namespace zios::foundation;
+using namespace dios::foundation;
 
-namespace zios::domain
+namespace dios::domain
 {
 
-class InvalidSourceAddressException: public zios::foundation::Exception
+class InvalidSourceAddressException: public dios::foundation::Exception
 {
 public:
     InvalidSourceAddressException(const char *funcName, int lineNumber, const std::string &message);
@@ -230,7 +230,7 @@ public:
      * If you use BitField, set byteOrder to ByteSwap::NONE. This is a transfer of ownership.
      *
      */
-    ModbusSourceAddress(uint16_t address, zios::foundation::ByteSwap::BSBYTE_ORDER byteOrder, zios::foundation::BitField *bitMask = NULL);
+    ModbusSourceAddress(uint16_t address, dios::foundation::ByteSwap::BSBYTE_ORDER byteOrder, dios::foundation::BitField *bitMask = NULL);
     ModbusSourceAddress(const ModbusSourceAddress &otherAddress);
     ~ModbusSourceAddress();
 
@@ -238,9 +238,9 @@ public:
 
     uint16_t address() const;
 
-    zios::foundation::ByteSwap::BSBYTE_ORDER byteOrder() const;
+    dios::foundation::ByteSwap::BSBYTE_ORDER byteOrder() const;
 
-    zios::foundation::BitField* bitField() const;
+    dios::foundation::BitField* bitField() const;
 
     uint16_t adjustedValueAfterReading(uint16_t value) const;
 
@@ -271,8 +271,8 @@ public:
 
 private:
     uint16_t _address;
-    zios::foundation::ByteSwap::BSBYTE_ORDER _byteOrder;
-    zios::foundation::BitField *_bitMask;
+    dios::foundation::ByteSwap::BSBYTE_ORDER _byteOrder;
+    dios::foundation::BitField *_bitMask;
 };
 
 class ROCSourceAddress: public SourceAddress
@@ -288,7 +288,7 @@ public:
         REGISTER, HOURLY_HISTORY, DAILY_HISTORY, ALARMS, EVENTS, NONE
     };
 
-    ROCSourceAddress(int type, int location, int parameter, zios::foundation::ByteSwap::BSBYTE_ORDER byteOrder = zios::foundation::ByteSwap::NONE, zios::foundation::BitField *bitMask = NULL);
+    ROCSourceAddress(int type, int location, int parameter, dios::foundation::ByteSwap::BSBYTE_ORDER byteOrder = dios::foundation::ByteSwap::NONE, dios::foundation::BitField *bitMask = NULL);
     ~ROCSourceAddress();
 
     uint8_t type() const;
@@ -297,8 +297,8 @@ public:
 
     ROC_SRCADDR_TYPE addressType() const;
 
-    zios::foundation::ByteSwap::BSBYTE_ORDER byteOrder() const;
-    zios::foundation::BitField* bitMask() const;
+    dios::foundation::ByteSwap::BSBYTE_ORDER byteOrder() const;
+    dios::foundation::BitField* bitMask() const;
     uint32_t adjustedValue(uint32_t value) const;
     void toString(std::string &returnString);
 
@@ -309,11 +309,11 @@ private:
     uint8_t _location;
     uint8_t _parameter;
     ROC_SRCADDR_TYPE _addressType;
-    zios::foundation::ByteSwap::BSBYTE_ORDER _byteOrder;
-    zios::foundation::BitField *_bitMask;
+    dios::foundation::ByteSwap::BSBYTE_ORDER _byteOrder;
+    dios::foundation::BitField *_bitMask;
 
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* SOURCEADDRESS_H_ */

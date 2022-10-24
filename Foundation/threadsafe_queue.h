@@ -22,7 +22,7 @@
 #include <shared_mutex>
 #include <utility>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 template<typename T>
 class threadsafe_queue

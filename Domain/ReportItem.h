@@ -6,7 +6,7 @@
 #include "domain.h"
 #include "AlarmRange.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value || std::is_same<std::string, T>::value>::type* = nullptr>
@@ -17,6 +17,6 @@ struct ReportItem
     index_id_t index;
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* __REPORTITEM_H___ */

@@ -11,7 +11,7 @@
 #include "deadband.h"
 #include "domain.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
 class IMeasurement

@@ -14,7 +14,7 @@
 #include <iomanip>
 #include <sstream>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 using namespace std;

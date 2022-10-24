@@ -17,7 +17,7 @@
 #include <string>
 #include <stdint.h>
 
-namespace zios
+namespace dios
 {
 namespace foundation
 {

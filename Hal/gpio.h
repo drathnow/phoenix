@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace zios
+namespace dios
 {
 
 namespace hal

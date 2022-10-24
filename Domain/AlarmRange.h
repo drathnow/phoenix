@@ -8,7 +8,7 @@
 
 #include "AlarmConfiguration.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
 
@@ -210,7 +210,7 @@ public:
     IAlarmRange() = default;
     virtual ~IAlarmRange() = default;
 
-    virtual AlarmStatus alarmStatusForValue(T value, zios::foundation::Clock& clock, uint16_t setTimeSeconds, uint16_t clearTimeSeconds) = 0;
+    virtual AlarmStatus alarmStatusForValue(T value, dios::foundation::Clock& clock, uint16_t setTimeSeconds, uint16_t clearTimeSeconds) = 0;
     virtual bool isValid() const = 0;
     virtual void clear() = 0;
     virtual bool isGreaterThan(const IAlarmRange<T>& otherRange) const = 0;
@@ -260,7 +260,7 @@ public:
     AlarmRange& operator=(const AlarmRange& rhs) = delete;
     AlarmRange& operator=(AlarmRange&& rhs) = delete;
 
-    AlarmStatus alarmStatusForValue(T value, zios::foundation::Clock &clock, uint16_t setTimeSeconds, uint16_t clearTimeSeconds)
+    AlarmStatus alarmStatusForValue(T value, dios::foundation::Clock &clock, uint16_t setTimeSeconds, uint16_t clearTimeSeconds)
     {
         AlarmStatus higherStatus = ALARM_STATUS_OK;
 
@@ -576,17 +576,8 @@ private:
        _alarmState &= ~ALARM_STATE_MASK;
        _alarmState |= newState;
     }
-
-    inline bool _exceedsSetLimit(T value) const {
-        return ((_alarmState & RANGE_MASK) != 0) ? value >= _setLimit : value <=_setLimit;
-    }
-
-    inline bool _exceedsClearLimit(T value) const {
-        return ((_alarmState & RANGE_MASK) != 0) ? value <= _clearLimit : value >= _clearLimit;
-    }
-
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* ALARMSPUNGE_H_ */

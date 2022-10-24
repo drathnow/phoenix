@@ -7,7 +7,7 @@
 #include "Measurement.h"
 #include "AlarmLimitMeister.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
@@ -34,6 +34,6 @@ private:
     deadband<T>* _deadband;
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* __MEASUREMENTFACADE_H___ */

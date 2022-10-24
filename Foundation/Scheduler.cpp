@@ -8,7 +8,7 @@
 using namespace std;
 using namespace log4cplus;
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 
@@ -38,7 +38,7 @@ public:
             _job.execute();
         } catch (exception& e)
         {
-            LOG4CPLUS_ERROR(Logger::getInstance("zios.foundation.scheduler"), "Unhandled exception from job: " << e.what());
+            LOG4CPLUS_ERROR(Logger::getInstance("dios.foundation.scheduler"), "Unhandled exception from job: " << e.what());
         }
 
         _elapsedTime = MonotonicClock::globalMonotonicClock.currentTime() - _startTime;
@@ -180,4 +180,4 @@ void Scheduler::_run()
     _watchdogClient.stop();
 }
 
-} // namespace zios::sched
+} // namespace dios::sched

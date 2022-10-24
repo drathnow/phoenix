@@ -9,11 +9,11 @@
 
 #include "AlarmConfiguration.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
 using namespace std;
-using namespace zios::foundation;
+using namespace dios::foundation;
 
 static const char *MASK_KEY = "MASK";
 static const char *SET_TIME_KEY = "TRIGGER_TIME";
@@ -102,14 +102,14 @@ public:
         persistence_map_t::const_iterator iter;
         if ((iter = serializedMap.find(MASK_KEY)) == serializedMap.end())
         {
-            LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. Alarm mask is missing");
+            LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. Alarm mask is missing");
             return NULL;
         }
 
         uint32_t mask;
         if (StringHelper::stringToNumber<uint32_t>(iter->second, mask))
         {
-            LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. Mask(" << iter->second << ")  is not a number");
+            LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. Mask(" << iter->second << ")  is not a number");
             return NULL;
         }
 
@@ -122,20 +122,20 @@ public:
         {
             if (limitAlarmsActive)
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. Set Time is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. Set Time is missing");
                 return NULL;
             }
         } else
         {
             if (StringHelper::stringToNumber<uint32_t>(iter->second, tmpTime))
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. setTime(" << iter->second << ")  is not a number");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. setTime(" << iter->second << ")  is not a number");
                 return NULL;
             } else
             {
                 if (tmpTime > std::numeric_limits<uint16_t>::max())
                 {
-                    LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. setTime(" << tmpTime << ")  is too large");
+                    LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. setTime(" << tmpTime << ")  is too large");
                     return NULL;
                 } else
                 {
@@ -148,20 +148,20 @@ public:
         {
             if (limitAlarmsActive)
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. Clear Time is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. Clear Time is missing");
                 return NULL;
             }
         } else
         {
             if (StringHelper::stringToNumber<uint32_t>(iter->second, tmpTime))
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. clearTime(" << iter->second << ")  is not a number");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. clearTime(" << iter->second << ")  is not a number");
                 return NULL;
             } else
             {
                 if (tmpTime > std::numeric_limits<uint16_t>::max())
                 {
-                    LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. clearTime(" << tmpTime << ")  is too large");
+                    LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. clearTime(" << tmpTime << ")  is too large");
                     return NULL;
                 } else
                 {
@@ -180,7 +180,7 @@ public:
         {
             if ((iter = serializedMap.find(LOW_SET_LIMIT_KEY)) == serializedMap.end())
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. Low Set Limit is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. Low Set Limit is missing");
                 return NULL;
             }
 
@@ -188,7 +188,7 @@ public:
 
             if ((iter = serializedMap.find(LOW_CLEAR_LIMIT_KEY)) == serializedMap.end())
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. Low Clear Limit is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. Low Clear Limit is missing");
                 return NULL;
             }
 
@@ -201,7 +201,7 @@ public:
         {
             if ((iter = serializedMap.find(LOW_LOW_SET_LIMIT_KEY)) == serializedMap.end())
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. Low Low Set Limit is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. Low Low Set Limit is missing");
                 return NULL;
             }
 
@@ -209,7 +209,7 @@ public:
 
             if ((iter = serializedMap.find(LOW_LOW_CLEAR_LIMIT_KEY)) == serializedMap.end())
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. Low Low Clear Limit is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. Low Low Clear Limit is missing");
                 return NULL;
             }
 
@@ -222,7 +222,7 @@ public:
         {
             if ((iter = serializedMap.find(HIGH_SET_LIMIT_KEY)) == serializedMap.end())
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. High Set Limit is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. High Set Limit is missing");
                 return NULL;
             }
 
@@ -230,7 +230,7 @@ public:
 
             if ((iter = serializedMap.find(HIGH_CLEAR_LIMIT_KEY)) == serializedMap.end())
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. High Clear Limit is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. High Clear Limit is missing");
                 return NULL;
             }
 
@@ -243,7 +243,7 @@ public:
         {
             if ((iter = serializedMap.find(HIGH_HIGH_SET_LIMIT_KEY)) == serializedMap.end())
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. High High Set Limit is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. High High Set Limit is missing");
                 return NULL;
             }
 
@@ -251,7 +251,7 @@ public:
 
             if ((iter = serializedMap.find(HIGH_HIGH_CLEAR_LIMIT_KEY)) == serializedMap.end())
             {
-                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("zios.base.AlarmConfiguration"), "Invalid alarm configuration. High High  Clear Limit is missing");
+                LOG4CPLUS_ERROR(log4cplus::Logger::getInstance("dios.base.AlarmConfiguration"), "Invalid alarm configuration. High High  Clear Limit is missing");
                 return NULL;
             }
 

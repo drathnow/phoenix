@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include <bbb.h>
 
-namespace zios::bbb
+namespace dios::bbb
 {
 
 class BbbGpioTest : public testing::Test

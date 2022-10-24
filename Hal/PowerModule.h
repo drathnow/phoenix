@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <vector>
 
-namespace zios::hal
+namespace dios::hal
 {
 
 class IPowerModule

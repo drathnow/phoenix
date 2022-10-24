@@ -10,3 +10,4 @@ MKDIR = mkdir -p
 RM = rm -f
 RMREC = rm -f -r
 RMDIR = rmdir
+MAKE = make

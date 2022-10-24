@@ -25,13 +25,13 @@
 #include <BitField.h>
 #include <cstring>
 
-namespace zios
+namespace dios
 {
 namespace domain
 {
 
 using namespace std;
-using namespace zios::foundation;
+using namespace dios::foundation;
 
 static const string DIGITAL_IN_PREFIX("DI.");
 static const string DIGITAL_OUT_PREFIX("DO.");
@@ -515,7 +515,7 @@ ModbusSourceAddress* ModbusSourceAddress::sourceAddressForString(const string &s
     return new ModbusSourceAddress(address, byteOrder, bitField);
 }
 
-ROCSourceAddress::ROCSourceAddress(int type, int location, int parameter, zios::foundation::ByteSwap::BSBYTE_ORDER byteOrder, zios::foundation::BitField *bitMask) :
+ROCSourceAddress::ROCSourceAddress(int type, int location, int parameter, dios::foundation::ByteSwap::BSBYTE_ORDER byteOrder, dios::foundation::BitField *bitMask) :
         SourceAddress(ROCAddress), _type(type), _location(location), _parameter(parameter), _addressType(REGISTER), _byteOrder(byteOrder), _bitMask(bitMask)
 {
 
@@ -647,4 +647,4 @@ ROCSourceAddress* ROCSourceAddress::sourceAddressForString(const std::string &st
 }
 
 } /* namespace hardware */
-} /* namespace zios */
+} /* namespace dios */

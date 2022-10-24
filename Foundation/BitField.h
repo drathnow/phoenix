@@ -17,7 +17,7 @@
 #include <stdint.h>
 #include <string>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 /**
@@ -93,6 +93,6 @@ private:
     int _theMask;
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* BITFIELD_H_ */

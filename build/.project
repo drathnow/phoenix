@@ -10,6 +10,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>Uber-Makefile.mk</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PARENT_LOC/Makefile</locationURI>
+		</link>
+		<link>
 			<name>defconfig</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/defconfig</locationURI>

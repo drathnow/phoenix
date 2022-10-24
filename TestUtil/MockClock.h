@@ -4,10 +4,10 @@
 #include <Clock.h>
 #include <gmock/gmock.h>
 
-namespace zios::test
+namespace dios::test
 {
 
-class MockClock : public zios::foundation::Clock {
+class MockClock : public dios::foundation::Clock {
 public:
     MockClock() {}
     ~MockClock() {}
@@ -16,7 +16,12 @@ public:
     MOCK_METHOD(bool, isDst, (), (const, override));
     MOCK_METHOD(int64_t, currentTimeMS, (), (const, override));
 
-    bool operator==(const zios::foundation::Clock& rhs)
+    bool operator==(const dios::foundation::Clock& rhs) const
+    {
+        return this == &rhs;
+    }
+
+    bool operator==(const MockClock& rhs) const
     {
         return this == &rhs;
     }

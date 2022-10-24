@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 
-namespace zios::domain
+namespace dios::domain
 {
 
 enum DataType

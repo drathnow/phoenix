@@ -7,7 +7,7 @@
 #include "deadband.h"
 #include "Measurement.h"
 
-namespace zios
+namespace dios
 {
 namespace domain
 {
@@ -26,6 +26,6 @@ public:
 };
 
 } /* namespace domain */
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* __MEASUREMENTFACADEFACTORY_H___ */

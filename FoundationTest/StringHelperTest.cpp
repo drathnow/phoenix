@@ -4,7 +4,7 @@
 
 using namespace std;
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 TEST(StringHelperTest, shouldTrimSpacesFromRightEndOfStrings)

@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <string>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 class WatchdogClient

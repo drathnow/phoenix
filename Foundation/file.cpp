@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 static std::vector<string> *deleteFileNames = NULL;
@@ -383,4 +383,4 @@ bool File::exists(const char *path)
     return fileExists(path);
 }
 
-} /* namespace zios */
+} /* namespace dios */

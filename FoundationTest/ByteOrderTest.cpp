@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include <ByteOrder.h>
 
-namespace zios::foundation {
+namespace dios::foundation {
 
 class ByteOrderTest : public testing::Test {
 public:

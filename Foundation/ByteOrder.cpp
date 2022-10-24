@@ -5,7 +5,7 @@
 #include <byteswap.h>
 #include <stddef.h>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 static const uint8_t LE = 1;
@@ -80,4 +80,4 @@ ByteOrder* ByteOrder::byteOrderForByteOrderNumber(uint8_t number)
     return NULL; // Will never get here but keeps Eclipse happy.
 }
 
-} /* namespace zios */
+} /* namespace dios */

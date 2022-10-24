@@ -4,7 +4,7 @@
 
 #include "except.h"
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 class FileException: public Exception
@@ -192,4 +192,4 @@ private:
     uint32_t _prefixLength;
 };
 
-} /* namespace zios */
+} /* namespace dios */

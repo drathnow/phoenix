@@ -9,7 +9,7 @@
 #include "BbbLed.h"
 #include <file.h>
 
-namespace zios
+namespace dios
 {
 namespace foundation
 {
@@ -53,4 +53,4 @@ void BbbLed::setFlash(int freqencyMilliseconds, int durationMilliseconds)
 }
 
 } /* namespace foundation */
-} /* namespace zios */
+} /* namespace dios */

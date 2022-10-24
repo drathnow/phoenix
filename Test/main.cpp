@@ -20,8 +20,8 @@
 #include "AlarmLimit.h"
 
 using namespace std;
-using namespace zios::domain;
-using namespace zios::foundation;
+using namespace dios::domain;
+using namespace dios::foundation;
 
 ostream& operator<<(ostream &out, const String &s)
 {

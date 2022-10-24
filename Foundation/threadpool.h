@@ -32,7 +32,7 @@
 #include <utility>
 #include <vector>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 template<typename QueueType = threadsafe_queue<std::function<void()>>>
 class threadpool

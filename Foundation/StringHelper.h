@@ -10,7 +10,7 @@
 #include <sstream>
 #include <string>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 class StringHelper

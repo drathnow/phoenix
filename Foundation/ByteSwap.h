@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <string>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 struct ByteSwap
@@ -28,6 +28,6 @@ struct ByteSwap
     static BSBYTE_ORDER byteOrderForName(const std::string &name);
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* BYTESWAP_H_ */

@@ -16,7 +16,7 @@
 
 #include <sstream>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 using namespace std;
@@ -52,4 +52,4 @@ Exception& Exception::operator=(const Exception& otherException) {
 Exception::~Exception() throw() {
 }
 
-} /* namespace zios */
+} /* namespace dios */

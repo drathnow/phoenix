@@ -11,7 +11,7 @@
 #include "WatchdogClient.h"
 
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 class EventSchedule;

@@ -17,7 +17,7 @@
 #include <string>
 #include <sstream>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 using namespace std;
@@ -84,4 +84,4 @@ string BitField::toString()
     return oss.str();
 }
 
-} /* namespace zios */
+} /* namespace dios */

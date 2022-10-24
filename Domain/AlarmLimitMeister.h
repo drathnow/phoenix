@@ -24,10 +24,10 @@
 #include "AlarmConfiguration.h"
 #include "AlarmConfigurationSerializer.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
-using namespace zios::foundation;
+using namespace dios::foundation;
 
 /**
  * The AlarmLimitMeister is responsible for comparing a value against a set of ranges and then tracking
@@ -61,7 +61,7 @@ class AlarmLimitMeister
 {
 public:
     AlarmLimitMeister() = delete;
-    AlarmLimitMeister(IAlarmRange<T> &primaryRange, IAlarmRange<T> *secondaryRange, uint16_t setTimeSeconds, uint16_t clearTimeSeconds, zios::foundation::Clock &systemTime = zios::foundation::MonotonicClock::globalMonotonicClock) :
+    AlarmLimitMeister(IAlarmRange<T> &primaryRange, IAlarmRange<T> *secondaryRange, uint16_t setTimeSeconds, uint16_t clearTimeSeconds, dios::foundation::Clock &systemTime = dios::foundation::MonotonicClock::globalMonotonicClock) :
         _primaryRange(primaryRange),
         _secondaryRange(secondaryRange),
         _setTimeSeconds(setTimeSeconds),
@@ -183,7 +183,7 @@ public:
                if (((alarmConfiguration.isHighAlarmActive() || alarmConfiguration.isHighHighAlarmActive()) && NULL == highAlarmRange.get())
                        || ((alarmConfiguration.isLowAlarmActive() || alarmConfiguration.isLowLowAlarmActive()) && NULL == lowAlarmRange.get())
                    ) {
-                   LOG4CPLUS_ERROR(Logger::getInstance("zios.realtimeEngine.AlarmLimitMeister"), "High and Low alarm ranges are invalid.");
+                   LOG4CPLUS_ERROR(Logger::getInstance("dios.realtimeEngine.AlarmLimitMeister"), "High and Low alarm ranges are invalid.");
                } else {
 
                    if (highAlarmRange.get() == NULL)
@@ -192,7 +192,7 @@ public:
                        theMeister = new AlarmLimitMeister(*(highAlarmRange.release()), lowAlarmRange.release(), alarmConfiguration.setTimeSeconds(), alarmConfiguration.clearTimeSeconds());
 
                    if (theMeister->isValid() == false) {
-                       LOG4CPLUS_ERROR(Logger::getInstance("zios.realtimeEngine.AlarmLimitMeister"), "High and Low alarm limit parameters are invalid.");
+                       LOG4CPLUS_ERROR(Logger::getInstance("dios.realtimeEngine.AlarmLimitMeister"), "High and Low alarm limit parameters are invalid.");
                        delete theMeister;  // note this also deletes alarmconfig (ownership was transferred)
                        theMeister = NULL;
                    }
@@ -240,7 +240,7 @@ protected:
     IAlarmRange<T>* _secondaryRange;
     uint16_t _setTimeSeconds;
     uint16_t _clearTimeSeconds;
-    zios::foundation::Clock &_systemTime;
+    dios::foundation::Clock &_systemTime;
 
     static AlarmRange<T>* _highAlarmRangeForConfig(const AlarmConfiguration<T> &alarmConfig)
     {
@@ -261,7 +261,7 @@ protected:
 
         if (alarmRange != NULL && alarmRange->isValid() == false)
         {
-            LOG4CPLUS_ERROR(Logger::getInstance("zios.realtimeEngine.AlarmLimitMeister"), "High alarm limit parameters are invalid");
+            LOG4CPLUS_ERROR(Logger::getInstance("dios.realtimeEngine.AlarmLimitMeister"), "High alarm limit parameters are invalid");
             delete alarmRange;
             alarmRange = NULL;
         }
@@ -288,7 +288,7 @@ protected:
 
         if (alarmRange != NULL && alarmRange->isValid() == false)
         {
-            LOG4CPLUS_ERROR(Logger::getInstance("zios.realtimeEngine.AlarmLimitMeister"), "Low alarm limit parameters are invalid");
+            LOG4CPLUS_ERROR(Logger::getInstance("dios.realtimeEngine.AlarmLimitMeister"), "Low alarm limit parameters are invalid");
             delete alarmRange;
             alarmRange = NULL;
         }
@@ -296,6 +296,6 @@ protected:
     }
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* ALARMMEISTER_H_ */

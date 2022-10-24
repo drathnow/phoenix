@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 class ByteOrder
@@ -123,6 +123,6 @@ private:
     uint8_t _number;
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* BYTEORDER_H_ */

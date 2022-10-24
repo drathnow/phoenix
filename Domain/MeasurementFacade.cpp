@@ -7,7 +7,7 @@
 
 #include "MeasurementFacade.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 //
 //MeasurementFacade::MeasurementFacade()
@@ -18,4 +18,4 @@ namespace zios::domain
 //{
 //}
 
-} /* namespace zios */
+} /* namespace dios */

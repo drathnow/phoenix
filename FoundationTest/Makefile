@@ -33,6 +33,7 @@ endif
 
 dependents:
 	cd ../Foundation && $(MAKE) all
+	cd ../TestUtil && $(MAKE) all
 
 $(OUT_DIR):
 	$(MKDIR) $(OUT_DIR)

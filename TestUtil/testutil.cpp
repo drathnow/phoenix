@@ -3,12 +3,12 @@
 
 #include <Clock.h>
 
-namespace zios::test
+namespace dios::test
 {
 
 class MockClock;
 
-bool operator==(const zios::foundation::Clock& lhs, const zios::test::MockClock& rhs)
+bool operator==(const dios::foundation::Clock& lhs, const dios::test::MockClock& rhs)
 {
     return (void*)&lhs == (void*)&rhs;
 }

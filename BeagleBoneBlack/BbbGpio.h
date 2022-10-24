@@ -4,10 +4,10 @@
 #include <gpio.h>
 #include "bbb.h"
 
-namespace zios::bbb
+namespace dios::bbb
 {
 
-class BbbGpio: public zios::hal::gpio
+class BbbGpio: public dios::hal::gpio
 {
 public:
     ~BbbGpio();
@@ -31,9 +31,9 @@ public:
 
     bool isReadOnly();
 
-    void setDirection(zios::hal::gpio::Direction direction);
+    void setDirection(dios::hal::gpio::Direction direction);
 
-    zios::hal::gpio::Direction direction() const;
+    dios::hal::gpio::Direction direction() const;
 
     static BbbGpio* createGpio(pin_t pin, const char* name, const char* label);
 
@@ -50,6 +50,6 @@ private:
 
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* __BBBGPIO_H___ */

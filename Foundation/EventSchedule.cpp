@@ -2,7 +2,7 @@
 #include <cassert>
 #include "EventSchedule.h"
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 using namespace std;

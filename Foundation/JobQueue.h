@@ -9,7 +9,7 @@
 #include "Clock.h"
 #include "ExtendedPriorityQueue.h"
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 class Job

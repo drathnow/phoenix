@@ -7,11 +7,11 @@
 #include "JobQueue.h"
 #include "MockJob.h"
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 using namespace std;
-using namespace zios::test;
+using namespace dios::test;
 
 using testing::Mock;
 using testing::Return;

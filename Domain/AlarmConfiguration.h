@@ -12,12 +12,12 @@
 
 #include "domain.h"
 
-namespace zios::domain
+namespace dios::domain
 {
 
 using namespace std;
 using namespace log4cplus;
-using namespace zios::foundation;
+using namespace dios::foundation;
 
 static const uint32_t NO_ALARM_ACTIVE = 0x0;
 static const uint32_t LOW_LOW_ALARM_ACTIVE = 0x01;
@@ -411,6 +411,6 @@ public:
     virtual void collectInfo(const AlarmConfiguration<T>& alarm) = 0;
 };
 
-} /* namespace zios */
+} /* namespace dios */
 
 #endif /* ALARMCONFIGURATION_H_ */

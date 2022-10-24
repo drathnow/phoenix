@@ -8,7 +8,7 @@
 
 #pragma once
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 class EventSchedule 

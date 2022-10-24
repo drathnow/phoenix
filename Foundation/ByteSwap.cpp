@@ -6,7 +6,7 @@
 
 #include "ByteOrder.h"
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 using namespace std;
@@ -168,4 +168,4 @@ ByteSwap::BSBYTE_ORDER ByteSwap::byteOrderForName(const string &name)
     return UNKNOWN;
 }
 
-} /* namespace zios */
+} /* namespace dios */

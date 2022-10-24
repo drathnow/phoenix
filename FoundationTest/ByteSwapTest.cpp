@@ -4,7 +4,7 @@
 #include <ByteOrder.h>
 #include <ByteSwap.h>
 
-namespace zios::foundation
+namespace dios::foundation
 {
 
 static uint8_t U64_NORM_VALUE_ARRAY[] = { 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };

@@ -7,10 +7,10 @@
 
 #include "ReportItem.h"
 
-namespace zios
+namespace dios
 {
 namespace domain
 {
 
 } /* namespace domain */
-} /* namespace zios */
+} /* namespace dios */

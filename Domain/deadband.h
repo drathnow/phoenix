@@ -10,7 +10,7 @@
 #include <ctime>
 #include <cmath>
 
-namespace zios::domain
+namespace dios::domain
 {
 
     enum DeadbandType
