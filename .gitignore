@@ -1,0 +1,7 @@
+syntax: regexp
+^.*/Debug/
+
+syntax: glob
+./sharedlibs
+**/Debug/*
+defconfig

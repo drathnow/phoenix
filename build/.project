@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>build</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>defconfig</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/defconfig</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>

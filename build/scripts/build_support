@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+main()
+{
+    local OPT OPTARG
+    
+    i=1;
+    j=$#;
+
+    CMD="$(tr [A-Z] [a-z] <<< "$1")"
+    case "${CMD}" in
+        copy_defconfig) 
+            shift 
+            copy_defconfig ${@}
+        ;;
+
+        *) 
+            error "Unknown command %s\n", "'${CMD}'"
+        ;;
+    esac
+}
+
+copy_defconfig()
+{
+    local INPUT_FILE OUTPUT_DIR
+    
+    if [ ! -f $1 ]
+    then
+        error "Input file '%s' not found\n", $1
+    fi
+    INPUT_FILE=$(readlink -f $1)
+
+    if [ ! -d $2 ]
+    then
+        error "Output directory '%s' not found\n", $2
+    fi
+    OUTPUT_DIR=$(readlink -f $2)
+
+    cp -v ${INPUT_FILE} ${OUTPUT_DIR}/defconfig
+}
+
+error() 
+{ 
+    local fmt="${1}"
+    
+    shift; 
+    printf "BUILD_SUPPORT_ERROR = ${fmt}" "${@}"
+    exit 1 
+}
+
+main "${@}"

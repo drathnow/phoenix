@@ -1,0 +1,10 @@
+CC		:= 
+CXX   	:= 
+AR    	:= 
+AS    	:= 
+LD    	:= 
+STRIP 	:= 
+
+OUTDIR=
+LIB_PATH = -L
+INCLUDES = -I
