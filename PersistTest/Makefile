@@ -5,7 +5,7 @@ include $(BUILD_DIR)/scripts/makeenv.mk
 include $(BUILD_DIR)/scripts/makerules.mk
 include $(BUILD_DIR)/scripts/makesource.mk
 
-OUT_EXE = DomainTest
+OUT_EXE = PersistTest
 
 INCLUDES += -I../Foundation
 INCLUDES += -I../Domain
@@ -16,12 +16,12 @@ LIB_PATH += -L../sharedlibs/$(CONFIG)
 
 LIBS += -lpthread
 LIBS += -lFoundation
-LIBS += -lDomain
-LIBS += -lpthread
 LIBS += -lgtest 
 LIBS += -lgmock
+LIBS += -lPersist
 LIBS += -ltestutil
 LIBS += -llog4cplus
+LIBS += -lsqlite3
 
 all: $(OUT_DIR) dependents $(OUT_DIR)/$(OUT_EXE)
 
@@ -36,6 +36,7 @@ endif
 
 dependents:
 	cd ../Foundation && $(MAKE) all
+	cd ../Persist && $(MAKE) all
 	cd ../Domain && $(MAKE) all
 	cd ../TestUtil && $(MAKE) all
 

@@ -9,6 +9,8 @@
 #include <StringHelper.h>
 #include <memory>
 #include <log4cplus/log4cplus.h>
+#include <Entity.h>
+#include <persist.h>
 
 #include "domain.h"
 
@@ -380,8 +382,7 @@ public:
         return this == &otherConfiguration;
     }
 
-    static bool isValidPersistenceMap(const persistence_map_t &persistenceMap, std::string &returnError);
-
+    friend class AlarmConfigurationRepository;
     friend class AlarmConfigurationSerializer;
     friend class AlarmConfigurationTest;
 

@@ -5,18 +5,16 @@ include $(BUILD_DIR)/scripts/makeenv.mk
 include $(BUILD_DIR)/scripts/makerules.mk
 include $(BUILD_DIR)/scripts/makesource.mk
 
-OUT_SO_LINK = libDomain.so
+OUT_SO_LINK = libPersist.so
 OUT_SO_NAME = $(OUT_SO_LINK).1
 OUT_SO = $(OUT_SO_NAME).0.0
 MAP_NAME = $(subst .so,,$(OUT_SO)).map
 
 INCLUDES += -I../Foundation
-INCLUDES += -I../Persist
 
 LIB_PATH += -L../sharedlibs/$(CONFIG)
 
 LIBS += -llog4cplus
-LIBS += -lPersist
 LIBS += -lFoundation
 
 all: $(OUT_DIR) dependents $(OUT_DIR)/$(OUT_SO) $(SHARED_DIR)/$(OUT_SO)

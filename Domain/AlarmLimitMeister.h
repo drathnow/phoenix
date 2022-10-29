@@ -29,6 +29,16 @@ namespace dios::domain
 
 using namespace dios::foundation;
 
+template<typename T>
+class AlarmMeister
+{
+public:
+    AlarmMeister() = default;
+    virtual ~AlarmMeister() = default;
+
+    virtual AlarmStatus alarmStatusForValue(T value) = 0;
+};
+
 /**
  * The AlarmLimitMeister is responsible for comparing a value against a set of ranges and then tracking
  * which is active.  The AlarmLimitMeister can be constructed with one or two ranges.  While the ranges are
@@ -57,7 +67,7 @@ using namespace dios::foundation;
  *
  */
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-class AlarmLimitMeister
+class AlarmLimitMeister : public AlarmMeister<T>
 {
 public:
     AlarmLimitMeister() = delete;

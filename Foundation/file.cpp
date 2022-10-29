@@ -336,7 +336,7 @@ bool File::list(vector<std::string> &returnList) const
     return list(returnList, NULL);
 }
 
-bool File::turf() const
+bool File::remove() const
 {
     return FileSystem::DefaultFileSystem->remove(_path);
 }
@@ -382,5 +382,86 @@ bool File::exists(const char *path)
 {
     return fileExists(path);
 }
+
+
+Directory::Directory() {
+    _pathname = FileSystem::DefaultFileSystem->currentWorkingDirectory();
+}
+
+Directory::Directory(const char* pathname) : _pathname(pathname) {
+    if (::strcmp(".", pathname) == 0) {
+        _pathname = FileSystem::DefaultFileSystem->currentWorkingDirectory();
+    }
+}
+
+Directory::~Directory() {
+}
+
+bool Directory::mkdirs() const {
+    if (_pathname.size() > 0) {
+        std::string absolutePath;
+        if (_pathname[0] != FileSystem::DefaultFileSystem->pathSeparator()) {
+            string curDir = FileSystem::DefaultFileSystem->currentWorkingDirectory();
+            absolutePath.append(curDir).push_back(FileSystem::DefaultFileSystem->pathSeparator());
+            absolutePath.append(_pathname);
+        } else
+            absolutePath = _pathname;
+        return FileSystem::DefaultFileSystem->createDirectories(absolutePath.c_str());
+    }
+    return false;
+}
+
+bool Directory::exists() {
+    struct stat sb;
+    int32_t status = stat(_pathname.c_str(), &sb);
+    if (status == -1) {
+        if (errno == ENOENT)
+            return false;
+        else
+            THROW_NAMED_EXCEPTION(FileException, ::strerror(errno));
+    }
+    return S_ISDIR(sb.st_mode);
+}
+
+
+bool Directory::list(vector<std::string>& returnList,
+                int (*filter)(const struct dirent *),
+                int (*compare)(const struct dirent**, const struct dirent**)) const {
+
+    struct dirent **namelist;
+    int n;
+
+    n = ::scandir(_pathname.c_str(), &namelist, filter, compare);
+    if (n < 0)
+        return false;
+    else {
+        while (n--)
+            returnList.push_back(namelist[n]->d_name);
+        free(namelist);
+    }
+    return true;
+}
+
+bool Directory::turf(bool force) {
+    string command("rm ");
+    if (force)
+        command.append("-rf ");
+    command.append(absolutePath()).append(" 2> /dev/null");
+    return ::system(command.c_str()) == 0;
+}
+
+bool Directory::list(vector<std::string>& returnList,
+                int (*filter)(const struct dirent *)) const {
+    return list(returnList, filter, NULL);
+}
+
+bool Directory::list(vector<std::string>& returnList) const {
+    return list(returnList, NULL);
+}
+
+const char* Directory::absolutePath() const {
+    return _pathname.c_str();
+}
+
 
 } /* namespace dios */

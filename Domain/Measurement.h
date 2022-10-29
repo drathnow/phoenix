@@ -7,12 +7,15 @@
 #include <type_traits>
 #include <ctime>
 #include <cassert>
+#include <foundation.h>
 
 #include "deadband.h"
 #include "domain.h"
 
 namespace dios::domain
 {
+
+using namespace dios::foundation;
 
 class IMeasurement
 {

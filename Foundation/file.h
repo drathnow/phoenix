@@ -140,7 +140,7 @@ public:
      * @return bool - true if successful, false if not.  errno will hold the
      * reason for hte failure.
      */
-    bool turf() const;
+    bool remove() const;
 
     /** isDirectory
      *
@@ -190,6 +190,84 @@ public:
 private:
     std::string _path;
     uint32_t _prefixLength;
+};
+
+
+class Directory {
+public:
+    Directory();
+    Directory(const char* pathname);
+    virtual ~Directory();
+
+    /**
+     * Makes the directory tree for this Directory
+     *
+     * @return true - if the directory was created, false if not.
+     */
+    virtual bool mkdirs() const;
+
+    /** list
+     *
+     * Retrieve a list of filenames from a directory
+     *
+     * @param[in, out] returnList - a vector of strings that will hold the filenames
+     *
+     * @return bool - true if the list could be retrieved, false if failed.  errno will
+     * be set if false returned.
+     */
+    virtual bool list(std::vector<std::string>& returnList) const;
+
+    /**
+     * Retrieve a list of filenames from a directory
+     *
+     * @param[in, out] returnList - a vector of strings that will hold the filenames
+     * @param filter - a filter function to be used
+     * @return bool - true if the list could be retrieved, false if failed.  errno will
+     * be set if false returned.
+     */
+    virtual bool list(std::vector<std::string>& returnList, int (*filter)(const struct dirent *)) const;
+
+    /**
+     * Retrieve a list of filenames from a directory
+     *
+     * @param[in, out] returnList - a vector of strings that will hold the filenames
+     * @param filter - a filter function to be used
+     * @param compare - a compare function to be used
+     * @return bool - true if the list could be retrieved, false if failed.  errno will
+     * be set if false returned.
+     */
+    virtual bool list(std::vector<std::string>& returnList, int (*filter)(const struct dirent *),
+            int (*compare)(const struct dirent**, const struct dirent**)) const;
+
+    /** exists
+     *
+     * Tells you if the path exists and is a directory.
+     *
+     * @return bool - true if the path exists and is a directory.  False if either the
+     * path does not exit or is not a directory.
+     */
+    virtual bool exists();
+
+    /** absolutePath
+     *
+     *  Returns the absolute path name of the Directory.
+     *
+     *  @return const char* - a pointer to the full path name of the file.
+     */
+    virtual const char* absolutePath() const;
+
+    /**
+     * Deletes this directory.
+     *
+     * @param force - If true, the directory will be deleted even if it is not empty.  If
+     * false, the directory will not be deleted if it contains files or subdirectories.
+     *
+     * @return true if delete, false otherwise.
+     */
+    virtual bool turf(bool force = false);
+
+private:
+    std::string _pathname;
 };
 
 } /* namespace dios */
