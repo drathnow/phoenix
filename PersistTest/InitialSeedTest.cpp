@@ -53,7 +53,6 @@ TEST_F(InitialSeedTest, seedDb)
 
     struct io_point iop;
     iop.name = "IOPoint1";
-    iop.index = 2;
     iop.io_point_type = IOPOINT_TYPE_APP;
     iop.data_type = DataType::INT32;
     iop.device_id = dev.oid;
