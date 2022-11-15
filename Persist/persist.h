@@ -223,6 +223,9 @@ namespace dios::persist
     };
 
 using alarm_limits_t = struct alarm_limits;
+using io_point_t = struct io_point;
+using device_t =  struct device;
+using deadband_t = struct deadband;
 
 template<class E>
 bool insert_entity(E& entity, sqlite3* context)

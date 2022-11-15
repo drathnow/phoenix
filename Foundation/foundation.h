@@ -52,6 +52,7 @@ enum DeadbandType
 
 typedef uint16_t pollset_id_t;
 typedef uint32_t index_id_t;
-typedef uint32_t device_id_t;
+typedef uint64_t device_id_t;
+typedef uint64_t iopoint_id_t;
 
 }

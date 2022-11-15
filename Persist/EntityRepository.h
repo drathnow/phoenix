@@ -15,10 +15,6 @@ public:
     EntityRepository(sqlite3* context) : _context {}
     ~EntityRepository() = default;
 
-    bool insertEntity(E entity)
-    {
-        D dto;
-    }
 private:
     sqlite3* _context;
 };
