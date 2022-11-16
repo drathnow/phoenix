@@ -9,21 +9,6 @@
 namespace dios::persist
 {
 
-static int s3lCollateProcess(void *pArg, int count, char **values, char **columnNames)
-{
-    for (int i = 0; i < count; i++)
-        cout << "Tuple: (" << columnNames[i] << ", " << values[i] << ")" << endl;
-    return 0;
-}
-
-static int executeCommandInContext(const char *command, sqlite3_callback callback, void *arg, sqlite3 *sqlContext)
-{
-    int rc = ::sqlite3_exec(sqlContext, command, callback, (void*) arg, NULL);
-    if (SQLITE_OK != rc)
-        cerr << "SQL Error: " << command << " Error : " << ::sqlite3_errmsg(sqlContext);
-    return rc;
-}
-
 class InitialSeedTest: public OrmBaseTest
 {
 public:

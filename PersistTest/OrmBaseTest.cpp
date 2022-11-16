@@ -39,7 +39,6 @@ namespace dios::persist
         {
             FAIL() << "Unable to open database file " << _dbFile.absolutePath() << ": " << ::sqlite3_errmsg(_dbContext) << " (" << "(Errorcode = " << err << ")" << endl;
         }
-
     }
 
     void OrmBaseTest::TearDown()
@@ -59,7 +58,6 @@ namespace dios::persist
         }
         _dbContext = NULL;
     }
-
 
     bool OrmBaseTest::tableExists(const std::string &tableName)
     {

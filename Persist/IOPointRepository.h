@@ -5,6 +5,7 @@
 
 #include <sqlite3.h>
 #include <foundation.h>
+#include <vector>
 
 #include "persist.h"
 #include "Repository.h"
@@ -25,6 +26,7 @@ public:
     int updateIoPoint(const io_point_t &ioPoint);
     int deleteIoPointWithOid(const iopoint_id_t oid);
     io_point_t* ioPointForOid(iopoint_id_t oid);
+    int ioPoints(std::vector<io_point>& ioPoints, int count, iopoint_id_t fromOid = 0);
 };
 
 }

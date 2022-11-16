@@ -6,11 +6,16 @@
 #include <sqlite3.h>
 #include <DbUpgrader.h>
 #include <memory>
+#include <StringHelper.h>
+#include <vector>
 
 #include "OrmBaseTest.h"
 
 namespace dios::persist
 {
+
+using namespace std;
+using namespace dios::foundation;
 
 static const char *NAME = "IOPoint1";
 static DataType DATA_TYPE = DataType::INT16;
@@ -353,7 +358,7 @@ TEST_F(IOPointRepositoryFetchTest, shouldReturnIoPointWithOid)
     IOPointRepository repositoryUnderTest(_dbContext);
 
     std::unique_ptr<io_point_t> foundPoint(repositoryUnderTest.ioPointForOid(testIoPoint.oid));
-    ASSERT_TRUE(foundPoint.get() != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_TRUE(foundPoint.get() != nullptr)<< "Error: " << ::sqlite3_errmsg(_dbContext);
 
     ASSERT_EQ(testIoPoint.oid, foundPoint->oid);
     ASSERT_STREQ(NAME, foundPoint->name.c_str());
@@ -366,4 +371,155 @@ TEST_F(IOPointRepositoryFetchTest, shouldReturnIoPointWithOid)
     ASSERT_STREQ(DISPLAY_HINT, foundPoint->display_hint.c_str());
 }
 
+class IOPointRepositoryFetchManyTest: public OrmBaseTest
+{
+public:
+    IOPointRepositoryFetchManyTest() :
+            OrmBaseTest("IOPointRepositoryFetchTest.db", true)
+    {
+    }
+    ~IOPointRepositoryFetchManyTest() = default;
+
+    void SetUp()
+    {
+        OrmBaseTest::SetUp();
+        DbUpgrader dbUpgrader;
+        dbUpgrader.doUpgrade(_dbContext);
+
+        testIoPoint.data_type = DATA_TYPE;
+        testIoPoint.device_id = DEVICE_ID;
+        testIoPoint.io_point_type = POINT_TYPE;
+        testIoPoint.readonly = IS_READONLY;
+        testIoPoint.system = IS_SYSTEM;
+        testIoPoint.source_address = SOURCE_ADDRESS;
+        testIoPoint.display_hint = DISPLAY_HINT;
+
+        IOPointRepository repo(_dbContext);
+        for (int i = 0; i < 20; i++)
+        {
+            string foo;
+            StringHelper::numberToString(i, foo);
+            testIoPoint.name = NAME;
+            testIoPoint.name.append("-").append(foo);
+            testIoPoint.oid = repo.createIoPoint(testIoPoint);
+        }
+    }
+
+    io_point_t testIoPoint;
+};
+
+TEST_F(IOPointRepositoryFetchManyTest, shouldFetchAllIoPoints)
+{
+    IOPointRepository repositoryUnderTest(_dbContext);
+
+    vector<io_point_t> ioPoints;
+
+    ASSERT_EQ(20, repositoryUnderTest.ioPoints(ioPoints, 0));
+
+    for (int i = 0; i < (signed)ioPoints.size(); i++)
+    {
+        string foo, name;
+        StringHelper::numberToString(i, foo);
+        name.append(NAME).append("-").append(foo);
+        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+    }
+}
+
+TEST_F(IOPointRepositoryFetchManyTest, shouldFetch10IoPointsThenNext10)
+{
+    IOPointRepository repositoryUnderTest(_dbContext);
+
+    vector<io_point_t> ioPoints;
+
+    ASSERT_EQ(10, repositoryUnderTest.ioPoints(ioPoints, 10, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+
+    for (int i = 0; i < (signed)ioPoints.size(); i++)
+    {
+        string foo, name;
+        StringHelper::numberToString(i, foo);
+        name.append(NAME).append("-").append(foo);
+        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+    }
+
+    ioPoints.clear();
+    ASSERT_EQ(10, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[9].oid));
+
+    for (int i = 0; i < (signed)ioPoints.size(); i++)
+    {
+        string foo, name;
+        StringHelper::numberToString(i+10, foo);
+        name.append(NAME).append("-").append(foo);
+        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+    }
+
+    ioPoints.clear();
+    ASSERT_EQ(0, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[9].oid));
+}
+
+
+TEST_F(IOPointRepositoryFetchManyTest, shouldFetch15IoPointsThenNext5)
+{
+    IOPointRepository repositoryUnderTest(_dbContext);
+
+    vector<io_point_t> ioPoints;
+
+    ASSERT_EQ(15, repositoryUnderTest.ioPoints(ioPoints, 15, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+
+    for (int i = 0; i < (signed)ioPoints.size(); i++)
+    {
+        string foo, name;
+        StringHelper::numberToString(i, foo);
+        name.append(NAME).append("-").append(foo);
+        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+    }
+
+    ioPoints.clear();
+    ASSERT_EQ(5, repositoryUnderTest.ioPoints(ioPoints, 15, ioPoints[14].oid));
+
+    for (int i = 0; i < (signed)ioPoints.size(); i++)
+    {
+        string foo, name;
+        StringHelper::numberToString(i+15, foo);
+        name.append(NAME).append("-").append(foo);
+        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+    }
+
+    ioPoints.clear();
+    ASSERT_EQ(0, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[4].oid));
+}
 }
