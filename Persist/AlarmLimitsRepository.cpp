@@ -53,10 +53,6 @@ AlarmLimitsRepository::AlarmLimitsRepository(sqlite3 *dbContext) :
 {
 }
 
-AlarmLimitsRepository::~AlarmLimitsRepository()
-{
-}
-
 int64_t AlarmLimitsRepository::createAlarmLimits(const alarm_limits_t &alarmLimits)
 {
     sqlite3_stmt *statement;
@@ -124,7 +120,6 @@ int AlarmLimitsRepository::deleteAlarmLimitsWithOid(uint64_t oid)
     ::sqlite3_finalize(statement);
 
     return rc == SQLITE_DONE ? 0 : -1;
-
 }
 
 alarm_limits_t* AlarmLimitsRepository::alarmLimitsForAlarmLimitsId(alarm_limits_t &alarmLimits, uint64_t oid)
@@ -153,7 +148,6 @@ alarm_limits_t* AlarmLimitsRepository::alarmLimitsForAlarmLimitsId(alarm_limits_
     ::sqlite3_finalize(statement);
 
     return &alarmLimits;
-
 }
 
 } /* namespace dios */

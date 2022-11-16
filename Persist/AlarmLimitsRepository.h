@@ -17,7 +17,7 @@ class AlarmLimitsRepository: public Repository
 public:
     AlarmLimitsRepository() = delete;
     AlarmLimitsRepository(sqlite3* dbContext);
-    ~AlarmLimitsRepository();
+    ~AlarmLimitsRepository() = default;
 
     int64_t createAlarmLimits(const alarm_limits_t& alarmLimits);
     int updateAlarmLimits(const alarm_limits_t& alarmLimits);

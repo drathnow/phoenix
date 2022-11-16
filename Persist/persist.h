@@ -16,7 +16,7 @@ namespace dios::persist
 
     struct io_point
     {
-        uint64_t oid;
+        int64_t oid;
         std::string name;
         IOPointType io_point_type;
         DataType data_type;
@@ -30,7 +30,7 @@ namespace dios::persist
     struct alarm_limits
     {
         int64_t oid;
-        int64_t io_point_id;
+        iopoint_id_t io_point_id;
         bool no_data_enabled;
         uint16_t set_time_seconds;
         uint16_t clear_time_seconds;
@@ -46,7 +46,7 @@ namespace dios::persist
 
     struct device
     {
-        uint64_t oid;
+        device_id_t oid;
         DeviceType device_type;
         std::string name;
         uint16_t max_retries;
@@ -60,8 +60,8 @@ namespace dios::persist
 
     struct deadband
     {
-        uint64_t oid;
-        uint64_t io_point_id;
+        int64_t oid;
+        iopoint_id_t io_point_id;
         DeadbandType deadband_type;
         std::string delta;
 
