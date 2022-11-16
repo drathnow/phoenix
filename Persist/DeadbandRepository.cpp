@@ -35,10 +35,10 @@ DeadbandRepository::DeadbandRepository(sqlite3 *dbContext) :
 {
 }
 
-int64_t DeadbandRepository::createDeadband(const deadband_t &deadband)
+deadband_id_t DeadbandRepository::createDeadband(const deadband_t &deadband)
 {
     sqlite3_stmt *statement;
-    int64_t result;
+    deadband_id_t result;
 
     RETURN_IF_SQLERROR(::sqlite3_prepare_v2(_dbContext, INSERT_STMNT, ::strlen(INSERT_STMNT), &statement, nullptr), -1);
     RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, IO_POINT_ID_IDX, deadband.io_point_id), -1);
@@ -72,7 +72,7 @@ int DeadbandRepository::updateDeadband(const deadband_t &deadband)
 
 }
 
-int DeadbandRepository::deleteDeadbandWithOid(int64_t oid)
+int DeadbandRepository::deleteDeadbandWithOid(deadband_id_t oid)
 {
     sqlite3_stmt *statement;
 
@@ -86,7 +86,7 @@ int DeadbandRepository::deleteDeadbandWithOid(int64_t oid)
     return rc == SQLITE_DONE ? 0 : -1;
 }
 
-deadband_t* DeadbandRepository::deadbandForOid(int64_t oid)
+deadband_t* DeadbandRepository::deadbandForOid(deadband_id_t oid)
 {
     sqlite3_stmt *statement;
 

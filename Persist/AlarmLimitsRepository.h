@@ -19,10 +19,10 @@ public:
     AlarmLimitsRepository(sqlite3* dbContext);
     ~AlarmLimitsRepository() = default;
 
-    int64_t createAlarmLimits(const alarm_limits_t& alarmLimits);
+    alarm_limits_id_t createAlarmLimits(const alarm_limits_t& alarmLimits);
     int updateAlarmLimits(const alarm_limits_t& alarmLimits);
-    int deleteAlarmLimitsWithOid(int64_t oid);
-    alarm_limits_t* alarmLimitsForOid(int64_t oid);
+    int deleteAlarmLimitsWithOid(alarm_limits_id_t oid);
+    alarm_limits_t* alarmLimitsForOid(alarm_limits_id_t oid);
 };
 
 } /* namespace dios */

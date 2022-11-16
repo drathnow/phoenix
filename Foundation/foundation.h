@@ -54,5 +54,6 @@ typedef int16_t pollset_id_t;
 typedef int32_t index_id_t;
 typedef int64_t device_id_t;
 typedef int64_t iopoint_id_t;
-
+typedef int64_t deadband_id_t;
+typedef int64_t alarm_limits_id_t;
 }

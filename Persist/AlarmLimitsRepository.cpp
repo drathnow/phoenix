@@ -53,10 +53,10 @@ AlarmLimitsRepository::AlarmLimitsRepository(sqlite3 *dbContext) :
 {
 }
 
-int64_t AlarmLimitsRepository::createAlarmLimits(const alarm_limits_t &alarmLimits)
+alarm_limits_id_t AlarmLimitsRepository::createAlarmLimits(const alarm_limits_t &alarmLimits)
 {
     sqlite3_stmt *statement;
-    int64_t result;
+    alarm_limits_id_t result;
 
     RETURN_IF_SQLERROR(::sqlite3_prepare_v2(_dbContext, INSERT_STMNT, ::strlen(INSERT_STMNT), &statement, nullptr), -1);
 
@@ -108,7 +108,7 @@ int AlarmLimitsRepository::updateAlarmLimits(const alarm_limits_t &alarmLimits)
     return rc == SQLITE_DONE ? 0 : -1;
 }
 
-int AlarmLimitsRepository::deleteAlarmLimitsWithOid(int64_t oid)
+int AlarmLimitsRepository::deleteAlarmLimitsWithOid(alarm_limits_id_t oid)
 {
     sqlite3_stmt *statement;
 
@@ -122,7 +122,7 @@ int AlarmLimitsRepository::deleteAlarmLimitsWithOid(int64_t oid)
     return rc == SQLITE_DONE ? 0 : -1;
 }
 
-alarm_limits_t* AlarmLimitsRepository::alarmLimitsForOid(int64_t oid)
+alarm_limits_t* AlarmLimitsRepository::alarmLimitsForOid(alarm_limits_id_t oid)
 {
     sqlite3_stmt *statement;
 
