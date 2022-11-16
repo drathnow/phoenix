@@ -6,6 +6,12 @@
 #include <string>
 #include <sqlite3.h>
 
+#define RETURN_IF_SQLERROR(expr, value) \
+    if (expr != SQLITE_OK)              \
+    {                                   \
+        return value;                   \
+    }
+
 namespace dios::persist
 {
 
@@ -18,10 +24,11 @@ public:
 protected:
     Repository(sqlite3* context);
 
-    uint64_t Repository::executeInsert(const std::string& insertStatement);
+    uint64_t executeInsert(const std::string& insertStatement);
     bool executeCommandInContext(const std::string &sqlCommand, sqlite3 *context);
+    int executeCommandInContext(const char *command, sqlite3_callback callback, void *arg, sqlite3 *sqlContext);
 
-private:
+protected:
     sqlite3* _dbContext;
 };
 

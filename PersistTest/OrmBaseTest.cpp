@@ -10,6 +10,7 @@ namespace dios::persist
     using namespace std;
     using namespace log4cplus;
 
+
     static int rowCounter(void* pArg, int argc, char **argv, char** columnName) {
         if (NULL != pArg) {
             int* pInt = (int*)pArg;
@@ -19,9 +20,15 @@ namespace dios::persist
         return -1;
     }
 
+    static int selectCountCallback(void *returnCount, int argc, char **argv, char **columnName)
+    {
+        int* c = (int*) returnCount;
+        *c = atoi(argv[0]);
+        return 0;
+    }
     void OrmBaseTest::SetUp()
     {
-        Directory dir("./db");
+        Directory dir("/mnt/ramdisk/db");
         if (dir.exists())
             _dbFile.remove();
         else
@@ -62,10 +69,43 @@ namespace dios::persist
         int rowCount = 0;
         if (SQLITE_OK != ::sqlite3_exec(_dbContext, sql.c_str(), rowCounter, (void*) &rowCount, NULL))
         {
-            LOG4CPLUS_ERROR(Logger::getInstance("test"), "Unable to check for initial table existence 'PersistenceAttributes'" << ::sqlite3_errmsg(_dbContext));
+            LOG4CPLUS_ERROR(Logger::getInstance("dios.persis.test"), "Unable to check for initial table existence 'PersistenceAttributes'" << ::sqlite3_errmsg(_dbContext));
             return false;
         }
         return rowCount == 1;
+    }
+
+    bool OrmBaseTest::executeCommandInContext(const char* command)
+    {
+        bool foo = SQLITE_OK == ::sqlite3_exec(_dbContext, command, NULL, 0, NULL);
+        if (!foo)
+            LOG4CPLUS_ERROR(Logger::getInstance("dios.persist.test"), "SQL Error: " << command << " Error : " << ::sqlite3_errmsg(_dbContext));
+        return foo;
+    }
+
+    int OrmBaseTest::executeCommandInContext(const char *command, sqlite3_callback callback, void *arg)
+    {
+        int rc = ::sqlite3_exec(_dbContext, command, callback, (void*)arg, NULL);
+        if (SQLITE_OK != rc)
+            LOG4CPLUS_ERROR(Logger::getInstance("dios.persist.test"), "SQL Error: " << command << " Error : " << ::sqlite3_errmsg(_dbContext));
+        return rc;
+    }
+
+    int OrmBaseTest::rowCountInTable(const char *tableName, const char *whereClause)
+    {
+        int count = 0;
+        string command("select count(*) from ");
+        command.append(tableName);
+        if (whereClause != NULL)
+            command.append(" ")
+                    .append(whereClause);
+
+        int rc = ::sqlite3_exec(_dbContext, command.c_str(), selectCountCallback, &count, NULL);
+        if (rc != SQLITE_OK) {
+            LOG4CPLUS_ERROR(Logger::getInstance("dios.persist.test"), "SQL Error: " << command << " Error : " << ::sqlite3_errmsg(_dbContext));
+            return -1;
+        }
+        return count;
     }
 
 }

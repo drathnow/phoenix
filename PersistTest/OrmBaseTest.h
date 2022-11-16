@@ -21,14 +21,14 @@ class OrmBaseTest: public testing::Test
 {
 public:
     OrmBaseTest(string dbFilename, bool persist = false) :
-            _dbFile("./db/" + dbFilename),
+            _dbFile("/mnt/ramdisk/db/" + dbFilename),
             _persist(persist)
     {
     }
     virtual ~OrmBaseTest() = default;
 
-    void SetUp();
-    void TearDown();
+    virtual void SetUp();
+    virtual void TearDown();
     void close();
     bool tableExists(const std::string &tableName);
 
@@ -36,6 +36,10 @@ protected:
     File _dbFile;
     bool _persist;
     sqlite3 *_dbContext{ nullptr };
+
+    bool executeCommandInContext(const char* command);
+    int executeCommandInContext(const char *command, sqlite3_callback callback, void *arg = nullptr);
+    int rowCountInTable(const char *tableName, const char *whereClause = nullptr);
 };
 
 }

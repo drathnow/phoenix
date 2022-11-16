@@ -50,9 +50,9 @@ enum DeadbandType
     DEADBAND_PERCENTAGE = 2
 };
 
-typedef uint16_t pollset_id_t;
-typedef uint32_t index_id_t;
-typedef uint64_t device_id_t;
-typedef uint64_t iopoint_id_t;
+typedef int16_t pollset_id_t;
+typedef int32_t index_id_t;
+typedef int64_t device_id_t;
+typedef int64_t iopoint_id_t;
 
 }

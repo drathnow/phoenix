@@ -9,7 +9,7 @@ namespace dios::persist
 using namespace std;
 using namespace log4cplus;
 
-bool executeCommandInContext(const string &sqlCommand, sqlite3 *context)
+bool Repository::executeCommandInContext(const string &sqlCommand, sqlite3 *context)
 {
     bool foo = SQLITE_OK == ::sqlite3_exec(context, sqlCommand.c_str(), NULL, 0, NULL);
     if (!foo)
@@ -17,7 +17,7 @@ bool executeCommandInContext(const string &sqlCommand, sqlite3 *context)
     return foo;
 }
 
-static int executeCommandInContext(const char *command, sqlite3_callback callback, void *arg, sqlite3 *sqlContext)
+int Repository::executeCommandInContext(const char *command, sqlite3_callback callback, void *arg, sqlite3 *sqlContext)
 {
     int rc = ::sqlite3_exec(sqlContext, command, callback, (void*) arg, NULL);
     if (SQLITE_OK != rc)

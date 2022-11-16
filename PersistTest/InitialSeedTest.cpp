@@ -34,7 +34,7 @@ public:
     ~InitialSeedTest() = default;
 };
 
-TEST_F(InitialSeedTest, seedDb)
+TEST_F(InitialSeedTest, DISABLED_seedDb)
 {
     DbUpgrader dbUpgrader;
     dbUpgrader.doUpgrade(_dbContext);
@@ -88,6 +88,6 @@ TEST_F(InitialSeedTest, seedDb)
     ASSERT_TRUE(insert_entity(al, _dbContext));
     ASSERT_TRUE(iop.oid != 0);
 
-    executeCommandInContext("select * from iopoint", s3lCollateProcess, nullptr, _dbContext);
+    //executeCommandInContext("select * from iopoint", s3lCollateProcess, nullptr, _dbContext);
 }
 }

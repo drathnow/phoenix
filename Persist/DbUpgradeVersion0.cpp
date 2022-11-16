@@ -52,7 +52,7 @@ bool DbUpgradeVersion0::doUpgrade(sqlite3 *context)
                 "device_id      integer default 0 not null, "
                 "is_readonly    boolean default 0 not null, "
                 "is_system      boolean default 0 not null, "
-                "source_address text not null, "
+                "source_address text, "
                 "display_hint   text"
                 ");", context) == false)
             return false;

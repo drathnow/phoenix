@@ -9,7 +9,6 @@
 #include <StringHelper.h>
 #include <memory>
 #include <log4cplus/log4cplus.h>
-#include <Entity.h>
 #include <persist.h>
 
 #include "domain.h"

@@ -21,9 +21,10 @@ public:
     IOPointRepository(sqlite3 *dbContext);
     ~IOPointRepository();
 
-    iopoint_id_t insertIoPoint(const io_point_t& ioPoint);
-
-    io_point_t ioPointForIoPointId(iopoint_id_t ioPointId);
+    iopoint_id_t createIoPoint(const io_point_t& ioPoint);
+    int updateIoPoint(const io_point_t &ioPoint);
+    int deleteIoPointWithOid(const iopoint_id_t oid);
+    io_point_t* ioPointForIoPointId(iopoint_id_t oid, io_point_t& ioPoint);
 };
 
 }
