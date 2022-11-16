@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include <AlarmLimitsRepository.h>
 #include <persist.h>
+#include <memory>
 
 #include "OrmBaseTest.h"
 
@@ -517,11 +518,10 @@ public:
 
 TEST_F(AlarmLimitsRepositoryFetchTest, shouldFindAlarmLimitsWithOid)
 {
-    alarm_limits_t *foundAlarmLimits;
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
-    foundAlarmLimits = alarmLimitsRepositoryUnderTest.alarmLimitsForOid(alarmLimits.oid);
-    ASSERT_TRUE(foundAlarmLimits != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    std::unique_ptr<alarm_limits_t> foundAlarmLimits(alarmLimitsRepositoryUnderTest.alarmLimitsForOid(alarmLimits.oid));
+    ASSERT_TRUE(foundAlarmLimits.get() != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
     ASSERT_EQ(alarmLimits.oid, foundAlarmLimits->oid);
     ASSERT_EQ(IO_POINT_ID, foundAlarmLimits->io_point_id);

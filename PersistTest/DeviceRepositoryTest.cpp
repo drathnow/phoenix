@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include <DeviceRepository.h>
 #include <persist.h>
+#include <memory>
 
 #include "OrmBaseTest.h"
 
@@ -386,8 +387,8 @@ TEST_F(DeviceRepositoryFetchTest, shouldFetchDevice)
 {
     DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
-    device_t* foundDevice = deviceRepositoryUnderTest.deviceForOid(device.oid);
-    ASSERT_TRUE(foundDevice != nullptr)<< "Error: " << ::sqlite3_errmsg(_dbContext);
+    std::unique_ptr<device_t> foundDevice(deviceRepositoryUnderTest.deviceForOid(device.oid));
+    ASSERT_TRUE(foundDevice.get() != nullptr)<< "Error: " << ::sqlite3_errmsg(_dbContext);
 
     ASSERT_EQ(device.name, foundDevice->name);
     ASSERT_EQ(device.device_type, foundDevice->device_type);
@@ -398,7 +399,5 @@ TEST_F(DeviceRepositoryFetchTest, shouldFetchDevice)
     ASSERT_STREQ(device.address.c_str(), foundDevice->address.c_str());
     ASSERT_STREQ(device.parameters.c_str(), foundDevice->parameters.c_str());
     ASSERT_STREQ(device.extended_parameters.c_str(), foundDevice->extended_parameters.c_str());
-
-    delete foundDevice;
 }
 } /* namespace dios */

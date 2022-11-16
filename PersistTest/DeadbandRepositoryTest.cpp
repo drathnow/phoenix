@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include <persist.h>
 #include <DeadbandRepository.h>
+#include <memory>
 
 #include "OrmBaseTest.h"
 
@@ -212,13 +213,12 @@ TEST_F(DeadbandRepositoryFetchTest, shouldFetchDeadband)
 {
     DeadbandRepository deadbandRepositoryUnderTest(_dbContext);
 
-    deadband_t* foundDeadband = deadbandRepositoryUnderTest.deadbandForOid(deadband.oid);
-    ASSERT_TRUE(foundDeadband != nullptr);
+    std::unique_ptr<deadband_t> foundDeadband(deadbandRepositoryUnderTest.deadbandForOid(deadband.oid));
+    ASSERT_TRUE(foundDeadband.get() != nullptr);
 
     ASSERT_EQ(deadband.oid, foundDeadband->oid);
     ASSERT_EQ(deadband.io_point_id, foundDeadband->io_point_id);
     ASSERT_EQ(deadband.deadband_type, foundDeadband->deadband_type);
     ASSERT_STREQ(deadband.delta.c_str(), foundDeadband->delta.c_str());
-    delete foundDeadband;
 }
 } /* namespace dios */

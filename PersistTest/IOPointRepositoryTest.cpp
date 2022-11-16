@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <sqlite3.h>
 #include <DbUpgrader.h>
+#include <memory>
 
 #include "OrmBaseTest.h"
 
@@ -351,8 +352,8 @@ TEST_F(IOPointRepositoryFetchTest, shouldReturnIoPointWithOid)
 {
     IOPointRepository repositoryUnderTest(_dbContext);
 
-    io_point_t* foundPoint = repositoryUnderTest.ioPointForOid(testIoPoint.oid);
-    ASSERT_TRUE(foundPoint != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    std::unique_ptr<io_point_t> foundPoint(repositoryUnderTest.ioPointForOid(testIoPoint.oid));
+    ASSERT_TRUE(foundPoint.get() != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
     ASSERT_EQ(testIoPoint.oid, foundPoint->oid);
     ASSERT_STREQ(NAME, foundPoint->name.c_str());
