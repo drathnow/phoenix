@@ -517,24 +517,24 @@ public:
 
 TEST_F(AlarmLimitsRepositoryFetchTest, shouldFindAlarmLimitsWithOid)
 {
-    alarm_limits_t foundAlarmLimits, *result;
+    alarm_limits_t *foundAlarmLimits;
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
-    result = alarmLimitsRepositoryUnderTest.alarmLimitsForAlarmLimitsId(foundAlarmLimits, alarmLimits.oid);
-    ASSERT_TRUE(&foundAlarmLimits == result) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    foundAlarmLimits = alarmLimitsRepositoryUnderTest.alarmLimitsForOid(alarmLimits.oid);
+    ASSERT_TRUE(foundAlarmLimits != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
-    ASSERT_EQ(alarmLimits.oid, foundAlarmLimits.oid);
-    ASSERT_EQ(IO_POINT_ID, foundAlarmLimits.io_point_id);
-    ASSERT_EQ(SET_TIME, foundAlarmLimits.set_time_seconds);
-    ASSERT_EQ(CLEAR_TIME, foundAlarmLimits.clear_time_seconds);
-    ASSERT_STREQ(HIGH_HIGH_SET_LIMIT, foundAlarmLimits.high_high_set_limit.c_str());
-    ASSERT_STREQ(HIGH_HIGH_CLEAR_LIMIT, foundAlarmLimits.high_high_clear_limit.c_str());
-    ASSERT_STREQ(HIGH_SET_LIMIT, foundAlarmLimits.high_set_limit.c_str());
-    ASSERT_STREQ(HIGH_CLEAR_LIMIT, foundAlarmLimits.high_clear_limit.c_str());
-    ASSERT_STREQ(LOW_LOW_SET_LIMIT, foundAlarmLimits.low_low_set_limit.c_str());
-    ASSERT_STREQ(LOW_LOW_CLEAR_LIMIT, foundAlarmLimits.low_low_clear_limit.c_str());
-    ASSERT_STREQ(LOW_SET_LIMIT, foundAlarmLimits.low_set_limit.c_str());
-    ASSERT_STREQ(LOW_CLEAR_LIMIT, foundAlarmLimits.low_clear_limit.c_str());
+    ASSERT_EQ(alarmLimits.oid, foundAlarmLimits->oid);
+    ASSERT_EQ(IO_POINT_ID, foundAlarmLimits->io_point_id);
+    ASSERT_EQ(SET_TIME, foundAlarmLimits->set_time_seconds);
+    ASSERT_EQ(CLEAR_TIME, foundAlarmLimits->clear_time_seconds);
+    ASSERT_STREQ(HIGH_HIGH_SET_LIMIT, foundAlarmLimits->high_high_set_limit.c_str());
+    ASSERT_STREQ(HIGH_HIGH_CLEAR_LIMIT, foundAlarmLimits->high_high_clear_limit.c_str());
+    ASSERT_STREQ(HIGH_SET_LIMIT, foundAlarmLimits->high_set_limit.c_str());
+    ASSERT_STREQ(HIGH_CLEAR_LIMIT, foundAlarmLimits->high_clear_limit.c_str());
+    ASSERT_STREQ(LOW_LOW_SET_LIMIT, foundAlarmLimits->low_low_set_limit.c_str());
+    ASSERT_STREQ(LOW_LOW_CLEAR_LIMIT, foundAlarmLimits->low_low_clear_limit.c_str());
+    ASSERT_STREQ(LOW_SET_LIMIT, foundAlarmLimits->low_set_limit.c_str());
+    ASSERT_STREQ(LOW_CLEAR_LIMIT, foundAlarmLimits->low_clear_limit.c_str());
 }
 
 

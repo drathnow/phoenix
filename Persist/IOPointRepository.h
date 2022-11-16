@@ -24,7 +24,7 @@ public:
     iopoint_id_t createIoPoint(const io_point_t& ioPoint);
     int updateIoPoint(const io_point_t &ioPoint);
     int deleteIoPointWithOid(const iopoint_id_t oid);
-    io_point_t* ioPointForIoPointId(iopoint_id_t oid, io_point_t& ioPoint);
+    io_point_t* ioPointForOid(iopoint_id_t oid);
 };
 
 }

@@ -212,7 +212,7 @@ TEST_F(DeadbandRepositoryFetchTest, shouldFetchDeadband)
 {
     DeadbandRepository deadbandRepositoryUnderTest(_dbContext);
 
-    deadband_t* foundDeadband = deadbandRepositoryUnderTest.deadbandForDeadbandOid(deadband.oid);
+    deadband_t* foundDeadband = deadbandRepositoryUnderTest.deadbandForOid(deadband.oid);
     ASSERT_TRUE(foundDeadband != nullptr);
 
     ASSERT_EQ(deadband.oid, foundDeadband->oid);

@@ -21,7 +21,7 @@ public:
     device_id_t createDevice(const device_t& device);
     int updateDevice(const device_t &device);
     int deleteDeviceWithOid(device_id_t oid);
-    device_t* deviceForOid(device_id_t oid, device_t& device);
+    device_t* deviceForOid(device_id_t oid);
 };
 
 } /* namespace dios */

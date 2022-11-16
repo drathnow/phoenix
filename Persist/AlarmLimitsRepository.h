@@ -21,8 +21,8 @@ public:
 
     int64_t createAlarmLimits(const alarm_limits_t& alarmLimits);
     int updateAlarmLimits(const alarm_limits_t& alarmLimits);
-    int deleteAlarmLimitsWithOid(uint64_t oid);
-    alarm_limits_t* alarmLimitsForAlarmLimitsId(alarm_limits_t& alarmLimits, uint64_t oid);
+    int deleteAlarmLimitsWithOid(int64_t oid);
+    alarm_limits_t* alarmLimitsForOid(int64_t oid);
 };
 
 } /* namespace dios */

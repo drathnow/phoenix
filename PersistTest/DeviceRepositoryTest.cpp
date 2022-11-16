@@ -365,4 +365,40 @@ TEST_F(DeviceRepositoryDeleteTest, shouldUpdateName)
     deviceRepositoryUnderTest.deleteDeviceWithOid(device.oid);
     ASSERT_EQ(0, rowCountInTable("Device"));
 }
+
+
+class DeviceRepositoryFetchTest : public DeviceRepositoryTest
+{
+public:
+    DeviceRepositoryFetchTest() : DeviceRepositoryTest("DeviceRepositoryFetchTest") {}
+    ~DeviceRepositoryFetchTest() = default;
+
+    void SetUp()
+    {
+        DeviceRepositoryTest::SetUp();
+        DeviceRepository deviceRepositoryUnderTest(_dbContext);
+
+        device.oid = deviceRepositoryUnderTest.createDevice(device);
+    }
+};
+
+TEST_F(DeviceRepositoryFetchTest, shouldFetchDevice)
+{
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
+
+    device_t* foundDevice = deviceRepositoryUnderTest.deviceForOid(device.oid);
+    ASSERT_TRUE(foundDevice != nullptr)<< "Error: " << ::sqlite3_errmsg(_dbContext);
+
+    ASSERT_EQ(device.name, foundDevice->name);
+    ASSERT_EQ(device.device_type, foundDevice->device_type);
+    ASSERT_EQ(device.max_retries, foundDevice->max_retries);
+    ASSERT_EQ(device.request_timeout_seconds, foundDevice->request_timeout_seconds);
+    ASSERT_EQ(device.rtu_backoff_timeout_seconds, foundDevice->rtu_backoff_timeout_seconds);
+    ASSERT_EQ(device.rtu_backoff_count, foundDevice->rtu_backoff_count);
+    ASSERT_STREQ(device.address.c_str(), foundDevice->address.c_str());
+    ASSERT_STREQ(device.parameters.c_str(), foundDevice->parameters.c_str());
+    ASSERT_STREQ(device.extended_parameters.c_str(), foundDevice->extended_parameters.c_str());
+
+    delete foundDevice;
+}
 } /* namespace dios */

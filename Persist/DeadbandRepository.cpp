@@ -86,7 +86,7 @@ int DeadbandRepository::deleteDeadbandWithOid(int64_t oid)
     return rc == SQLITE_DONE ? 0 : -1;
 }
 
-deadband_t* DeadbandRepository::deadbandForDeadbandOid(int64_t oid)
+deadband_t* DeadbandRepository::deadbandForOid(int64_t oid)
 {
     sqlite3_stmt *statement;
 

@@ -351,20 +351,18 @@ TEST_F(IOPointRepositoryFetchTest, shouldReturnIoPointWithOid)
 {
     IOPointRepository repositoryUnderTest(_dbContext);
 
-    io_point_t foundPoint;
-    io_point_t* ptr = repositoryUnderTest.ioPointForIoPointId(testIoPoint.oid, foundPoint);
-    ASSERT_TRUE(ptr != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
-    ASSERT_EQ(&foundPoint, ptr);
+    io_point_t* foundPoint = repositoryUnderTest.ioPointForOid(testIoPoint.oid);
+    ASSERT_TRUE(foundPoint != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
-    ASSERT_EQ(testIoPoint.oid, foundPoint.oid);
-    ASSERT_STREQ(NAME, foundPoint.name.c_str());
-    ASSERT_EQ(DATA_TYPE, foundPoint.data_type);
-    ASSERT_EQ(DEVICE_ID, foundPoint.device_id);
-    ASSERT_EQ(POINT_TYPE, foundPoint.io_point_type);
-    ASSERT_EQ(IS_READONLY, foundPoint.readonly);
-    ASSERT_EQ(IS_SYSTEM, foundPoint.system);
-    ASSERT_STREQ(SOURCE_ADDRESS, foundPoint.source_address.c_str());
-    ASSERT_STREQ(DISPLAY_HINT, foundPoint.display_hint.c_str());
+    ASSERT_EQ(testIoPoint.oid, foundPoint->oid);
+    ASSERT_STREQ(NAME, foundPoint->name.c_str());
+    ASSERT_EQ(DATA_TYPE, foundPoint->data_type);
+    ASSERT_EQ(DEVICE_ID, foundPoint->device_id);
+    ASSERT_EQ(POINT_TYPE, foundPoint->io_point_type);
+    ASSERT_EQ(IS_READONLY, foundPoint->readonly);
+    ASSERT_EQ(IS_SYSTEM, foundPoint->system);
+    ASSERT_STREQ(SOURCE_ADDRESS, foundPoint->source_address.c_str());
+    ASSERT_STREQ(DISPLAY_HINT, foundPoint->display_hint.c_str());
 }
 
 }

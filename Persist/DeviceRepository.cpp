@@ -102,7 +102,7 @@ int DeviceRepository::deleteDeviceWithOid(device_id_t oid)
     return rc == SQLITE_DONE ? 0 : -1;
 }
 
-device_t* DeviceRepository::deviceForOid(device_id_t oid, device_t &device)
+device_t* DeviceRepository::deviceForOid(device_id_t oid)
 {
     sqlite3_stmt *statement;
 
@@ -111,22 +111,22 @@ device_t* DeviceRepository::deviceForOid(device_id_t oid, device_t &device)
     if (SQLITE_ROW != ::sqlite3_step(statement))
         return nullptr;
 
-    device.oid = ::sqlite3_column_int64(statement, OID_IDX-1);
-    device.name = (const char*) ::sqlite3_column_text(statement, NAME_IDX-1);
-    device.device_type = (DeviceType)::sqlite3_column_int(statement, DEVICE_TYPE_IDX-1);
-    device.max_retries = ::sqlite3_column_int(statement, MAX_RETRIES_IDX-1);
-    device.request_timeout_seconds = ::sqlite3_column_int(statement, REQUEST_TIMEOUT_SEC_IDX);
-    device.rtu_backoff_timeout_seconds = ::sqlite3_column_int(statement, RTU_BACKOFF_TIMEOUT_SEC_IDX);
-    device.rtu_backoff_count = ::sqlite3_column_int(statement, RTU_BACKOFF_COUNT_IDX-1);
-    device.address = (const char*) ::sqlite3_column_text(statement, ADDRESS_IDX-1);
-    device.parameters =(const char*) ::sqlite3_column_text(statement, PARAMETERS_IDX-1);
-    device.extended_parameters = (const char*) ::sqlite3_column_text(statement, EXTENDED_PARAMETERS_IDX-1);
+    device_t* device = new device_t;
+    device->oid = ::sqlite3_column_int64(statement, OID_IDX-1);
+    device->name = (const char*) ::sqlite3_column_text(statement, NAME_IDX-1);
+    device->device_type = (DeviceType)::sqlite3_column_int(statement, DEVICE_TYPE_IDX-1);
+    device->max_retries = ::sqlite3_column_int(statement, MAX_RETRIES_IDX-1);
+    device->request_timeout_seconds = ::sqlite3_column_int(statement, REQUEST_TIMEOUT_SEC_IDX-1);
+    device->rtu_backoff_timeout_seconds = ::sqlite3_column_int(statement, RTU_BACKOFF_TIMEOUT_SEC_IDX-1);
+    device->rtu_backoff_count = ::sqlite3_column_int(statement, RTU_BACKOFF_COUNT_IDX-1);
+    device->address = (const char*) ::sqlite3_column_text(statement, ADDRESS_IDX-1);
+    device->parameters =(const char*) ::sqlite3_column_text(statement, PARAMETERS_IDX-1);
+    device->extended_parameters = (const char*) ::sqlite3_column_text(statement, EXTENDED_PARAMETERS_IDX-1);
 
     ::sqlite3_reset(statement);
     ::sqlite3_finalize(statement);
 
-    return &device;
-
+    return device;
 }
 
 } /* namespace dios */

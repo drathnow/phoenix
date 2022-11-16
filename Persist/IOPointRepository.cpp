@@ -105,7 +105,7 @@ int IOPointRepository::deleteIoPointWithOid(const iopoint_id_t oid)
     return rc == SQLITE_DONE ? 0 : -1;
 }
 
-io_point_t* IOPointRepository::ioPointForIoPointId(iopoint_id_t oid, io_point_t &ioPoint)
+io_point_t* IOPointRepository::ioPointForOid(iopoint_id_t oid)
 {
     sqlite3_stmt *statement;
     char *ptr;
@@ -115,22 +115,23 @@ io_point_t* IOPointRepository::ioPointForIoPointId(iopoint_id_t oid, io_point_t 
     if (SQLITE_ROW != ::sqlite3_step(statement))
         return nullptr;
 
-    ioPoint.oid = ::sqlite3_column_int64(statement, OID_IDX-1);
-    ioPoint.name = (const char*) ::sqlite3_column_text(statement, NAME_IDX-1);
-    ioPoint.io_point_type = (IOPointType) ::sqlite3_column_int(statement, IO_POINT_TYPE_IDX-1);
-    ioPoint.data_type = (DataType) ::sqlite3_column_int(statement, DATA_TYPE_IDX-1);
-    ioPoint.device_id = ::sqlite3_column_int64(statement, DEVICE_ID_IDX-1);
-    ioPoint.readonly = ::sqlite3_column_int(statement, IS_READONLY_IDX-1) == 1 ? true : false;
-    ioPoint.system = ::sqlite3_column_int(statement, IS_SYSTEM_IDX-1) == 1 ? true : false;
+    io_point_t* ioPoint = new io_point_t;
+    ioPoint->oid = ::sqlite3_column_int64(statement, OID_IDX-1);
+    ioPoint->name = (const char*) ::sqlite3_column_text(statement, NAME_IDX-1);
+    ioPoint->io_point_type = (IOPointType) ::sqlite3_column_int(statement, IO_POINT_TYPE_IDX-1);
+    ioPoint->data_type = (DataType) ::sqlite3_column_int(statement, DATA_TYPE_IDX-1);
+    ioPoint->device_id = ::sqlite3_column_int64(statement, DEVICE_ID_IDX-1);
+    ioPoint->readonly = ::sqlite3_column_int(statement, IS_READONLY_IDX-1) == 1 ? true : false;
+    ioPoint->system = ::sqlite3_column_int(statement, IS_SYSTEM_IDX-1) == 1 ? true : false;
     ptr = (char*) ::sqlite3_column_text(statement, SOURCE_ADDRESS_IDX-1);
-    ioPoint.source_address = ptr == nullptr ? "" : ptr;
+    ioPoint->source_address = ptr == nullptr ? "" : ptr;
     ptr = (char*) ::sqlite3_column_text(statement, DISPLAY_HINT_IDX-1);
-    ioPoint.display_hint = ptr == nullptr ? "" : ptr;
+    ioPoint->display_hint = ptr == nullptr ? "" : ptr;
 
     ::sqlite3_reset(statement);
     ::sqlite3_finalize(statement);
 
-    return &ioPoint;
+    return ioPoint;
 }
 
 }

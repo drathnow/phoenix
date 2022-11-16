@@ -108,7 +108,7 @@ int AlarmLimitsRepository::updateAlarmLimits(const alarm_limits_t &alarmLimits)
     return rc == SQLITE_DONE ? 0 : -1;
 }
 
-int AlarmLimitsRepository::deleteAlarmLimitsWithOid(uint64_t oid)
+int AlarmLimitsRepository::deleteAlarmLimitsWithOid(int64_t oid)
 {
     sqlite3_stmt *statement;
 
@@ -122,7 +122,7 @@ int AlarmLimitsRepository::deleteAlarmLimitsWithOid(uint64_t oid)
     return rc == SQLITE_DONE ? 0 : -1;
 }
 
-alarm_limits_t* AlarmLimitsRepository::alarmLimitsForAlarmLimitsId(alarm_limits_t &alarmLimits, uint64_t oid)
+alarm_limits_t* AlarmLimitsRepository::alarmLimitsForOid(int64_t oid)
 {
     sqlite3_stmt *statement;
 
@@ -131,23 +131,24 @@ alarm_limits_t* AlarmLimitsRepository::alarmLimitsForAlarmLimitsId(alarm_limits_
     if (SQLITE_ROW != ::sqlite3_step(statement))
         return nullptr;
 
-    alarmLimits.oid = ::sqlite3_column_int64(statement, OID_IDX - 1);
-    alarmLimits.io_point_id = ::sqlite3_column_int64(statement, IO_POINT_ID_IDX - 1);
-    alarmLimits.set_time_seconds = ::sqlite3_column_int(statement, SET_TIME_IDX - 1);
-    alarmLimits.clear_time_seconds = ::sqlite3_column_int(statement, CLEAR_TIME_IDX - 1);
-    alarmLimits.high_high_set_limit = (char*) ::sqlite3_column_text(statement, HIGH_HIGH_SET_LIMIT_IDX - 1);
-    alarmLimits.high_high_clear_limit = (char*) ::sqlite3_column_text(statement, HIGH_HIGH_CLEAR_LIMIT_IDX - 1);
-    alarmLimits.high_set_limit = (char*) ::sqlite3_column_text(statement, HIGH_SET_LIMIT_IDX - 1);
-    alarmLimits.high_clear_limit = (char*) ::sqlite3_column_text(statement, HIGH_CLEAR_LIMIT_IDX - 1);
-    alarmLimits.low_low_set_limit = (char*) ::sqlite3_column_text(statement, LOW_LOW_SET_LIMIT_IDX - 1);
-    alarmLimits.low_low_clear_limit = (char*) ::sqlite3_column_text(statement, LOW_LOW_CLEAR_LIMIT_IDX - 1);
-    alarmLimits.low_set_limit = (char*) ::sqlite3_column_text(statement, LOW_SET_LIMIT_IDX - 1);
-    alarmLimits.low_clear_limit = (char*) ::sqlite3_column_text(statement, LOW_CLEAR_LIMIT_IDX - 1);
+    alarm_limits_t* alarmLimits = new alarm_limits_t;
+    alarmLimits->oid = ::sqlite3_column_int64(statement, OID_IDX - 1);
+    alarmLimits->io_point_id = ::sqlite3_column_int64(statement, IO_POINT_ID_IDX - 1);
+    alarmLimits->set_time_seconds = ::sqlite3_column_int(statement, SET_TIME_IDX - 1);
+    alarmLimits->clear_time_seconds = ::sqlite3_column_int(statement, CLEAR_TIME_IDX - 1);
+    alarmLimits->high_high_set_limit = (char*) ::sqlite3_column_text(statement, HIGH_HIGH_SET_LIMIT_IDX - 1);
+    alarmLimits->high_high_clear_limit = (char*) ::sqlite3_column_text(statement, HIGH_HIGH_CLEAR_LIMIT_IDX - 1);
+    alarmLimits->high_set_limit = (char*) ::sqlite3_column_text(statement, HIGH_SET_LIMIT_IDX - 1);
+    alarmLimits->high_clear_limit = (char*) ::sqlite3_column_text(statement, HIGH_CLEAR_LIMIT_IDX - 1);
+    alarmLimits->low_low_set_limit = (char*) ::sqlite3_column_text(statement, LOW_LOW_SET_LIMIT_IDX - 1);
+    alarmLimits->low_low_clear_limit = (char*) ::sqlite3_column_text(statement, LOW_LOW_CLEAR_LIMIT_IDX - 1);
+    alarmLimits->low_set_limit = (char*) ::sqlite3_column_text(statement, LOW_SET_LIMIT_IDX - 1);
+    alarmLimits->low_clear_limit = (char*) ::sqlite3_column_text(statement, LOW_CLEAR_LIMIT_IDX - 1);
 
     ::sqlite3_reset(statement);
     ::sqlite3_finalize(statement);
 
-    return &alarmLimits;
+    return alarmLimits;
 }
 
 } /* namespace dios */
