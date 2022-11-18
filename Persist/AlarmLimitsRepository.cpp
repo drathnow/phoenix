@@ -48,6 +48,91 @@ static const char *DELETE_STMNT = "delete from AlarmLimits where oid = :oid";
 static const char *SELECT_STMNT =
         "select io_point_id, set_time, clear_time, no_data_enabled, high_high_set_limit, high_high_clear_limit, high_set_limit, high_clear_limit, low_low_set_limit, low_low_clear_limit, low_set_limit, low_clear_limit, oid from AlarmLimits where oid = :oid";
 
+sqlite3_stmt* AlarmLimitsRepositoryHelper::insertStatementForEntity(sqlite3* dbContext, const alarm_limits &alarmLimits)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, INSERT_STMNT, ::strlen(INSERT_STMNT), &statement, nullptr), nullptr);
+
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, IO_POINT_ID_IDX, alarmLimits.io_point_id), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, SET_TIME_IDX, alarmLimits.set_time_seconds), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, CLEAR_TIME_IDX, alarmLimits.clear_time_seconds), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, NO_DATA_ENABLED_IDX, alarmLimits.no_data_enabled), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_HIGH_SET_LIMIT_IDX, alarmLimits.high_high_set_limit.c_str(), alarmLimits.high_high_set_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_HIGH_CLEAR_LIMIT_IDX, alarmLimits.high_high_clear_limit.c_str(), alarmLimits.high_high_clear_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_SET_LIMIT_IDX, alarmLimits.high_set_limit.c_str(), alarmLimits.high_set_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_CLEAR_LIMIT_IDX, alarmLimits.high_clear_limit.c_str(), alarmLimits.high_clear_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, LOW_LOW_SET_LIMIT_IDX, alarmLimits.low_low_set_limit.c_str(), alarmLimits.low_low_set_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, LOW_LOW_CLEAR_LIMIT_IDX, alarmLimits.low_low_clear_limit.c_str(), alarmLimits.low_low_clear_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, LOW_SET_LIMIT_IDX, alarmLimits.low_set_limit.c_str(), alarmLimits.low_set_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, LOW_CLEAR_LIMIT_IDX, alarmLimits.low_clear_limit.c_str(), alarmLimits.low_clear_limit.length(), nullptr), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* AlarmLimitsRepositoryHelper::updateStatementForEntity(sqlite3* dbContext, const alarm_limits &alarmLimits)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, UPDATE_STMNT, ::strlen(UPDATE_STMNT), &statement, nullptr), nullptr);
+
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, IO_POINT_ID_IDX, alarmLimits.io_point_id), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, SET_TIME_IDX, alarmLimits.set_time_seconds), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, CLEAR_TIME_IDX, alarmLimits.clear_time_seconds), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, NO_DATA_ENABLED_IDX, alarmLimits.no_data_enabled), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_HIGH_SET_LIMIT_IDX, alarmLimits.high_high_set_limit.c_str(), alarmLimits.high_high_set_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_HIGH_CLEAR_LIMIT_IDX, alarmLimits.high_high_clear_limit.c_str(), alarmLimits.high_high_clear_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_SET_LIMIT_IDX, alarmLimits.high_set_limit.c_str(), alarmLimits.high_set_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_CLEAR_LIMIT_IDX, alarmLimits.high_clear_limit.c_str(), alarmLimits.high_clear_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, LOW_LOW_SET_LIMIT_IDX, alarmLimits.low_low_set_limit.c_str(), alarmLimits.low_low_set_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, LOW_LOW_CLEAR_LIMIT_IDX, alarmLimits.low_low_clear_limit.c_str(), alarmLimits.low_low_clear_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, LOW_SET_LIMIT_IDX, alarmLimits.low_set_limit.c_str(), alarmLimits.low_set_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, LOW_CLEAR_LIMIT_IDX, alarmLimits.low_clear_limit.c_str(), alarmLimits.low_clear_limit.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 13, alarmLimits.oid), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* AlarmLimitsRepositoryHelper::deleteStatementForOid(sqlite3* dbContext, uint64_t oid)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, DELETE_STMNT, ::strlen(DELETE_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 1, oid), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* AlarmLimitsRepositoryHelper::selectStatementForOid(sqlite3* dbContext, uint64_t oid)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, SELECT_STMNT, ::strlen(SELECT_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 1, oid), nullptr);
+
+    return statement;
+}
+
+alarm_limits* AlarmLimitsRepositoryHelper::entityForSelectStatement(sqlite3_stmt *statement)
+{
+    alarm_limits_t *alarmLimits = new alarm_limits_t;
+    alarmLimits->oid = ::sqlite3_column_int64(statement, OID_IDX - 1);
+    alarmLimits->io_point_id = ::sqlite3_column_int64(statement, IO_POINT_ID_IDX - 1);
+    alarmLimits->set_time_seconds = ::sqlite3_column_int(statement, SET_TIME_IDX - 1);
+    alarmLimits->clear_time_seconds = ::sqlite3_column_int(statement, CLEAR_TIME_IDX - 1);
+    alarmLimits->high_high_set_limit = (char*) ::sqlite3_column_text(statement, HIGH_HIGH_SET_LIMIT_IDX - 1);
+    alarmLimits->high_high_clear_limit = (char*) ::sqlite3_column_text(statement, HIGH_HIGH_CLEAR_LIMIT_IDX - 1);
+    alarmLimits->high_set_limit = (char*) ::sqlite3_column_text(statement, HIGH_SET_LIMIT_IDX - 1);
+    alarmLimits->high_clear_limit = (char*) ::sqlite3_column_text(statement, HIGH_CLEAR_LIMIT_IDX - 1);
+    alarmLimits->low_low_set_limit = (char*) ::sqlite3_column_text(statement, LOW_LOW_SET_LIMIT_IDX - 1);
+    alarmLimits->low_low_clear_limit = (char*) ::sqlite3_column_text(statement, LOW_LOW_CLEAR_LIMIT_IDX - 1);
+    alarmLimits->low_set_limit = (char*) ::sqlite3_column_text(statement, LOW_SET_LIMIT_IDX - 1);
+    alarmLimits->low_clear_limit = (char*) ::sqlite3_column_text(statement, LOW_CLEAR_LIMIT_IDX - 1);
+
+    return alarmLimits;
+}
+
+
 AlarmLimitsRepository::AlarmLimitsRepository(sqlite3 *dbContext) :
         Repository(dbContext)
 {
@@ -131,7 +216,7 @@ alarm_limits_t* AlarmLimitsRepository::alarmLimitsForOid(alarm_limits_id_t oid)
     if (SQLITE_ROW != ::sqlite3_step(statement))
         return nullptr;
 
-    alarm_limits_t* alarmLimits = new alarm_limits_t;
+    alarm_limits_t *alarmLimits = new alarm_limits_t;
     alarmLimits->oid = ::sqlite3_column_int64(statement, OID_IDX - 1);
     alarmLimits->io_point_id = ::sqlite3_column_int64(statement, IO_POINT_ID_IDX - 1);
     alarmLimits->set_time_seconds = ::sqlite3_column_int(statement, SET_TIME_IDX - 1);
