@@ -15,6 +15,31 @@ namespace dios::persist
 
 using namespace dios::foundation;
 
+class IOPointRepositoryHelper: public RepositoryHelper<io_point_t>
+{
+public:
+    IOPointRepositoryHelper() = default;
+    ~IOPointRepositoryHelper() = default;
+
+    sqlite3_stmt* insertStatementForEntity(sqlite3 *dbContext, const io_point_t &entity);
+    sqlite3_stmt* updateStatementForEntity(sqlite3 *dbContext, const io_point_t &entity);
+    sqlite3_stmt* deleteStatementForOid(sqlite3 *dbContext, uint64_t oid);
+    sqlite3_stmt* selectStatementForOid(sqlite3 *dbContext, uint64_t oid);
+    io_point_t* entityForSelectStatement(sqlite3_stmt *selectStatement);
+};
+
+class IOPointRepositoryTpl: public RepositoryTpl<io_point_t>
+{
+public:
+    IOPointRepositoryTpl() = delete;
+    IOPointRepositoryTpl(sqlite3 *dbContext) :
+            RepositoryTpl(dbContext, new IOPointRepositoryHelper())
+    {
+    }
+    ~IOPointRepositoryTpl() = default;
+};
+
+
 class IOPointRepository : public Repository
 {
 public:

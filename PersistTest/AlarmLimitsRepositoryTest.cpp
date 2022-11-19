@@ -507,9 +507,9 @@ public:
         alarmLimits.low_set_limit = LOW_SET_LIMIT;
         alarmLimits.low_clear_limit = LOW_CLEAR_LIMIT;
 
-        AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
+        AlarmLimitsRepositoryTpl alarmLimitsRepositoryUnderTest(_dbContext);
 
-        alarmLimits.oid = alarmLimitsRepositoryUnderTest.createAlarmLimits(alarmLimits);
+        alarmLimits.oid = alarmLimitsRepositoryUnderTest.createEntity(alarmLimits);
 
     }
 

@@ -39,6 +39,82 @@ static const char *DELETE_STMNT = "delete from IOPoint where oid = :oid";
 static const char *SELECT_SINGLE_STMNT = "select name, io_point_type, data_type, device_id, is_readonly, is_system, source_address, display_hint, oid from IOPoint where oid = :oid";
 static const char *SELECT_STMNT = "select name, io_point_type, data_type, device_id, is_readonly, is_system, source_address, display_hint, oid from IOPoint";
 
+
+sqlite3_stmt* IOPointRepositoryHelper::insertStatementForEntity(sqlite3* dbContext, const io_point_t &ioPoint)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, INSERT_STMNT, ::strlen(INSERT_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, NAME_IDX, ioPoint.name.c_str(), ioPoint.name.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, IO_POINT_TYPE_IDX, ioPoint.io_point_type), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, DATA_TYPE_IDX, ioPoint.data_type), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, DEVICE_ID_IDX, ioPoint.device_id), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, IS_READONLY_IDX, ioPoint.readonly ? 1 : 0), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, IS_SYSTEM_IDX, ioPoint.system ? 1 : 0), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, SOURCE_ADDRESS_IDX, ioPoint.source_address.length() == 0 ? nullptr : ioPoint.source_address.c_str(), ioPoint.source_address.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, DISPLAY_HINT_IDX, ioPoint.display_hint.length() == 0 ? nullptr : ioPoint.display_hint.c_str(), ioPoint.display_hint.length(), nullptr), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* IOPointRepositoryHelper::updateStatementForEntity(sqlite3* dbContext, const io_point_t &ioPoint)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, UPDATE_STMNT, ::strlen(UPDATE_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, NAME_IDX, ioPoint.name.c_str(), ioPoint.name.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, IO_POINT_TYPE_IDX, ioPoint.io_point_type), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, DATA_TYPE_IDX, ioPoint.data_type), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, DEVICE_ID_IDX, ioPoint.device_id), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, IS_READONLY_IDX, ioPoint.readonly ? 1 : 0), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, IS_SYSTEM_IDX, ioPoint.system ? 1 : 0), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, SOURCE_ADDRESS_IDX, ioPoint.source_address.length() == 0 ? nullptr : ioPoint.source_address.c_str(), ioPoint.source_address.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, DISPLAY_HINT_IDX, ioPoint.display_hint.length() == 0 ? nullptr : ioPoint.display_hint.c_str(), ioPoint.display_hint.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, OID_IDX, ioPoint.oid), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* IOPointRepositoryHelper::deleteStatementForOid(sqlite3* dbContext, uint64_t oid)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, DELETE_STMNT, ::strlen(DELETE_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 1, oid), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* IOPointRepositoryHelper::selectStatementForOid(sqlite3* dbContext, uint64_t oid)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, SELECT_STMNT, ::strlen(SELECT_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 1, oid), nullptr);
+
+    return statement;
+}
+
+io_point_t* IOPointRepositoryHelper::entityForSelectStatement(sqlite3_stmt *statement)
+{
+    io_point_t* ioPoint = new io_point_t;
+    char* ptr;
+
+    ioPoint->oid = ::sqlite3_column_int64(statement, OID_IDX-1);
+    ioPoint->name = (const char*) ::sqlite3_column_text(statement, NAME_IDX-1);
+    ioPoint->io_point_type = (IOPointType) ::sqlite3_column_int(statement, IO_POINT_TYPE_IDX-1);
+    ioPoint->data_type = (DataType) ::sqlite3_column_int(statement, DATA_TYPE_IDX-1);
+    ioPoint->device_id = ::sqlite3_column_int64(statement, DEVICE_ID_IDX-1);
+    ioPoint->readonly = ::sqlite3_column_int(statement, IS_READONLY_IDX-1) == 1 ? true : false;
+    ioPoint->system = ::sqlite3_column_int(statement, IS_SYSTEM_IDX-1) == 1 ? true : false;
+    ptr = (char*) ::sqlite3_column_text(statement, SOURCE_ADDRESS_IDX-1);
+    ioPoint->source_address = ptr == nullptr ? "" : ptr;
+    ptr = (char*) ::sqlite3_column_text(statement, DISPLAY_HINT_IDX-1);
+    ioPoint->display_hint = ptr == nullptr ? "" : ptr;
+
+    return ioPoint;
+}
+
 IOPointRepository::IOPointRepository(sqlite3 *dbContext) :
         Repository(dbContext)
 {

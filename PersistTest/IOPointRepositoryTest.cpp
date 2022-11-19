@@ -116,9 +116,9 @@ public:
 
 TEST_F(IOPointRepositoryCreateTest, shouldCreateIoPoint)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    iopoint_id_t resultId = repositoryUnderTest.createIoPoint(testIoPoint);
+    iopoint_id_t resultId = repositoryUnderTest.updateEntity(testIoPoint);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
 
@@ -140,9 +140,9 @@ TEST_F(IOPointRepositoryCreateTest, shouldCreateIoPointWithEmptySourceAddress)
 {
     testIoPoint.source_address = "";
 
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    iopoint_id_t resultId = repositoryUnderTest.createIoPoint(testIoPoint);
+    iopoint_id_t resultId = repositoryUnderTest.updateEntity(testIoPoint);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
 
@@ -164,9 +164,9 @@ TEST_F(IOPointRepositoryCreateTest, shouldCreateIoPointwithEmptyDisplayHint)
 {
     testIoPoint.display_hint = "";
 
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    iopoint_id_t resultId = repositoryUnderTest.createIoPoint(testIoPoint);
+    iopoint_id_t resultId = repositoryUnderTest.updateEntity(testIoPoint);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
 
@@ -186,9 +186,9 @@ TEST_F(IOPointRepositoryCreateTest, shouldCreateIoPointwithEmptyDisplayHint)
 
 TEST_F(IOPointRepositoryCreateTest, shouldUpdateName)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    iopoint_id_t resultId = repositoryUnderTest.createIoPoint(testIoPoint);
+    iopoint_id_t resultId = repositoryUnderTest.updateEntity(testIoPoint);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
 
@@ -230,8 +230,8 @@ public:
         testIoPoint.source_address = SOURCE_ADDRESS;
         testIoPoint.display_hint = DISPLAY_HINT;
 
-        IOPointRepository repo(_dbContext);
-        testIoPoint.oid = repo.createIoPoint(testIoPoint);
+        IOPointRepositoryTpl repo(_dbContext);
+        testIoPoint.oid = repo.updateEntity(testIoPoint);
     }
 
     io_point_t testIoPoint;
@@ -239,11 +239,11 @@ public:
 
 TEST_F(IOPointRepositoryUpdateTest, shouldUpdateIoPointName)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
     testIoPoint.name = "UpdatePointName1";
 
-    ASSERT_EQ(0, repositoryUnderTest.updateIoPoint(testIoPoint))<< "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, repositoryUnderTest.updateEntity(testIoPoint))<< "Error: " << ::sqlite3_errmsg(_dbContext);
 
     io_point_t foundPoint;
     executeCommandInContext("select * from IOPoint;", ioPointRowCollater, &foundPoint);
@@ -262,11 +262,11 @@ TEST_F(IOPointRepositoryUpdateTest, shouldUpdateIoPointName)
 
 TEST_F(IOPointRepositoryUpdateTest, shouldUpdateDataType)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
     testIoPoint.data_type = DataType::BLOB;
 
-    ASSERT_EQ(0, repositoryUnderTest.updateIoPoint(testIoPoint))<< "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, repositoryUnderTest.updateEntity(testIoPoint))<< "Error: " << ::sqlite3_errmsg(_dbContext);
 
     io_point_t foundPoint;
     executeCommandInContext("select * from IOPoint;", ioPointRowCollater, &foundPoint);
@@ -307,8 +307,8 @@ public:
         testIoPoint.source_address = SOURCE_ADDRESS;
         testIoPoint.display_hint = DISPLAY_HINT;
 
-        IOPointRepository repo(_dbContext);
-        testIoPoint.oid = repo.createIoPoint(testIoPoint);
+        IOPointRepositoryTpl repo(_dbContext);
+        testIoPoint.oid = repo.updateEntity(testIoPoint);
     }
 
     io_point_t testIoPoint;
@@ -346,8 +346,8 @@ public:
         testIoPoint.source_address = SOURCE_ADDRESS;
         testIoPoint.display_hint = DISPLAY_HINT;
 
-        IOPointRepository repo(_dbContext);
-        testIoPoint.oid = repo.createIoPoint(testIoPoint);
+        IOPointRepositoryTpl repo(_dbContext);
+        testIoPoint.oid = repo.updateEntity(testIoPoint);
     }
 
     io_point_t testIoPoint;
@@ -355,9 +355,9 @@ public:
 
 TEST_F(IOPointRepositoryFetchTest, shouldReturnIoPointWithOid)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    std::unique_ptr<io_point_t> foundPoint(repositoryUnderTest.ioPointForOid(testIoPoint.oid));
+    std::unique_ptr<io_point_t> foundPoint(repositoryUnderTest.entityForOid(testIoPoint.oid));
     ASSERT_TRUE(foundPoint.get() != nullptr)<< "Error: " << ::sqlite3_errmsg(_dbContext);
 
     ASSERT_EQ(testIoPoint.oid, foundPoint->oid);
@@ -394,14 +394,14 @@ public:
         testIoPoint.source_address = SOURCE_ADDRESS;
         testIoPoint.display_hint = DISPLAY_HINT;
 
-        IOPointRepository repo(_dbContext);
+        IOPointRepositoryTpl repo(_dbContext);
         for (int i = 0; i < 20; i++)
         {
             string foo;
             StringHelper::numberToString(i, foo);
             testIoPoint.name = NAME;
             testIoPoint.name.append("-").append(foo);
-            testIoPoint.oid = repo.createIoPoint(testIoPoint);
+            testIoPoint.oid = repo.updateEntity(testIoPoint);
         }
     }
 
