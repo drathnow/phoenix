@@ -15,22 +15,22 @@
 
 namespace dios::persist
 {
-    template<class E>
-    class RepositoryHelper
-    {
-    public:
-        RepositoryHelper() = default;
-        RepositoryHelper(RepositoryHelper<E>&& rhs) = delete;
-        RepositoryHelper(const RepositoryHelper<E>& rhs) = delete;
-        RepositoryHelper& operator=(const RepositoryHelper&) = delete;
-        virtual ~RepositoryHelper() = default;
+template<class E>
+class RepositoryHelper
+{
+public:
+    RepositoryHelper() = default;
+    RepositoryHelper(RepositoryHelper<E> &&rhs) = delete;
+    RepositoryHelper(const RepositoryHelper<E> &rhs) = delete;
+    RepositoryHelper& operator=(const RepositoryHelper&) = delete;
+    virtual ~RepositoryHelper() = default;
 
-        virtual sqlite3_stmt* insertStatementForEntity(sqlite3 *dbContext, const E& entity) = 0;
-        virtual sqlite3_stmt* updateStatementForEntity(sqlite3 *dbContext, const E& entity) = 0;
-        virtual sqlite3_stmt* deleteStatementForOid(sqlite3 *dbContext, uint64_t oid) = 0;
-        virtual sqlite3_stmt* selectStatementForOid(sqlite3 *dbContext, uint64_t oid) = 0;
-        virtual E* entityForSelectStatement(sqlite3_stmt* selectStatement) = 0;
-    };
+    virtual sqlite3_stmt* insertStatementForEntity(sqlite3 *dbContext, const E &entity) = 0;
+    virtual sqlite3_stmt* updateStatementForEntity(sqlite3 *dbContext, const E &entity) = 0;
+    virtual sqlite3_stmt* deleteStatementForOid(sqlite3 *dbContext, uint64_t oid) = 0;
+    virtual sqlite3_stmt* selectStatementForOid(sqlite3 *dbContext, uint64_t oid) = 0;
+    virtual E* entityForSelectStatement(sqlite3_stmt *selectStatement) = 0;
+};
 
 template<typename E>
 class RepositoryTpl
@@ -43,13 +43,14 @@ public:
     }
 
 protected:
-    RepositoryTpl(sqlite3 *context, RepositoryHelper<E>* repositoryHelper) :
-        _repositoryHelper(repositoryHelper), _dbContext(context)
+    RepositoryTpl(sqlite3 *context, RepositoryHelper<E> *repositoryHelper) :
+            _repositoryHelper(repositoryHelper), _dbContext(context)
     {
-    };
+    }
+    ;
 
 public:
-    uint64_t createEntity(const E& entity)
+    uint64_t createEntity(const E &entity)
     {
         sqlite3_stmt *statement = _repositoryHelper->insertStatementForEntity(_dbContext, entity);
 
@@ -62,7 +63,7 @@ public:
 
     }
 
-    int updateEntity(const E& entity)
+    int updateEntity(const E &entity)
     {
         sqlite3_stmt *statement = _repositoryHelper->updateStatementForEntity(_dbContext, entity);
 
@@ -94,7 +95,7 @@ public:
         if (SQLITE_ROW != ::sqlite3_step(statement))
             return nullptr;
 
-        E* entity = _repositoryHelper->entityForSelectStatement(statement);
+        E *entity = _repositoryHelper->entityForSelectStatement(statement);
 
         ::sqlite3_reset(statement);
         ::sqlite3_finalize(statement);
@@ -103,8 +104,8 @@ public:
     }
 
 private:
-    RepositoryHelper<E>* _repositoryHelper;
-    sqlite3* _dbContext;
+    RepositoryHelper<E> *_repositoryHelper;
+    sqlite3 *_dbContext;
 };
 
 class Repository
