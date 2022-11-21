@@ -20,6 +20,7 @@ public:
     sqlite3_stmt* deleteStatementForOid(sqlite3 *dbContext, uint64_t oid);
     sqlite3_stmt* selectStatementForOid(sqlite3 *dbContext, uint64_t oid);
     deadband_t* entityForSelectStatement(sqlite3_stmt *selectStatement);
+    sqlite3_stmt* multipleSelectStatementFromOid(sqlite3 *dbContext, int count, uint64_t fromOid = 0);
 };
 
 class DeadbandRepositoryTpl: public RepositoryTpl<deadband_t>

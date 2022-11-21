@@ -46,7 +46,7 @@ static const char *UPDATE_STMNT = "update AlarmLimits "
 
 static const char *DELETE_STMNT = "delete from AlarmLimits where oid = :oid";
 static const char *SELECT_STMNT =
-        "select io_point_id, set_time, clear_time, no_data_enabled, high_high_set_limit, high_high_clear_limit, high_set_limit, high_clear_limit, low_low_set_limit, low_low_clear_limit, low_set_limit, low_clear_limit, oid from AlarmLimits where oid = :oid";
+        "select io_point_id, set_time, clear_time, no_data_enabled, high_high_set_limit, high_high_clear_limit, high_set_limit, high_clear_limit, low_low_set_limit, low_low_clear_limit, low_set_limit, low_clear_limit, oid from AlarmLimits";
 
 sqlite3_stmt* AlarmLimitsRepositoryHelper::insertStatementForEntity(sqlite3* dbContext, const alarm_limits &alarmLimits)
 {
@@ -107,11 +107,48 @@ sqlite3_stmt* AlarmLimitsRepositoryHelper::selectStatementForOid(sqlite3* dbCont
 {
     sqlite3_stmt *statement;
 
-    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, SELECT_STMNT, ::strlen(SELECT_STMNT), &statement, nullptr), nullptr);
+    string selectSql(SELECT_STMNT);
+    selectSql.append(" where oid = :oid");
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, selectSql.c_str(), selectSql.length(), &statement, nullptr), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 1, oid), nullptr);
 
     return statement;
 }
+
+sqlite3_stmt* AlarmLimitsRepositoryHelper::multipleSelectStatementFromOid(sqlite3 *dbContext, int count, uint64_t fromOid)
+{
+    sqlite3_stmt *statement;
+
+    string selectSql(SELECT_STMNT);
+
+    if (fromOid > 0)
+    {
+        selectSql.append(" where oid > :oid");
+    }
+
+    selectSql.append(" order by oid asc");
+
+    if (count > 0)
+    {
+        selectSql.append(" limit :maxLimit");
+    }
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, selectSql.c_str(), selectSql.length(), &statement, nullptr), nullptr);
+
+    int idx = 1;
+    if (fromOid > 0)
+    {
+        RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, idx++, fromOid), nullptr);
+    }
+    if (count > 0)
+    {
+        RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, idx++, count), nullptr);
+    }
+
+    return statement;
+}
+
 
 alarm_limits* AlarmLimitsRepositoryHelper::entityForSelectStatement(sqlite3_stmt *statement)
 {

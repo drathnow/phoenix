@@ -316,10 +316,10 @@ public:
 
 TEST_F(IOPointRepositoryDeleteTest, shouldDeleteIOPoint)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
-    ASSERT_EQ(0, repositoryUnderTest.deleteIoPointWithOid(testIoPoint.oid))<< "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, repositoryUnderTest.deleteEntityWithOid(testIoPoint.oid))<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(0, rowCountInTable("IOPoint"));
 }
 
@@ -411,116 +411,116 @@ public:
 
 TEST_F(IOPointRepositoryFetchManyTest, shouldFetchAllIoPoints)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    vector<io_point_t> ioPoints;
+    vector<io_point_t*> ioPoints;
 
-    ASSERT_EQ(20, repositoryUnderTest.ioPoints(ioPoints, 0));
+    ASSERT_EQ(20, repositoryUnderTest.entities(ioPoints, 0));
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 }
 
 TEST_F(IOPointRepositoryFetchManyTest, shouldFetch10IoPointsThenNext10)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    vector<io_point_t> ioPoints;
+    vector<io_point_t*> ioPoints;
 
-    ASSERT_EQ(10, repositoryUnderTest.ioPoints(ioPoints, 10, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(10, repositoryUnderTest.entities(ioPoints, 10, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 
     ioPoints.clear();
-    ASSERT_EQ(10, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[9].oid));
+    ASSERT_EQ(10, repositoryUnderTest.entities(ioPoints, 10, ioPoints[9]->oid));
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i+10, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 
     ioPoints.clear();
-    ASSERT_EQ(0, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[9].oid));
+    ASSERT_EQ(0, repositoryUnderTest.entities(ioPoints, 10, ioPoints[9]->oid));
 }
 
 
 TEST_F(IOPointRepositoryFetchManyTest, shouldFetch15IoPointsThenNext5)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    vector<io_point_t> ioPoints;
+    vector<io_point_t*> ioPoints;
 
-    ASSERT_EQ(15, repositoryUnderTest.ioPoints(ioPoints, 15, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(15, repositoryUnderTest.entities(ioPoints, 15, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 
     ioPoints.clear();
-    ASSERT_EQ(5, repositoryUnderTest.ioPoints(ioPoints, 15, ioPoints[14].oid));
+    ASSERT_EQ(5, repositoryUnderTest.entities(ioPoints, 15, ioPoints[14]->oid));
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i+15, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 
     ioPoints.clear();
-    ASSERT_EQ(0, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[4].oid));
+    ASSERT_EQ(0, repositoryUnderTest.entities(ioPoints, 10, ioPoints[4]->oid));
 }
 }

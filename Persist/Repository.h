@@ -29,6 +29,7 @@ public:
     virtual sqlite3_stmt* updateStatementForEntity(sqlite3 *dbContext, const E &entity) = 0;
     virtual sqlite3_stmt* deleteStatementForOid(sqlite3 *dbContext, uint64_t oid) = 0;
     virtual sqlite3_stmt* selectStatementForOid(sqlite3 *dbContext, uint64_t oid) = 0;
+    virtual sqlite3_stmt* multipleSelectStatementFromOid(sqlite3 *dbContext, int count, uint64_t fromOid = 0) = 0;
     virtual E* entityForSelectStatement(sqlite3_stmt *selectStatement) = 0;
 };
 
@@ -101,6 +102,25 @@ public:
         ::sqlite3_finalize(statement);
 
         return entity;
+    }
+
+    int entities(std::vector<E*>& entityVector, int count, uint64_t fromOid = 0)
+    {
+        sqlite3_stmt *statement = _repositoryHelper->multipleSelectStatementFromOid(_dbContext, count, fromOid);
+
+        E entity;
+        int fetchCount = 0;
+        while (SQLITE_ROW == ::sqlite3_step(statement))
+        {
+            E *entity = _repositoryHelper->entityForSelectStatement(statement);
+            entityVector.push_back(entity);
+            fetchCount++;
+        }
+
+        ::sqlite3_reset(statement);
+        ::sqlite3_finalize(statement);
+
+        return fetchCount;
     }
 
 private:
