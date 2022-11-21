@@ -89,7 +89,7 @@ sqlite3_stmt* IOPointRepositoryHelper::selectStatementForOid(sqlite3* dbContext,
 {
     sqlite3_stmt *statement;
 
-    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, SELECT_STMNT, ::strlen(SELECT_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, SELECT_SINGLE_STMNT, ::strlen(SELECT_SINGLE_STMNT), &statement, nullptr), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 1, oid), nullptr);
 
     return statement;

@@ -34,6 +34,82 @@ static const char *DELETE_STMNT = "delete from Device where oid = :oid";
 static const char *SELECT_STMNT = "select name, device_type, max_retries, request_timeout_sec, rtu_backoff_timeout_sec, rtu_backoff_count, address, parameters, extended_parameters, oid from Device where oid = :oid";
 
 
+
+sqlite3_stmt* DeviceRepositoryHelper::insertStatementForEntity(sqlite3* dbContext, const device_t &device)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, INSERT_STMNT, ::strlen(INSERT_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, NAME_IDX, device.name.c_str(), device.name.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, DEVICE_TYPE_IDX, device.device_type), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, MAX_RETRIES_IDX, device.max_retries), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, REQUEST_TIMEOUT_SEC_IDX, device.request_timeout_seconds), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, RTU_BACKOFF_TIMEOUT_SEC_IDX, device.rtu_backoff_timeout_seconds), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, RTU_BACKOFF_COUNT_IDX, device.rtu_backoff_count), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, ADDRESS_IDX, device.address.c_str(), device.address.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, PARAMETERS_IDX, device.parameters.c_str(), device.parameters.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, EXTENDED_PARAMETERS_IDX, device.extended_parameters.c_str(), device.extended_parameters.length(), nullptr), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* DeviceRepositoryHelper::updateStatementForEntity(sqlite3* dbContext, const device_t &device)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, UPDATE_STMNT, ::strlen(UPDATE_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, NAME_IDX, device.name.c_str(), device.name.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, DEVICE_TYPE_IDX, device.device_type), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, MAX_RETRIES_IDX, device.max_retries), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, REQUEST_TIMEOUT_SEC_IDX, device.request_timeout_seconds), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, RTU_BACKOFF_TIMEOUT_SEC_IDX, device.rtu_backoff_timeout_seconds), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, RTU_BACKOFF_COUNT_IDX, device.rtu_backoff_count), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, ADDRESS_IDX, device.address.c_str(), device.address.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, PARAMETERS_IDX, device.parameters.c_str(), device.parameters.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, EXTENDED_PARAMETERS_IDX, device.extended_parameters.c_str(), device.extended_parameters.length(), nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, OID_IDX, device.oid), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* DeviceRepositoryHelper::deleteStatementForOid(sqlite3* dbContext, uint64_t oid)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, DELETE_STMNT, ::strlen(DELETE_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 1, oid), nullptr);
+
+    return statement;
+}
+
+sqlite3_stmt* DeviceRepositoryHelper::selectStatementForOid(sqlite3* dbContext, uint64_t oid)
+{
+    sqlite3_stmt *statement;
+
+    RETURN_IF_SQLERROR(::sqlite3_prepare_v2(dbContext, SELECT_STMNT, ::strlen(SELECT_STMNT), &statement, nullptr), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, 1, oid), nullptr);
+
+    return statement;
+}
+
+device_t* DeviceRepositoryHelper::entityForSelectStatement(sqlite3_stmt *statement)
+{
+    device_t* device = new device_t;
+
+    device->oid = ::sqlite3_column_int64(statement, OID_IDX-1);
+    device->name = (const char*) ::sqlite3_column_text(statement, NAME_IDX-1);
+    device->device_type = (DeviceType)::sqlite3_column_int(statement, DEVICE_TYPE_IDX-1);
+    device->max_retries = ::sqlite3_column_int(statement, MAX_RETRIES_IDX-1);
+    device->request_timeout_seconds = ::sqlite3_column_int(statement, REQUEST_TIMEOUT_SEC_IDX-1);
+    device->rtu_backoff_timeout_seconds = ::sqlite3_column_int(statement, RTU_BACKOFF_TIMEOUT_SEC_IDX-1);
+    device->rtu_backoff_count = ::sqlite3_column_int(statement, RTU_BACKOFF_COUNT_IDX-1);
+    device->address = (const char*) ::sqlite3_column_text(statement, ADDRESS_IDX-1);
+    device->parameters =(const char*) ::sqlite3_column_text(statement, PARAMETERS_IDX-1);
+    device->extended_parameters = (const char*) ::sqlite3_column_text(statement, EXTENDED_PARAMETERS_IDX-1);
+
+    return device;
+}
+
 DeviceRepository::DeviceRepository(sqlite3 *dbContext) : Repository(dbContext)
 {
 }
