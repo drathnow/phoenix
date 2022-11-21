@@ -116,9 +116,9 @@ public:
 
 TEST_F(IOPointRepositoryCreateTest, shouldCreateIoPoint)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    iopoint_id_t resultId = repositoryUnderTest.createIoPoint(testIoPoint);
+    iopoint_id_t resultId = repositoryUnderTest.createEntity(testIoPoint);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
 
@@ -140,9 +140,9 @@ TEST_F(IOPointRepositoryCreateTest, shouldCreateIoPointWithEmptySourceAddress)
 {
     testIoPoint.source_address = "";
 
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    iopoint_id_t resultId = repositoryUnderTest.createIoPoint(testIoPoint);
+    iopoint_id_t resultId = repositoryUnderTest.createEntity(testIoPoint);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
 
@@ -164,9 +164,9 @@ TEST_F(IOPointRepositoryCreateTest, shouldCreateIoPointwithEmptyDisplayHint)
 {
     testIoPoint.display_hint = "";
 
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    iopoint_id_t resultId = repositoryUnderTest.createIoPoint(testIoPoint);
+    iopoint_id_t resultId = repositoryUnderTest.createEntity(testIoPoint);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
 
@@ -186,9 +186,9 @@ TEST_F(IOPointRepositoryCreateTest, shouldCreateIoPointwithEmptyDisplayHint)
 
 TEST_F(IOPointRepositoryCreateTest, shouldUpdateName)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    iopoint_id_t resultId = repositoryUnderTest.createIoPoint(testIoPoint);
+    iopoint_id_t resultId = repositoryUnderTest.createEntity(testIoPoint);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
 
@@ -230,8 +230,8 @@ public:
         testIoPoint.source_address = SOURCE_ADDRESS;
         testIoPoint.display_hint = DISPLAY_HINT;
 
-        IOPointRepository repo(_dbContext);
-        testIoPoint.oid = repo.createIoPoint(testIoPoint);
+        IOPointRepositoryTpl repo(_dbContext);
+        testIoPoint.oid = repo.createEntity(testIoPoint);
     }
 
     io_point_t testIoPoint;
@@ -239,11 +239,11 @@ public:
 
 TEST_F(IOPointRepositoryUpdateTest, shouldUpdateIoPointName)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
     testIoPoint.name = "UpdatePointName1";
 
-    ASSERT_EQ(0, repositoryUnderTest.updateIoPoint(testIoPoint))<< "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, repositoryUnderTest.updateEntity(testIoPoint))<< "Error: " << ::sqlite3_errmsg(_dbContext);
 
     io_point_t foundPoint;
     executeCommandInContext("select * from IOPoint;", ioPointRowCollater, &foundPoint);
@@ -262,11 +262,11 @@ TEST_F(IOPointRepositoryUpdateTest, shouldUpdateIoPointName)
 
 TEST_F(IOPointRepositoryUpdateTest, shouldUpdateDataType)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
     testIoPoint.data_type = DataType::BLOB;
 
-    ASSERT_EQ(0, repositoryUnderTest.updateIoPoint(testIoPoint))<< "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, repositoryUnderTest.updateEntity(testIoPoint))<< "Error: " << ::sqlite3_errmsg(_dbContext);
 
     io_point_t foundPoint;
     executeCommandInContext("select * from IOPoint;", ioPointRowCollater, &foundPoint);
@@ -307,8 +307,8 @@ public:
         testIoPoint.source_address = SOURCE_ADDRESS;
         testIoPoint.display_hint = DISPLAY_HINT;
 
-        IOPointRepository repo(_dbContext);
-        testIoPoint.oid = repo.createIoPoint(testIoPoint);
+        IOPointRepositoryTpl repo(_dbContext);
+        testIoPoint.oid = repo.createEntity(testIoPoint);
     }
 
     io_point_t testIoPoint;
@@ -316,9 +316,10 @@ public:
 
 TEST_F(IOPointRepositoryDeleteTest, shouldDeleteIOPoint)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
+
     ASSERT_EQ(1, rowCountInTable("IOPoint"));
-    ASSERT_EQ(0, repositoryUnderTest.deleteIoPointWithOid(testIoPoint.oid))<< "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, repositoryUnderTest.deleteEntityWithOid(testIoPoint.oid))<< "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(0, rowCountInTable("IOPoint"));
 }
 
@@ -346,8 +347,8 @@ public:
         testIoPoint.source_address = SOURCE_ADDRESS;
         testIoPoint.display_hint = DISPLAY_HINT;
 
-        IOPointRepository repo(_dbContext);
-        testIoPoint.oid = repo.createIoPoint(testIoPoint);
+        IOPointRepositoryTpl repo(_dbContext);
+        testIoPoint.oid = repo.createEntity(testIoPoint);
     }
 
     io_point_t testIoPoint;
@@ -355,9 +356,9 @@ public:
 
 TEST_F(IOPointRepositoryFetchTest, shouldReturnIoPointWithOid)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    std::unique_ptr<io_point_t> foundPoint(repositoryUnderTest.ioPointForOid(testIoPoint.oid));
+    std::unique_ptr<io_point_t> foundPoint(repositoryUnderTest.entityForOid(testIoPoint.oid));
     ASSERT_TRUE(foundPoint.get() != nullptr)<< "Error: " << ::sqlite3_errmsg(_dbContext);
 
     ASSERT_EQ(testIoPoint.oid, foundPoint->oid);
@@ -394,14 +395,14 @@ public:
         testIoPoint.source_address = SOURCE_ADDRESS;
         testIoPoint.display_hint = DISPLAY_HINT;
 
-        IOPointRepository repo(_dbContext);
+        IOPointRepositoryTpl repo(_dbContext);
         for (int i = 0; i < 20; i++)
         {
             string foo;
             StringHelper::numberToString(i, foo);
             testIoPoint.name = NAME;
             testIoPoint.name.append("-").append(foo);
-            testIoPoint.oid = repo.createIoPoint(testIoPoint);
+            testIoPoint.oid = repo.createEntity(testIoPoint);
         }
     }
 
@@ -410,116 +411,116 @@ public:
 
 TEST_F(IOPointRepositoryFetchManyTest, shouldFetchAllIoPoints)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    vector<io_point_t> ioPoints;
+    vector<io_point_t*> ioPoints;
 
-    ASSERT_EQ(20, repositoryUnderTest.ioPoints(ioPoints, 0));
+    ASSERT_EQ(20, repositoryUnderTest.entities(ioPoints, 0));
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 }
 
 TEST_F(IOPointRepositoryFetchManyTest, shouldFetch10IoPointsThenNext10)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    vector<io_point_t> ioPoints;
+    vector<io_point_t*> ioPoints;
 
-    ASSERT_EQ(10, repositoryUnderTest.ioPoints(ioPoints, 10, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(10, repositoryUnderTest.entities(ioPoints, 10, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 
     ioPoints.clear();
-    ASSERT_EQ(10, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[9].oid));
+    ASSERT_EQ(10, repositoryUnderTest.entities(ioPoints, 10, ioPoints[9]->oid));
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i+10, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 
     ioPoints.clear();
-    ASSERT_EQ(0, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[9].oid));
+    ASSERT_EQ(0, repositoryUnderTest.entities(ioPoints, 10, ioPoints[9]->oid));
 }
 
 
 TEST_F(IOPointRepositoryFetchManyTest, shouldFetch15IoPointsThenNext5)
 {
-    IOPointRepository repositoryUnderTest(_dbContext);
+    IOPointRepositoryTpl repositoryUnderTest(_dbContext);
 
-    vector<io_point_t> ioPoints;
+    vector<io_point_t*> ioPoints;
 
-    ASSERT_EQ(15, repositoryUnderTest.ioPoints(ioPoints, 15, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(15, repositoryUnderTest.entities(ioPoints, 15, 0)) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 
     ioPoints.clear();
-    ASSERT_EQ(5, repositoryUnderTest.ioPoints(ioPoints, 15, ioPoints[14].oid));
+    ASSERT_EQ(5, repositoryUnderTest.entities(ioPoints, 15, ioPoints[14]->oid));
 
     for (int i = 0; i < (signed)ioPoints.size(); i++)
     {
         string foo, name;
         StringHelper::numberToString(i+15, foo);
         name.append(NAME).append("-").append(foo);
-        ASSERT_STREQ(name.c_str(), ioPoints[i].name.c_str());
-        ASSERT_EQ(DATA_TYPE, ioPoints[i].data_type);
-        ASSERT_EQ(DEVICE_ID, ioPoints[i].device_id);
-        ASSERT_EQ(POINT_TYPE, ioPoints[i].io_point_type);
-        ASSERT_EQ(IS_READONLY, ioPoints[i].readonly);
-        ASSERT_EQ(IS_SYSTEM, ioPoints[i].system);
-        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i].source_address.c_str());
-        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i].display_hint.c_str());
+        ASSERT_STREQ(name.c_str(), ioPoints[i]->name.c_str());
+        ASSERT_EQ(DATA_TYPE, ioPoints[i]->data_type);
+        ASSERT_EQ(DEVICE_ID, ioPoints[i]->device_id);
+        ASSERT_EQ(POINT_TYPE, ioPoints[i]->io_point_type);
+        ASSERT_EQ(IS_READONLY, ioPoints[i]->readonly);
+        ASSERT_EQ(IS_SYSTEM, ioPoints[i]->system);
+        ASSERT_STREQ(SOURCE_ADDRESS, ioPoints[i]->source_address.c_str());
+        ASSERT_STREQ(DISPLAY_HINT, ioPoints[i]->display_hint.c_str());
     }
 
     ioPoints.clear();
-    ASSERT_EQ(0, repositoryUnderTest.ioPoints(ioPoints, 10, ioPoints[4].oid));
+    ASSERT_EQ(0, repositoryUnderTest.entities(ioPoints, 10, ioPoints[4]->oid));
 }
 }

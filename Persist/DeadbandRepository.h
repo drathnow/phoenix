@@ -9,17 +9,29 @@
 namespace dios::persist
 {
 
-class DeadbandRepository: public Repository
+class DeadbandRepositoryHelper: public RepositoryHelper<deadband_t>
 {
 public:
-    DeadbandRepository() = delete;
-    DeadbandRepository(sqlite3* dbContext);
-    ~DeadbandRepository() = default;
+    DeadbandRepositoryHelper() = default;
+    ~DeadbandRepositoryHelper() = default;
 
-    deadband_id_t createDeadband(const deadband_t& deadband);
-    int updateDeadband(const deadband_t& deadband);
-    int deleteDeadbandWithOid(deadband_id_t oid);
-    deadband_t* deadbandForOid(deadband_id_t oid);
+    sqlite3_stmt* insertStatementForEntity(sqlite3 *dbContext, const deadband_t &entity);
+    sqlite3_stmt* updateStatementForEntity(sqlite3 *dbContext, const deadband_t &entity);
+    sqlite3_stmt* deleteStatementForOid(sqlite3 *dbContext, uint64_t oid);
+    sqlite3_stmt* selectStatementForOid(sqlite3 *dbContext, uint64_t oid);
+    deadband_t* entityForSelectStatement(sqlite3_stmt *selectStatement);
+    sqlite3_stmt* multipleSelectStatementFromOid(sqlite3 *dbContext, int count, uint64_t fromOid = 0);
+};
+
+class DeadbandRepositoryTpl: public RepositoryTpl<deadband_t>
+{
+public:
+    DeadbandRepositoryTpl() = delete;
+    DeadbandRepositoryTpl(sqlite3 *dbContext) :
+            RepositoryTpl(dbContext, new DeadbandRepositoryHelper())
+    {
+    }
+    ~DeadbandRepositoryTpl() = default;
 };
 
 } /* namespace dios */
