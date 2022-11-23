@@ -25,17 +25,17 @@ typedef struct
 } deadband_params_t;
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-class deadband
+class Deadband
 {
 public:
-    deadband() = default;
-    virtual ~deadband() = default;
+    Deadband() = default;
+    virtual ~Deadband() = default;
 
     virtual bool currentValueHasChanged(T currentValue, T newValue) const = 0;
 };
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-class NoDeadband : public deadband<T>
+class NoDeadband : public Deadband<T>
 {
 public:
     NoDeadband() = default;
@@ -48,15 +48,15 @@ public:
 };
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-class absolute_deadband : public deadband<T>
+class AbsoluteDeadband : public Deadband<T>
 {
 public:
-    absolute_deadband(T changeAmount) :
+    AbsoluteDeadband(T changeAmount) :
         _changeAmount(changeAmount)
     {
     }
 
-    ~absolute_deadband() = default;
+    ~AbsoluteDeadband() = default;
 
     bool currentValueHasChanged(T currentValue, T newValue) const
     {
@@ -71,15 +71,15 @@ private:
 };
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-class percentage_deadband : public deadband<T>
+class PercentageDeadband : public Deadband<T>
 {
 public:
-    percentage_deadband(float changePercentage) :
+    PercentageDeadband(float changePercentage) :
         _changedPercentage(changePercentage)
     {
     }
 
-    ~percentage_deadband() = default;
+    ~PercentageDeadband() = default;
 
     bool currentValueHasChanged(T currentValue, T newValue) const
     {

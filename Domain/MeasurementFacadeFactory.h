@@ -3,8 +3,8 @@
 #ifndef __MEASUREMENTFACADEFACTORY_H___
 #define __MEASUREMENTFACADEFACTORY_H___
 
+#include "Deadband.h"
 #include "MeasurementFacade.h"
-#include "deadband.h"
 #include "Measurement.h"
 
 namespace dios

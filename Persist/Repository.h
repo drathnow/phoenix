@@ -40,15 +40,13 @@ public:
     RepositoryTpl() = delete;
     virtual ~RepositoryTpl()
     {
-        delete _repositoryHelper;
     }
 
 protected:
     RepositoryTpl(sqlite3 *context, RepositoryHelper<E> *repositoryHelper) :
-            _repositoryHelper(repositoryHelper), _dbContext(context)
+            _repositoryHelper{repositoryHelper}, _dbContext(context)
     {
     }
-    ;
 
 public:
     uint64_t createEntity(const E &entity)
@@ -108,7 +106,6 @@ public:
     {
         sqlite3_stmt *statement = _repositoryHelper->multipleSelectStatementFromOid(_dbContext, count, fromOid);
 
-        E entity;
         int fetchCount = 0;
         while (SQLITE_ROW == ::sqlite3_step(statement))
         {
@@ -124,26 +121,10 @@ public:
     }
 
 private:
-    RepositoryHelper<E> *_repositoryHelper;
+    std::unique_ptr<RepositoryHelper<E>> _repositoryHelper;
     sqlite3 *_dbContext;
 };
 
-class Repository
-{
-public:
-    Repository() = delete;
-    virtual ~Repository() = default;
-
-protected:
-    Repository(sqlite3 *context);
-
-    uint64_t executeInsert(const std::string &insertStatement);
-    bool executeCommandInContext(const std::string &sqlCommand, sqlite3 *context);
-    int executeCommandInContext(const char *command, sqlite3_callback callback, void *arg, sqlite3 *sqlContext);
-
-protected:
-    sqlite3 *_dbContext;
-};
 
 }
 #endif /* __REPOSITORY_H___ */

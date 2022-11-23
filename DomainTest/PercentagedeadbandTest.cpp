@@ -1,4 +1,4 @@
-#include <deadband.h>
+#include <Deadband.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <cstdint>
@@ -17,7 +17,7 @@ public:
 
 TEST_F(PercentageDeadbandTest, shouldReturnTrueIfValueChangesByPercentage)
 {
-    percentage_deadband<uint32_t> deadbandUnderTest(10);
+    PercentageDeadband<uint32_t> deadbandUnderTest(10);
 
     ASSERT_FALSE(deadbandUnderTest.currentValueHasChanged(200, 190));
     ASSERT_FALSE(deadbandUnderTest.currentValueHasChanged(200, 181));

@@ -18,7 +18,7 @@ public:
 
 TEST_F(MeasurementTest, shouldUpdateTimeWhenValueIsUpdated)
 {
-    Measurement<int32_t> measurement(DataType::INT32, INDEX, "");
+    Measurement<int32_t> measurement(DataType::INT32, INDEX);
 
     ASSERT_EQ(0, measurement.currentValue());
     ASSERT_EQ(0, measurement.lastUpdateTime());
@@ -32,7 +32,7 @@ TEST_F(MeasurementTest, shouldUpdateTimeWhenValueIsUpdated)
 
 TEST_F(MeasurementTest, shouldUseMoveConstructor)
 {
-    Measurement<int32_t> measurement1(DataType::INT32, INDEX, "");
+    Measurement<int32_t> measurement1(DataType::INT32, INDEX);
     measurement1.updateCurrentValue(INT32_VALUE);
 
     Measurement<int32_t> measurement2(std::move(measurement1));
@@ -50,7 +50,7 @@ TEST_F(MeasurementTest, shouldUseMoveConstructor)
 
 TEST_F(MeasurementTest, shouldUseMoveAssignOperator)
 {
-    Measurement<int32_t> measurement1(DataType::INT32, INDEX, "");
+    Measurement<int32_t> measurement1(DataType::INT32, INDEX);
     Measurement<int32_t> measurement2;
 
     measurement1.updateCurrentValue(INT32_VALUE);

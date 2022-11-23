@@ -242,7 +242,7 @@ public:
      *
      * @param[in] nextRange -The next, subordinate range.
      */
-    AlarmRange(Threshold<T> setLimit, Threshold<T> clearLimit, AlarmType monitoredAlarmType, IAlarmRange<T>* nextRange = NULL) :
+    AlarmRange(const Threshold<T>& setLimit, const Threshold<T>& clearLimit, AlarmType monitoredAlarmType, IAlarmRange<T>* nextRange = NULL) :
         _nextRange(nextRange),
         _setLimitThreshold(setLimit),
         _clearLimitThreshold(clearLimit)
