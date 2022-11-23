@@ -31,7 +31,8 @@ namespace dios::domain
         MOCK_METHOD(index_id_t, index, (), (const, override));
         MOCK_METHOD(DataType, dataType, (), (const, override));
         MOCK_METHOD(T, currentValue, (), (const, override));
-        MOCK_METHOD(void, updateCurrentValue, (T value), (override));
+        MOCK_METHOD(void, updateCurrentValue, (T value, AlarmStatus alarmStatus), (override));
+        MOCK_METHOD(AlarmStatus, alarmStatus, (), (const, override));
 
         MOCK_METHOD(void, destoryMockAlarmRange, ());
 

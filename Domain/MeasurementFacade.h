@@ -10,16 +10,15 @@
 
 namespace dios::domain
 {
+enum UpdateAction
+{
+    NONE, VALUE_UPDATE, ALARM_CHANGE
+};
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
 class MeasurementFacade
 {
 public:
-    enum UpdateAction
-    {
-        NONE, VALUE_UPDATE, ALARM_CHANGE
-    };
-
     struct UpdateStatus
     {
         UpdateAction updateAction;
@@ -28,11 +27,8 @@ public:
         time_t lastUpdateTime;
     };
 
-
-    MeasurementFacade(IMeasurement<T>* measurement, AlarmMeister<T>* alarmMeister, Deadband<T>* deadband) :
-        _measurement(measurement),
-        _alarmMeister(alarmMeister),
-        _deadband(deadband)
+    MeasurementFacade(IMeasurement<T> *measurement, AlarmMeister<T> *alarmMeister, Deadband<T> *deadband) :
+            _measurement(measurement), _alarmMeister(alarmMeister), _deadband(deadband)
     {
     }
 
@@ -43,11 +39,10 @@ public:
         delete _deadband;
     }
 
-
     UpdateStatus updateValue(T newValue)
     {
         bool valueChanged = false;
-        UpdateStatus updateStatus{NONE, 0, AlarmStatus::ALARM_STATUS_OK, 0};
+        UpdateStatus updateStatus{ NONE, 0, AlarmStatus::ALARM_STATUS_OK, 0 };
 
         //
         // Check deadband to see if the value is worthy of an update
@@ -64,22 +59,25 @@ public:
         //
         if (updateStatus.alarmStatus != _measurement->alarmStatus())
         {
-            _measurement->updateCurrentValue(newValue, updateStatus.alarmStatus);
             updateStatus.updateAction = UpdateAction::ALARM_CHANGE;
-        }
-        else if (valueChanged)
+            _measurement->updateCurrentValue(newValue, updateStatus.alarmStatus);
+            updateStatus.lastUpdateTime = _measurement->lastUpdateTime();
+            updateStatus.currentValue = newValue;
+        } else if (valueChanged)
         {
             _measurement->updateCurrentValue(newValue, updateStatus.alarmStatus);
+            updateStatus.lastUpdateTime = _measurement->lastUpdateTime();
             updateStatus.updateAction = UpdateAction::VALUE_UPDATE;
+            updateStatus.currentValue = newValue;
         }
 
         return updateStatus;
     }
 
 private:
-    IMeasurement<T>* _measurement;
-    AlarmMeister<T>* _alarmMeister;
-    Deadband<T>* _deadband;
+    IMeasurement<T> *_measurement;
+    AlarmMeister<T> *_alarmMeister;
+    Deadband<T> *_deadband;
 };
 
 } /* namespace dios */

@@ -16,7 +16,7 @@ namespace dios::domain
         {
             if (verifyDestroy)
             {
-                EXPECT_CALL(*this, destoryMockAlarmRange);
+                EXPECT_CALL(*this, destoryMockDeadband);
             }
         }
 
@@ -24,13 +24,13 @@ namespace dios::domain
         {
             if (_verifyDestroy)
             {
-                destoryMockAlarmRange();
+                destoryMockDeadband();
             }
         }
 
         MOCK_METHOD(bool, currentValueHasChanged, (T currentValue, T newValue), (const, override));
 
-        MOCK_METHOD(void, destoryMockAlarmRange, ());
+        MOCK_METHOD(void, destoryMockDeadband, ());
 
     private:
         bool _verifyDestroy{false};

@@ -11,7 +11,8 @@ namespace dios::domain
     class MockAlarmMeister : public AlarmMeister<T>
     {
     public:
-        MockAlarmMeister(bool verifyDestroy = false)
+        MockAlarmMeister(bool verifyDestroy = false) :
+            _verifyDestroy(verifyDestroy)
         {
             if (verifyDestroy)
             {

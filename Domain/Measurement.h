@@ -26,7 +26,7 @@ public:
     virtual ~IMeasurement() = default;
 
     virtual time_t lastUpdateTime() const = 0;
-    virtual void updateCurrentValue(T value) = 0;
+    virtual void updateCurrentValue(T value, AlarmStatus alarmStatus = AlarmStatus::ALARM_STATUS_OK) = 0;
     virtual index_id_t index() const = 0;
     virtual DataType dataType() const = 0;
     virtual T currentValue() const = 0;
