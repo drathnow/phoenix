@@ -65,9 +65,9 @@ public:
             updateStatus.currentValue = newValue;
         } else if (valueChanged)
         {
+            updateStatus.updateAction = UpdateAction::VALUE_UPDATE;
             _measurement->updateCurrentValue(newValue, updateStatus.alarmStatus);
             updateStatus.lastUpdateTime = _measurement->lastUpdateTime();
-            updateStatus.updateAction = UpdateAction::VALUE_UPDATE;
             updateStatus.currentValue = newValue;
         }
 
