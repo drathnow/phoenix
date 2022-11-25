@@ -29,6 +29,25 @@ static const uint32_t NO_DATA_ACTIVE = 0x10;
 static const uint32_t LIMIT_ALARM_MASK = 0x0F;
 
 
+struct alarm_limits
+{
+    int64_t oid;
+    iopoint_id_t io_point_id;
+    bool no_data_enabled;
+    uint16_t set_time_seconds;
+    uint16_t clear_time_seconds;
+    std::string low_low_set_limit;
+    std::string low_low_clear_limit;
+    std::string low_set_limit;
+    std::string low_clear_limit;
+    std::string high_set_limit;
+    std::string high_clear_limit;
+    std::string high_high_set_limit;
+    std::string high_high_clear_limit;
+};
+
+using alarm_limits_t = struct alarm_limits;
+
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
 class AlarmConfiguration
 {

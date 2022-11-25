@@ -3,11 +3,14 @@
 #ifndef __DEADBANDREPOSITORY_H___
 #define __DEADBANDREPOSITORY_H___
 
+#include <Deadband.h>
+
 #include "persist.h"
 #include "Repository.h"
 
 namespace dios::persist
 {
+using namespace dios::domain;
 
 class DeadbandRepositoryHelper: public RepositoryHelper<deadband_t>
 {

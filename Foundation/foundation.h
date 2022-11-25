@@ -43,13 +43,6 @@ enum IOPointType
     IOPOINT_TYPE_INT = 3
 };
 
-enum DeadbandType
-{
-    DEADBAND_NONE = 0,
-    DEADBAND_ABSOLUTE = 1,
-    DEADBAND_PERCENTAGE = 2
-};
-
 typedef int16_t pollset_id_t;
 typedef int32_t index_id_t;
 typedef int64_t device_id_t;

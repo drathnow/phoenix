@@ -9,20 +9,27 @@
 #include <type_traits>
 #include <ctime>
 #include <cmath>
+#include <foundation.h>
 
 namespace dios::domain
 {
 
-    enum DeadbandType
-    {
-        None = 0, Absolute = 1, Percentage = 2
-    };
+using namespace dios::foundation;
 
-typedef struct
+enum DeadbandType
 {
-    DeadbandType type;
-    float value;
-} deadband_params_t;
+    None = 0, Absolute = 1, Percentage = 2
+};
+
+struct deadband
+{
+    int64_t oid;
+    iopoint_id_t io_point_id;
+    DeadbandType deadband_type;
+    std::string delta;
+};
+
+using deadband_t = struct deadband;
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
 class Deadband
@@ -35,7 +42,7 @@ public:
 };
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-class NoDeadband : public Deadband<T>
+class NoDeadband: public Deadband<T>
 {
 public:
     NoDeadband() = default;
@@ -48,11 +55,11 @@ public:
 };
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-class AbsoluteDeadband : public Deadband<T>
+class AbsoluteDeadband: public Deadband<T>
 {
 public:
     AbsoluteDeadband(T changeAmount) :
-        _changeAmount(changeAmount)
+            _changeAmount(changeAmount)
     {
     }
 
@@ -71,11 +78,11 @@ private:
 };
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-class PercentageDeadband : public Deadband<T>
+class PercentageDeadband: public Deadband<T>
 {
 public:
     PercentageDeadband(float changePercentage) :
-        _changedPercentage(changePercentage)
+            _changedPercentage(changePercentage)
     {
     }
 
@@ -88,7 +95,7 @@ public:
             diff = std::fabs(newValue - currentValue);
         else
             diff = std::fabs(currentValue - newValue);
-        float percent = ((float)diff / (float)currentValue) * 100.0f;
+        float percent = ((float) diff / (float) currentValue) * 100.0f;
         return percent >= _changedPercentage;
     }
 

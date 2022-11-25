@@ -27,22 +27,6 @@ namespace dios::persist
         std::string display_hint;
     };
 
-    struct alarm_limits
-    {
-        int64_t oid;
-        iopoint_id_t io_point_id;
-        bool no_data_enabled;
-        uint16_t set_time_seconds;
-        uint16_t clear_time_seconds;
-        std::string low_low_set_limit;
-        std::string low_low_clear_limit;
-        std::string low_set_limit;
-        std::string low_clear_limit;
-        std::string high_set_limit;
-        std::string high_clear_limit;
-        std::string high_high_set_limit;
-        std::string high_high_clear_limit;
-    };
 
     struct device
     {
@@ -58,61 +42,8 @@ namespace dios::persist
         std::string extended_parameters;
     };
 
-    struct deadband
-    {
-        int64_t oid;
-        iopoint_id_t io_point_id;
-        DeadbandType deadband_type;
-        std::string delta;
-
-
-        std::string insert_statement() const
-        {
-            std::ostringstream oss;
-            oss << "insert into deadband (io_point_id, deadband_type, delta) values ("
-                    << io_point_id << ", '"
-                    << deadband_type << "', "
-                    << delta
-                    << ")";
-            return oss.str();
-        }
-
-        std::string update_statement() const
-        {
-            std::ostringstream oss;
-            oss << "update deadband "
-                    << " set io_point_id = " << io_point_id
-                    << " set deadband_type = " << deadband_type
-                    << " set delta = '" << delta << "'"
-                    << " where oid = " << oid;
-            return oss.str();
-        }
-
-        std::string delete_statement() const
-        {
-            std::ostringstream oss;
-            oss << "delete from deadband where oid = " << oid;
-            return oss.str();
-        }
-    };
-
-using alarm_limits_t = struct alarm_limits;
 using io_point_t = struct io_point;
 using device_t =  struct device;
-using deadband_t = struct deadband;
-
-template<class E>
-bool insert_entity(E& entity, sqlite3* context)
-{
-//    std::string insertSql = entity.insert_statement();
-//    bool foo = SQLITE_OK == ::sqlite3_exec(context, insertSql.c_str(), NULL, 0, NULL);
-//    if (!foo)
-//        LOG4CPLUS_ERROR(Logger::getInstance("test"), "SQL Error: " << insertSql << " Error : " << ::sqlite3_errmsg(context));
-//
-//    sqlite3_int64 rowId = ::sqlite3_last_insert_rowid(context);
-//    entity.oid = rowId;
-    return true;
-}
 
 }
 

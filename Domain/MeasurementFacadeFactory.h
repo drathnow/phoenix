@@ -4,6 +4,7 @@
 #define __MEASUREMENTFACADEFACTORY_H___
 
 #include "Deadband.h"
+#include "AlarmConfiguration.h"
 #include "MeasurementFacade.h"
 #include "Measurement.h"
 
@@ -18,11 +19,7 @@ public:
     MeasurementFacadeFactory() = default;
     ~MeasurementFacadeFactory() = default;
 
-    template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-    MeasurementFacade<T> measurementFacadeForIoPoint(const IOPoint& ioPoint, const AlarmConfiguration<T>& alarmConfiguration, const deadband_params_t& deadbandParams)
-    {
-
-    }
+    auto* measurementFacadeForIoPoint(const IOPoint& ioPoint, const alarm_limits_t& alarmLimits, const deadband_t& deadban);
 };
 
 } /* namespace domain */
