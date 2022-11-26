@@ -26,15 +26,15 @@ public:
     sqlite3_stmt* multipleSelectStatementFromOid(sqlite3 *dbContext, int count, uint64_t fromOid = 0);
 };
 
-class DeadbandRepositoryTpl: public RepositoryTpl<deadband_t>
+class DeadbandRepository: public RepositoryTpl<deadband_t>
 {
 public:
-    DeadbandRepositoryTpl() = delete;
-    DeadbandRepositoryTpl(sqlite3 *dbContext) :
+    DeadbandRepository() = delete;
+    DeadbandRepository(sqlite3 *dbContext) :
             RepositoryTpl(dbContext, new DeadbandRepositoryHelper())
     {
     }
-    ~DeadbandRepositoryTpl() = default;
+    ~DeadbandRepository() = default;
 };
 
 } /* namespace dios */

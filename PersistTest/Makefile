@@ -14,7 +14,6 @@ INCLUDES += -I../TestUtil
 
 LIB_PATH += -L../sharedlibs/$(CONFIG)
 
-LIBS += -lpthread
 LIBS += -lFoundation
 LIBS += -lgtest 
 LIBS += -lgmock
@@ -47,7 +46,7 @@ $(OUT_DIR)/$(OUT_EXE): $(OBJS) $(USER_OBJS) dependents
 	@echo 'Building target: $@'
 	@echo 'LIB_PATH: $(LIB_PATH)'
 	@echo 'Invoking: GCC C++ Linker'
-	$(CXX) -o $@ $(OBJS) $(USER_OBJS) $(LIB_PATH) $(LIBS)
+	$(CXX) -o $@ $(OBJS) $(USER_OBJS) $(LIB_PATH) $(LIBS) $(LINK_FLAGS)
 	@echo 'Finished building target: $@'
 
 test:

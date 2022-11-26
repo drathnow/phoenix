@@ -8,6 +8,7 @@ namespace dios::persist
 {
 
 using namespace std;
+using namespace dios::domain;
 
 static const int NAME_IDX = 1;
 static const int DEVICE_TYPE_IDX = 2;
@@ -149,5 +150,36 @@ device_t* DeviceRepositoryHelper::entityForSelectStatement(sqlite3_stmt *stateme
 
     return device;
 }
+
+
+device_id_t DeviceRepository::createDevice(device_t &device)
+{
+    device_id_t oid = createEntity(device);
+    if (oid > 0)
+        device.oid = oid;
+    return oid;
+}
+
+int DeviceRepository::updateDevice(const device_t &device)
+{
+    return updateEntity(device);
+}
+
+int DeviceRepository::deleteDeviceWithOid(const device_id_t oid)
+{
+    return deleteEntityWithOid(oid);
+}
+
+device_t* DeviceRepository::deviceForOid(device_id_t oid)
+{
+    return entityForOid(oid);
+}
+
+int DeviceRepository::devices(std::vector<device_t*>& devices, int count, device_id_t fromOid)
+{
+    return entities(devices, count, (uint64_t)fromOid);
+
+}
+
 
 } /* namespace dios */

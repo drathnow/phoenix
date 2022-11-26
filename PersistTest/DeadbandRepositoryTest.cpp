@@ -10,7 +10,7 @@ namespace dios::persist
 {
 
 static const iopoint_id_t IO_POINT_ID = 1;
-static const DeadbandType DEADBAND_TYPE = DeadbandType::DEADBAND_ABSOLUTE;
+static const DeadbandType DEADBAND_TYPE = DeadbandType::Absolute;
 static const char *DELTA = "3";
 
 
@@ -82,7 +82,7 @@ protected:
 
 TEST_F(DeadbandRepositoryTest, shouldCreatDeadband)
 {
-    DeadbandRepositoryTpl deadbandRepositoryUnderTest(_dbContext);
+    DeadbandRepository deadbandRepositoryUnderTest(_dbContext);
 
     int64_t resultId = deadbandRepositoryUnderTest.createEntity(deadband);
     ASSERT_TRUE(resultId > 0) << "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -109,7 +109,7 @@ public:
     void SetUp()
     {
         DeadbandRepositoryTest::SetUp();
-        DeadbandRepositoryTpl repo(_dbContext);
+        DeadbandRepository repo(_dbContext);
         deadband.oid = repo.createEntity(deadband);
     }
 
@@ -118,7 +118,7 @@ public:
 
 TEST_F(DeadbandRepositoryUpdateTest, shouldUpdateIoPointId)
 {
-    DeadbandRepositoryTpl deadbandRepositoryUnderTest(_dbContext);
+    DeadbandRepository deadbandRepositoryUnderTest(_dbContext);
 
     deadband.io_point_id = IO_POINT_ID+1;
     ASSERT_EQ(0, deadbandRepositoryUnderTest.updateEntity(deadband));
@@ -134,9 +134,9 @@ TEST_F(DeadbandRepositoryUpdateTest, shouldUpdateIoPointId)
 
 TEST_F(DeadbandRepositoryUpdateTest, shouldUpdateDeadbandType)
 {
-    DeadbandRepositoryTpl deadbandRepositoryUnderTest(_dbContext);
+    DeadbandRepository deadbandRepositoryUnderTest(_dbContext);
 
-    deadband.deadband_type = DeadbandType::DEADBAND_PERCENTAGE;
+    deadband.deadband_type = DeadbandType::Percentage;
     ASSERT_EQ(0, deadbandRepositoryUnderTest.updateEntity(deadband));
 
     deadband_t foundDeadband;
@@ -149,7 +149,7 @@ TEST_F(DeadbandRepositoryUpdateTest, shouldUpdateDeadbandType)
 }
 TEST_F(DeadbandRepositoryUpdateTest, shouldUpdateDelta)
 {
-    DeadbandRepositoryTpl deadbandRepositoryUnderTest(_dbContext);
+    DeadbandRepository deadbandRepositoryUnderTest(_dbContext);
 
     deadband.delta = "Hello Delta";
     ASSERT_EQ(0, deadbandRepositoryUnderTest.updateEntity(deadband));
@@ -176,7 +176,7 @@ public:
     void SetUp()
     {
         DeadbandRepositoryTest::SetUp();
-        DeadbandRepositoryTpl repo(_dbContext);
+        DeadbandRepository repo(_dbContext);
         deadband.oid = repo.createEntity(deadband);
     }
 
@@ -185,7 +185,7 @@ public:
 
 TEST_F(DeadbandRepositoryDeleteTest, shouldDeleteDeadband)
 {
-    DeadbandRepositoryTpl deadbandRepositoryUnderTest(_dbContext);
+    DeadbandRepository deadbandRepositoryUnderTest(_dbContext);
 
     ASSERT_EQ(1, rowCountInTable("Deadband"));
     ASSERT_EQ(0, deadbandRepositoryUnderTest.deleteEntityWithOid(deadband.oid)) << "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -204,14 +204,14 @@ public:
     void SetUp()
     {
         DeadbandRepositoryTest::SetUp();
-        DeadbandRepositoryTpl repo(_dbContext);
+        DeadbandRepository repo(_dbContext);
         deadband.oid = repo.createEntity(deadband);
     }
 };
 
 TEST_F(DeadbandRepositoryFetchTest, shouldFetchDeadband)
 {
-    DeadbandRepositoryTpl deadbandRepositoryUnderTest(_dbContext);
+    DeadbandRepository deadbandRepositoryUnderTest(_dbContext);
 
     std::unique_ptr<deadband_t> foundDeadband(deadbandRepositoryUnderTest.entityForOid(deadband.oid));
     ASSERT_TRUE(foundDeadband.get() != nullptr);

@@ -5,12 +5,15 @@
 
 #include <sqlite3.h>
 #include <foundation.h>
+#include <repositories.h>
+#include <Device.h>
 
 #include "persist.h"
 #include "Repository.h"
 
 namespace dios::persist
 {
+using namespace dios::domain;
 
 class DeviceRepositoryHelper: public RepositoryHelper<device_t>
 {
@@ -27,15 +30,21 @@ public:
 
 };
 
-class DeviceRepositoryTpl: public RepositoryTpl<device_t>
+class DeviceRepository: public IDeviceRepository, RepositoryTpl<device_t>
 {
 public:
-    DeviceRepositoryTpl() = delete;
-    DeviceRepositoryTpl(sqlite3 *dbContext) :
+    DeviceRepository() = delete;
+    DeviceRepository(sqlite3 *dbContext) :
             RepositoryTpl(dbContext, new DeviceRepositoryHelper())
     {
     }
-    ~DeviceRepositoryTpl() = default;
+    ~DeviceRepository() = default;
+
+    device_id_t createDevice(device_t &device);
+    int updateDevice(const device_t &device);
+    int deleteDeviceWithOid(device_id_t oid);
+    device_t* deviceForOid(device_id_t oid);
+    int devices(std::vector<device_t*>& entityVector, int count, device_id_t fromOid = 0);
 };
 
 } /* namespace dios */

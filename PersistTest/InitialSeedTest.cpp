@@ -3,11 +3,14 @@
 #include <persist.h>
 #include <DbUpgrader.h>
 #include <iostream>
+#include <AlarmConfiguration.h>
+#include <Deadband.h>
 
 #include "OrmBaseTest.h"
 
 namespace dios::persist
 {
+using namespace dios::domain;
 
 class InitialSeedTest: public OrmBaseTest
 {
@@ -33,7 +36,7 @@ TEST_F(InitialSeedTest, DISABLED_seedDb)
     dev.rtu_backoff_timeout_seconds = 30;
     dev.address = "1.2.3.4";
 
-    ASSERT_TRUE(insert_entity(dev, _dbContext));
+    //ASSERT_TRUE(insert_entity(dev, _dbContext));
     ASSERT_TRUE(dev.oid != 0);
 
     struct io_point iop;
@@ -45,15 +48,15 @@ TEST_F(InitialSeedTest, DISABLED_seedDb)
     iop.system = false;
     iop.source_address = "40001";
 
-    ASSERT_TRUE(insert_entity(iop, _dbContext));
+//    ASSERT_TRUE(insert_entity(iop, _dbContext));
     ASSERT_TRUE(iop.oid != 0);
 
     struct deadband db;
-    db.deadband_type = DEADBAND_ABSOLUTE;
+    db.deadband_type = DeadbandType::Absolute;
     db.delta = "10";
     db.io_point_id = iop.oid;
 
-    ASSERT_TRUE(insert_entity(db, _dbContext));
+    //ASSERT_TRUE(insert_entity(db, _dbContext));
     ASSERT_TRUE(iop.oid != 0);
 
     struct alarm_limits al;
@@ -70,7 +73,7 @@ TEST_F(InitialSeedTest, DISABLED_seedDb)
     al.high_clear_limit = "24";
     al.no_data_enabled = true;
 
-    ASSERT_TRUE(insert_entity(al, _dbContext));
+    //ASSERT_TRUE(insert_entity(al, _dbContext));
     ASSERT_TRUE(iop.oid != 0);
 
     //executeCommandInContext("select * from iopoint", s3lCollateProcess, nullptr, _dbContext);

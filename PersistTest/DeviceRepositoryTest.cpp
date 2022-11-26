@@ -119,7 +119,7 @@ protected:
 
 TEST_F(DeviceRepositoryTest, shouldCreateDevice)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     int64_t resultId = deviceRepositoryUnderTest.createEntity(device);
     ASSERT_TRUE(resultId > 0)<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -148,7 +148,7 @@ public:
     void SetUp()
     {
         DeviceRepositoryTest::SetUp();
-        DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+        DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
         device.oid = deviceRepositoryUnderTest.createEntity(device);
     }
@@ -156,7 +156,7 @@ public:
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateName)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.name = "NewDeviceName";
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -177,7 +177,7 @@ TEST_F(DeviceRepositoryUpdateTest, shouldUpdateName)
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateDeviceType)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.device_type = DEVICE_TYPE_ROC;
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -198,7 +198,7 @@ TEST_F(DeviceRepositoryUpdateTest, shouldUpdateDeviceType)
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateMaxRetries)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.max_retries = MAX_RETRIES+1;
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -219,7 +219,7 @@ TEST_F(DeviceRepositoryUpdateTest, shouldUpdateMaxRetries)
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateRequestTimeout)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.request_timeout_seconds = REQ_TIMEOUT+100;
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -240,7 +240,7 @@ TEST_F(DeviceRepositoryUpdateTest, shouldUpdateRequestTimeout)
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateRtuBackoffTime)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.rtu_backoff_timeout_seconds = BACKOFF_TIMEOUT+200;
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -261,7 +261,7 @@ TEST_F(DeviceRepositoryUpdateTest, shouldUpdateRtuBackoffTime)
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateBackoffCount)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.rtu_backoff_count = BACKOFF_COUNT+200;
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -282,7 +282,7 @@ TEST_F(DeviceRepositoryUpdateTest, shouldUpdateBackoffCount)
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateAddress)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.address = "NewAddress";
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -303,7 +303,7 @@ TEST_F(DeviceRepositoryUpdateTest, shouldUpdateAddress)
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateParameters)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.parameters = "NewParameters";
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -324,7 +324,7 @@ TEST_F(DeviceRepositoryUpdateTest, shouldUpdateParameters)
 
 TEST_F(DeviceRepositoryUpdateTest, shouldUpdateExtendedParameters)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     device.extended_parameters = "NewExtendedParams";
     ASSERT_EQ(0, deviceRepositoryUnderTest.updateEntity(device))<< "Error: " << ::sqlite3_errmsg(_dbContext);
@@ -353,7 +353,7 @@ public:
     void SetUp()
     {
         DeviceRepositoryTest::SetUp();
-        DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+        DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
         device.oid = deviceRepositoryUnderTest.createEntity(device);
     }
@@ -361,7 +361,7 @@ public:
 
 TEST_F(DeviceRepositoryDeleteTest, shouldUpdateName)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     ASSERT_EQ(1, rowCountInTable("Device"));
     deviceRepositoryUnderTest.deleteEntityWithOid(device.oid);
@@ -378,7 +378,7 @@ public:
     void SetUp()
     {
         DeviceRepositoryTest::SetUp();
-        DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+        DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
         device.oid = deviceRepositoryUnderTest.createEntity(device);
     }
@@ -386,7 +386,7 @@ public:
 
 TEST_F(DeviceRepositoryFetchTest, shouldFetchDevice)
 {
-    DeviceRepositoryTpl deviceRepositoryUnderTest(_dbContext);
+    DeviceRepository deviceRepositoryUnderTest(_dbContext);
 
     std::unique_ptr<device_t> foundDevice(deviceRepositoryUnderTest.entityForOid(device.oid));
     ASSERT_TRUE(foundDevice.get() != nullptr)<< "Error: " << ::sqlite3_errmsg(_dbContext);

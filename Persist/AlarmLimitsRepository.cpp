@@ -169,4 +169,35 @@ alarm_limits* AlarmLimitsRepositoryHelper::entityForSelectStatement(sqlite3_stmt
     return alarmLimits;
 }
 
+
+alarm_limits_id_t AlarmLimitsRepository::createAlarmLimits(alarm_limits_t &alarm_limits)
+{
+    alarm_limits_id_t oid = createEntity(alarm_limits);
+    if (oid > 0)
+        alarm_limits.oid = oid;
+    return oid;
+}
+
+int AlarmLimitsRepository::updateAlarmLimits(const alarm_limits_t &alarm_limits)
+{
+    return updateEntity(alarm_limits);
+}
+
+int AlarmLimitsRepository::deleteAlarmLimitsWithOid(const alarm_limits_id_t oid)
+{
+    return deleteEntityWithOid(oid);
+}
+
+alarm_limits_t* AlarmLimitsRepository::alarmLimitsForOid(alarm_limits_id_t oid)
+{
+    return entityForOid(oid);
+}
+
+int AlarmLimitsRepository::alarmLimitses(std::vector<alarm_limits_t*>& alarmLimits, int count, alarm_limits_id_t fromOid)
+{
+    return entities(alarmLimits, count, (uint64_t)fromOid);
+
+}
+
+
 } /* namespace dios */

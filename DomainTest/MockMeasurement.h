@@ -28,7 +28,7 @@ namespace dios::domain
         }
 
         MOCK_METHOD(time_t, lastUpdateTime, (), (const, override));
-        MOCK_METHOD(index_id_t, index, (), (const, override));
+        MOCK_METHOD(iopoint_id_t, ioPointId, (), (const, override));
         MOCK_METHOD(DataType, dataType, (), (const, override));
         MOCK_METHOD(T, currentValue, (), (const, override));
         MOCK_METHOD(void, updateCurrentValue, (T value, AlarmStatus alarmStatus), (override));
