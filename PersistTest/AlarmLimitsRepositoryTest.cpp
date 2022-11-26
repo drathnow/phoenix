@@ -3,6 +3,7 @@
 #include <AlarmLimitsRepository.h>
 #include <persist.h>
 #include <memory>
+#include <cstring>
 
 #include "OrmBaseTest.h"
 
@@ -136,7 +137,7 @@ TEST_F(AlarmLimitsRepositoryCreateTest, shouldCreateAlarmLimits)
 {
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
-    int64_t resultId = alarmLimitsRepositoryUnderTest.createAlarmLimits(alarmLimits);
+    int64_t resultId = alarmLimitsRepositoryUnderTest.createEntity(alarmLimits);
     ASSERT_TRUE(resultId > 0) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
@@ -186,7 +187,7 @@ public:
 
         AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
-        alarmLimits.oid = alarmLimitsRepositoryUnderTest.createAlarmLimits(alarmLimits);
+        alarmLimits.oid = alarmLimitsRepositoryUnderTest.createEntity(alarmLimits);
 
     }
 
@@ -198,7 +199,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateSetTime)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.set_time_seconds = SET_TIME + 100;
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -222,7 +223,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateClearTime)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.clear_time_seconds = CLEAR_TIME + 100;
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -247,7 +248,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateHighHighSetLimit)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.high_high_set_limit.append(".123");
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -271,7 +272,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateHighHighClearLimit)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.high_high_clear_limit.append(".123");
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -295,7 +296,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateHighSetLimit)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.high_set_limit.append(".123");
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -319,7 +320,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateHighClearLimit)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.high_clear_limit.append(".123");
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -343,7 +344,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateLowLowSetLimit)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.low_low_set_limit.append(".123");
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -367,7 +368,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateLowLowClearLimit)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.low_low_clear_limit.append(".123");
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -391,7 +392,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateLowSetLimit)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.low_set_limit.append(".123");
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -415,7 +416,7 @@ TEST_F(AlarmLimitsRepositoryUpdateTest, shouldUpdateLowClearLimit)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     alarmLimits.low_clear_limit.append(".123");
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateAlarmLimits(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.updateEntity(alarmLimits)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
 
     alarm_limits_t foundAlarmLimits;
@@ -463,7 +464,7 @@ public:
 
         AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
-        alarmLimits.oid = alarmLimitsRepositoryUnderTest.createAlarmLimits(alarmLimits);
+        alarmLimits.oid = alarmLimitsRepositoryUnderTest.createEntity(alarmLimits);
 
     }
 
@@ -475,7 +476,7 @@ TEST_F(AlarmLimitsRepositoryDeleteTest, shouldDeleteAlarmLimits)
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
     ASSERT_EQ(1, rowCountInTable("AlarmLimits"));
-    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.deleteAlarmLimitsWithOid(alarmLimits.oid)) << "Error: " << ::sqlite3_errmsg(_dbContext);
+    ASSERT_EQ(0, alarmLimitsRepositoryUnderTest.deleteEntityWithOid(alarmLimits.oid)) << "Error: " << ::sqlite3_errmsg(_dbContext);
     ASSERT_EQ(0, rowCountInTable("AlarmLimits"));
 }
 
@@ -509,7 +510,7 @@ public:
 
         AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
-        alarmLimits.oid = alarmLimitsRepositoryUnderTest.createAlarmLimits(alarmLimits);
+        alarmLimits.oid = alarmLimitsRepositoryUnderTest.createEntity(alarmLimits);
 
     }
 
@@ -520,7 +521,7 @@ TEST_F(AlarmLimitsRepositoryFetchTest, shouldFindAlarmLimitsWithOid)
 {
     AlarmLimitsRepository alarmLimitsRepositoryUnderTest(_dbContext);
 
-    std::unique_ptr<alarm_limits_t> foundAlarmLimits(alarmLimitsRepositoryUnderTest.alarmLimitsForOid(alarmLimits.oid));
+    std::unique_ptr<alarm_limits_t> foundAlarmLimits(alarmLimitsRepositoryUnderTest.entityForOid(alarmLimits.oid));
     ASSERT_TRUE(foundAlarmLimits.get() != nullptr) << "Error: " << ::sqlite3_errmsg(_dbContext);
 
     ASSERT_EQ(alarmLimits.oid, foundAlarmLimits->oid);

@@ -1,4 +1,4 @@
-#include <deadband.h>
+#include <Deadband.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <cstdint>
@@ -16,7 +16,7 @@ public:
 
 TEST_F(AbsoluteDeadbandTest, shouldReturnTrueWhenValueIsOutsideOfDeadband)
 {
-    absolute_deadband<uint32_t> absoluteDeadband(5);
+    AbsoluteDeadband<uint32_t> absoluteDeadband(5);
 
     ASSERT_FALSE(absoluteDeadband.currentValueHasChanged(20, 16));
     ASSERT_FALSE(absoluteDeadband.currentValueHasChanged(20, 24));

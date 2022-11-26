@@ -16,7 +16,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <MockClock.h>
-#include <AlarmLimitMeister.h>
+#include <AlarmMeister.h>
 #include <AlarmConfiguration.h>
 #include <testutil.h>
 

@@ -11,10 +11,12 @@ OUT_SO = $(OUT_SO_NAME).0.0
 MAP_NAME = $(subst .so,,$(OUT_SO)).map
 
 INCLUDES += -I../Foundation
+INCLUDES += -I../Domain
 
 LIB_PATH += -L../sharedlibs/$(CONFIG)
 
 LIBS += -llog4cplus
+LIBS += -lDomain
 LIBS += -lFoundation
 
 all: $(OUT_DIR) dependents $(OUT_DIR)/$(OUT_SO) $(SHARED_DIR)/$(OUT_SO)

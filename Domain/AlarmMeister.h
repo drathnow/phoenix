@@ -1,18 +1,3 @@
-/** @file AlarmLimitMeister.h
- *
- * @copyright
- *  Copyright 2013,  Zedi Inc.  All rights reserved.
- *  This file contains confidential intellectual property of Zedi Inc.
- * @endcopyright
- *
- * @details
- *
- * @history
- * Created Dec 8, 2015 by daver:
- * IncrDev Jan 05, 2016 by eb: added in return code for no creation of alarms because none requested.
- * BugFix_ Jan 07, 2015 by eb:  fix problem where alarm does not validate and double delete on alarm config happens.
- * @endhistory
- */
 #ifndef ALARMMEISTER_H_
 #define ALARMMEISTER_H_
 #include <map>
@@ -37,6 +22,17 @@ public:
     virtual ~AlarmMeister() = default;
 
     virtual AlarmStatus alarmStatusForValue(T value) = 0;
+};
+
+template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
+class NoAlarmMeister : public AlarmMeister<T>
+{
+public:
+    NoAlarmMeister() = default;
+    ~NoAlarmMeister() = default;
+
+    AlarmStatus alarmStatusForValue(T value) { return AlarmStatus::ALARM_STATUS_OK; }
+
 };
 
 /**
