@@ -15,6 +15,7 @@ INCLUDES += -I../TestUtil
 LIB_PATH += -L../sharedlibs/$(CONFIG)
 
 LIBS += -lFoundation
+LIBS += -lDomain
 LIBS += -lgtest 
 LIBS += -lgmock
 LIBS += -lPersist

@@ -29,11 +29,20 @@ static const uint32_t NO_DATA_ACTIVE = 0x10;
 static const uint32_t LIMIT_ALARM_MASK = 0x0F;
 
 
+typedef struct
+{
+    unsigned no_data_enabled;
+    unsigned low_low_enabled;
+    unsigned low_enabled;
+    unsigned high_high_enabled;
+    unsigned high_enabled;
+} alarm_mask_t;
+
 struct alarm_limits
 {
     int64_t oid;
     iopoint_id_t io_point_id;
-    bool no_data_enabled;
+    uint16_t alarm_mask;
     uint16_t set_time_seconds;
     uint16_t clear_time_seconds;
     std::string low_low_set_limit;
@@ -381,9 +390,11 @@ public:
     /**
      * Clears all values from this AlarmConfiguration
      */
-    void clear()
+    inline void clear()
     {
         _alarmMask = 0;
+        _setTimeSeconds = 0;
+        _clearTimeSeconds = 0;
         _lowLowSetLimit = 0;
         _lowLowClearLimit = 0;
         _lowSetLimit = 0;
@@ -393,6 +404,7 @@ public:
         _highHighSetLimit = 0;
         _highHighClearLimit = 0;
     }
+
 
     inline bool operator==(const AlarmConfiguration &otherConfiguration) const
     {
@@ -417,7 +429,6 @@ private:
     T _highHighSetLimit{ 0 };
     T _highHighClearLimit{ 0 };
 // @formatter:on
-
 };
 
 template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>

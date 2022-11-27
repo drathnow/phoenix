@@ -14,7 +14,7 @@ using namespace log4cplus;
 static const int IO_POINT_ID_IDX = 1;
 static const int SET_TIME_IDX = 2;
 static const int CLEAR_TIME_IDX = 3;
-static const int NO_DATA_ENABLED_IDX = 4;
+static const int ALARM_MASK_IDX = 4;
 static const int HIGH_HIGH_SET_LIMIT_IDX = 5;
 static const int HIGH_HIGH_CLEAR_LIMIT_IDX = 6;
 static const int HIGH_SET_LIMIT_IDX = 7;
@@ -26,14 +26,14 @@ static const int LOW_CLEAR_LIMIT_IDX = 12;
 static const int OID_IDX = 13;
 
 static const char *INSERT_STMNT =
-        "insert into AlarmLimits (io_point_id, set_time, clear_time, no_data_enabled, high_high_set_limit, high_high_clear_limit, high_set_limit, high_clear_limit, low_low_set_limit, low_low_clear_limit, low_set_limit, low_clear_limit) values "
+        "insert into AlarmLimits (io_point_id, set_time, clear_time, alarm_mask, high_high_set_limit, high_high_clear_limit, high_set_limit, high_clear_limit, low_low_set_limit, low_low_clear_limit, low_set_limit, low_clear_limit) values "
                 "(:io_point_id, :set_time, :clear_time, :no_data_enabled, :high_high_set_limit, :high_high_clear_limit, :high_set_limit, :high_clear_limit, :low_low_set_limit, :low_low_clear_limit, :low_set_limit, :low_clear_limit)";
 
 static const char *UPDATE_STMNT = "update AlarmLimits "
         " set io_point_id = :io_point_id"
         ", set_time = :set_time_seconds"
         ", clear_time = :clear_time_seconds"
-        ", no_data_enabled = :no_data_enabled"
+        ", alarm_mask = :alarm_mask"
         ", high_high_set_limit = :high_high_set_limit"
         ", high_high_clear_limit = :high_high_clear_limit"
         ", high_set_limit = :high_set_limit"
@@ -46,7 +46,7 @@ static const char *UPDATE_STMNT = "update AlarmLimits "
 
 static const char *DELETE_STMNT = "delete from AlarmLimits where oid = :oid";
 static const char *SELECT_STMNT =
-        "select io_point_id, set_time, clear_time, no_data_enabled, high_high_set_limit, high_high_clear_limit, high_set_limit, high_clear_limit, low_low_set_limit, low_low_clear_limit, low_set_limit, low_clear_limit, oid from AlarmLimits";
+        "select io_point_id, set_time, clear_time, alarm_mask, high_high_set_limit, high_high_clear_limit, high_set_limit, high_clear_limit, low_low_set_limit, low_low_clear_limit, low_set_limit, low_clear_limit, oid from AlarmLimits";
 
 sqlite3_stmt* AlarmLimitsRepositoryHelper::insertStatementForEntity(sqlite3* dbContext, const alarm_limits &alarmLimits)
 {
@@ -57,7 +57,7 @@ sqlite3_stmt* AlarmLimitsRepositoryHelper::insertStatementForEntity(sqlite3* dbC
     RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, IO_POINT_ID_IDX, alarmLimits.io_point_id), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, SET_TIME_IDX, alarmLimits.set_time_seconds), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, CLEAR_TIME_IDX, alarmLimits.clear_time_seconds), nullptr);
-    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, NO_DATA_ENABLED_IDX, alarmLimits.no_data_enabled), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, ALARM_MASK_IDX, alarmLimits.alarm_mask), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_HIGH_SET_LIMIT_IDX, alarmLimits.high_high_set_limit.c_str(), alarmLimits.high_high_set_limit.length(), nullptr), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_HIGH_CLEAR_LIMIT_IDX, alarmLimits.high_high_clear_limit.c_str(), alarmLimits.high_high_clear_limit.length(), nullptr), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_SET_LIMIT_IDX, alarmLimits.high_set_limit.c_str(), alarmLimits.high_set_limit.length(), nullptr), nullptr);
@@ -79,7 +79,7 @@ sqlite3_stmt* AlarmLimitsRepositoryHelper::updateStatementForEntity(sqlite3* dbC
     RETURN_IF_SQLERROR(::sqlite3_bind_int64(statement, IO_POINT_ID_IDX, alarmLimits.io_point_id), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, SET_TIME_IDX, alarmLimits.set_time_seconds), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, CLEAR_TIME_IDX, alarmLimits.clear_time_seconds), nullptr);
-    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, NO_DATA_ENABLED_IDX, alarmLimits.no_data_enabled), nullptr);
+    RETURN_IF_SQLERROR(::sqlite3_bind_int(statement, ALARM_MASK_IDX, alarmLimits.alarm_mask), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_HIGH_SET_LIMIT_IDX, alarmLimits.high_high_set_limit.c_str(), alarmLimits.high_high_set_limit.length(), nullptr), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_HIGH_CLEAR_LIMIT_IDX, alarmLimits.high_high_clear_limit.c_str(), alarmLimits.high_high_clear_limit.length(), nullptr), nullptr);
     RETURN_IF_SQLERROR(::sqlite3_bind_text(statement, HIGH_SET_LIMIT_IDX, alarmLimits.high_set_limit.c_str(), alarmLimits.high_set_limit.length(), nullptr), nullptr);

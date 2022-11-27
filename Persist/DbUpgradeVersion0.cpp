@@ -63,7 +63,7 @@ bool DbUpgradeVersion0::doUpgrade(sqlite3 *context)
                 "io_point_id            integer not null, "
                 "set_time               integer not null ,"
                 "clear_time             integer default 0 not null, "
-                "no_data_enabled        boolean default 0 not null, "
+                "alarm_mask             integer default 0 not null, "
                 "high_high_set_limit    varchar2 (50) default '0' not null, "
                 "high_high_clear_limit  varchar2 (50) default '0' not null, "
                 "high_set_limit         varchar2 (50) default '0' not null, "
