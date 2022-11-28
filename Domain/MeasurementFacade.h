@@ -63,13 +63,9 @@ public:
         //
         // If either deadband has changed or alarm status has changed, then we update the
         //
-        if (alarmStatus != _measurement->alarmStatus())
+        if (alarmStatus != _measurement->alarmStatus() || valueChanged)
         {
-            result = UpdateAction::ALARM_CHANGE;
-            _measurement->updateCurrentValue(newValue, alarmStatus);
-        } else if (valueChanged)
-        {
-            result = UpdateAction::VALUE_UPDATE;
+            result = alarmStatus != _measurement->alarmStatus()  ? UpdateAction::ALARM_CHANGE : UpdateAction::VALUE_UPDATE;
             _measurement->updateCurrentValue(newValue, alarmStatus);
         }
 

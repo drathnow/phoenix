@@ -83,7 +83,7 @@ namespace dios::domain
         EXPECT_CALL(*measurement, currentValue()).WillRepeatedly(Return(CURRENT_VALUE));
         EXPECT_CALL(*deadband, currentValueHasChanged(CURRENT_VALUE, NEW_VALUE)).WillOnce(Return(true));
         EXPECT_CALL(*alarmMeister, alarmStatusForValue(NEW_VALUE)).WillOnce(Return(AlarmStatus::ALARM_STATUS_OK));
-        EXPECT_CALL(*measurement, alarmStatus()).WillOnce(Return(AlarmStatus::ALARM_STATUS_OK));
+        EXPECT_CALL(*measurement, alarmStatus()).WillRepeatedly(Return(AlarmStatus::ALARM_STATUS_OK));
         EXPECT_CALL(*measurement, updateCurrentValue(NEW_VALUE, AlarmStatus::ALARM_STATUS_OK));
 
         UpdateAction action = measurementFacade.updateValue(NEW_VALUE);
@@ -99,7 +99,7 @@ namespace dios::domain
         EXPECT_CALL(*measurement, currentValue()).WillRepeatedly(Return(CURRENT_VALUE));
         EXPECT_CALL(*deadband, currentValueHasChanged(CURRENT_VALUE, NEW_VALUE)).WillOnce(Return(true));
         EXPECT_CALL(*alarmMeister, alarmStatusForValue(NEW_VALUE)).WillOnce(Return(AlarmStatus::ALARM_STATUS_HIGH));
-        EXPECT_CALL(*measurement, alarmStatus()).WillOnce(Return(AlarmStatus::ALARM_STATUS_OK));
+        EXPECT_CALL(*measurement, alarmStatus()).WillRepeatedly(Return(AlarmStatus::ALARM_STATUS_OK));
         EXPECT_CALL(*measurement, updateCurrentValue(NEW_VALUE, AlarmStatus::ALARM_STATUS_HIGH));
 
         UpdateAction action = measurementFacade.updateValue(NEW_VALUE);
