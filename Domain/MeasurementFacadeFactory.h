@@ -13,13 +13,21 @@ namespace dios
 namespace domain
 {
 
+class AlarmMeisterFactory;
+class DeadbandFactory;
+
 class MeasurementFacadeFactory
 {
 public:
-    MeasurementFacadeFactory() = default;
-    ~MeasurementFacadeFactory() = default;
+    MeasurementFacadeFactory(AlarmMeisterFactory* alarmMeisterFactory, DeadbandFactory* deadbandFactory);
+    ~MeasurementFacadeFactory();
 
-    auto* measurementFacadeForIoPoint(const IOPoint& ioPoint, const alarm_limits_t& alarmLimits, const deadband_t& deadban);
+    template <typename T>
+    MeasurementFacade<T>* measurementFacadeForIoPoint(const IOPoint& ioPoint, const alarm_limits_t& alarmLimits, const deadband_t& deadban);
+
+private:
+    AlarmMeisterFactory* _alarmMeisterFactory;
+    DeadbandFactory* _deadbandFactory;
 };
 
 } /* namespace domain */

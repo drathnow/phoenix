@@ -1,96 +1,74 @@
 #include <except.h>
 
 #include "MeasurementFacadeFactory.h"
+#include "AlarmMeisterFactory.h"
+#include "DeadbandFactory.h"
 
 namespace dios::domain
 {
 
-    /**
-auto* MeasurementFacadeFactory::measurementFacadeForIoPoint(const IOPoint &ioPoint, const alarm_limits_t &alarmLimits, const deadband_t &deadband)
+MeasurementFacadeFactory::MeasurementFacadeFactory(AlarmMeisterFactory *alarmMeisterFactory, DeadbandFactory *deadbandFactory) :
+        _alarmMeisterFactory(alarmMeisterFactory), _deadbandFactory(deadbandFactory)
 {
+}
+
+MeasurementFacadeFactory::~MeasurementFacadeFactory()
+{
+    delete _alarmMeisterFactory;
+    delete _deadbandFactory;
+}
+
+template<typename T>
+MeasurementFacade<T>* MeasurementFacadeFactory::measurementFacadeForIoPoint(const IOPoint &ioPoint, const alarm_limits_t &alarmLimits, const deadband_t &deadbandParams)
+{
+    AlarmMeister<T> *alarmMeister = nullptr;
+    Deadband<T> *deadband = nullptr;
+    Measurement<T> *measurement = nullptr;
+
+    measurement = new Measurement<T>(ioPoint.dataType(), ioPoint.oid());
+
     switch (ioPoint.dataType())
     {
         case DataType::DISCRETE:
-        {
-            auto measurement = new Measurement<bool>(ioPoint.dataType(), ioPoint.oid());
-            auto noAlarmMeister = new NoAlarmMeister<bool>();
-            auto noDeadband = new NoDeadband<bool>();
-            return new MeasurementFacade<bool>(measurement, noAlarmMeister, noDeadband);
-        }
-
         case DataType::INT8:
-        {
-            auto measurement = new Measurement<int8_t>(ioPoint.dataType(), ioPoint.oid());
-            auto noAlarmMeister = new NoAlarmMeister<int8_t>();
-            auto noDeadband = new NoDeadband<int8_t>();
-            return new MeasurementFacade<int8_t>(measurement, noAlarmMeister, noDeadband);
-        }
-
         case DataType::UINT8:
         {
-            auto measurement = new Measurement<uint8_t>(ioPoint.dataType(), ioPoint.oid());
-            auto noAlarmMeister = new NoAlarmMeister<uint8_t>();
-            auto noDeadband = new NoDeadband<uint8_t>();
-            return new MeasurementFacade<uint8_t>(measurement, noAlarmMeister, noDeadband);
+            alarmMeister = new NoAlarmMeister<T>();
+            deadband = new NoDeadband<T>();
+            break;
         }
 
         case DataType::INT16:
-        {
-            break;
-        }
-
         case DataType::UINT16:
-        {
-            break;
-        }
-
         case DataType::INT32:
-        {
-            break;
-        }
-
         case DataType::UINT32:
-        {
-            break;
-        }
-
         case DataType::INT64:
-        {
-            break;
-        }
-
         case DataType::UINT64:
-        {
-            break;
-        }
-
         case DataType::FLOAT32:
-        {
-            break;
-        }
-
         case DataType::FLOAT64:
         {
-            break;
-        }
-
-        case DataType::STRING:
-        {
+            alarmMeister = _alarmMeisterFactory->alarmMeisterForAlarmLimits<T>(alarmLimits);
+            deadband = _deadbandFactory->deadbandForDeadbandParams<T>(deadbandParams);
             break;
         }
 
         case DataType::BLOB:
+        case DataType::STRING:
         {
+            delete measurement;
+            THROW_EXCEPTION("Cannot build measurement facade for type: " + ioPoint.dataType());
             break;
         }
 
         default:
         case DataType::UNKNOWN:
         {
+            delete measurement;
             THROW_EXCEPTION("Unknown data type: " + ioPoint.dataType());
         }
+
+        return new MeasurementFacade<T>(measurement, alarmMeister, deadband);
     }
 }
-    */
 
 } /* namespace dios */
