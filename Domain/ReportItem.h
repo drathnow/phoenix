@@ -3,6 +3,7 @@
 #ifndef __REPORTITEM_H___
 #define __REPORTITEM_H___
 #include <foundation.h>
+#include <string>
 
 #include "domain.h"
 #include "AlarmRange.h"
@@ -17,7 +18,7 @@ struct ReportItem
 {
     T currentValue;
     AlarmStatus alarmStatus;
-    index_id_t index;
+    time_t lastUpdateTime;
 };
 
 } /* namespace dios */

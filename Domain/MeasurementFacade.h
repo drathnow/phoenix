@@ -7,6 +7,7 @@
 #include "Measurement.h"
 #include "AlarmMeister.h"
 #include "Deadband.h"
+#include "ReportItem.h"
 
 namespace dios::domain
 {
@@ -39,10 +40,15 @@ public:
         delete _deadband;
     }
 
-    UpdateStatus updateValue(T newValue)
+    ReportItem<T> reportItem() const
     {
+        return _measurement->reportItem();
+    }
+
+    UpdateAction updateValue(T newValue)
+    {
+        UpdateAction result = NONE;
         bool valueChanged = false;
-        UpdateStatus updateStatus{ NONE, 0, AlarmStatus::ALARM_STATUS_OK, 0 };
 
         //
         // Check deadband to see if the value is worthy of an update
@@ -52,26 +58,22 @@ public:
         //
         // Has an alarm been exceeded?
         //
-        updateStatus.alarmStatus = _alarmMeister->alarmStatusForValue(newValue);
+        AlarmStatus alarmStatus = _alarmMeister->alarmStatusForValue(newValue);
 
         //
         // If either deadband has changed or alarm status has changed, then we update the
         //
-        if (updateStatus.alarmStatus != _measurement->alarmStatus())
+        if (alarmStatus != _measurement->alarmStatus())
         {
-            updateStatus.updateAction = UpdateAction::ALARM_CHANGE;
-            _measurement->updateCurrentValue(newValue, updateStatus.alarmStatus);
-            updateStatus.lastUpdateTime = _measurement->lastUpdateTime();
-            updateStatus.currentValue = newValue;
+            result = UpdateAction::ALARM_CHANGE;
+            _measurement->updateCurrentValue(newValue, alarmStatus);
         } else if (valueChanged)
         {
-            updateStatus.updateAction = UpdateAction::VALUE_UPDATE;
-            _measurement->updateCurrentValue(newValue, updateStatus.alarmStatus);
-            updateStatus.lastUpdateTime = _measurement->lastUpdateTime();
-            updateStatus.currentValue = newValue;
+            result = UpdateAction::VALUE_UPDATE;
+            _measurement->updateCurrentValue(newValue, alarmStatus);
         }
 
-        return updateStatus;
+        return result;
     }
 
 private:

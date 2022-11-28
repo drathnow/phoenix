@@ -9,6 +9,7 @@
 #include <cassert>
 #include <foundation.h>
 
+#include "ReportItem.h"
 #include "domain.h"
 #include "Deadband.h"
 #include "AlarmRange.h"
@@ -27,6 +28,7 @@ public:
 
     virtual time_t lastUpdateTime() const = 0;
     virtual void updateCurrentValue(T value, AlarmStatus alarmStatus = AlarmStatus::ALARM_STATUS_OK) = 0;
+    virtual ReportItem<T> reportItem() const = 0;
     virtual iopoint_id_t ioPointId() const = 0;
     virtual DataType dataType() const = 0;
     virtual T currentValue() const = 0;
@@ -77,6 +79,17 @@ public:
         _currentValue = value;
         _lastUpdateTime = ::time(nullptr);
         _alarmStatus = alarmStatus;
+    }
+
+    inline ReportItem<T> reportItem() const
+    {
+        ReportItem<T> reportItem;
+
+        reportItem.alarmStatus = _alarmStatus;
+        reportItem.currentValue = _currentValue;
+        reportItem.lastUpdateTime = _lastUpdateTime;
+
+        return reportItem;
     }
 
     inline time_t lastUpdateTime() const

@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <domain.h>
 #include <Measurement.h>
+#include <ReportItem.h>
 
 namespace dios::domain
 {
@@ -67,5 +68,16 @@ TEST_F(MeasurementTest, shouldUseMoveAssignOperator)
     ASSERT_EQ(IOID, measurement1.ioPointId());
 }
 
+TEST_F(MeasurementTest, shouldReturnReportItem)
+{
+    Measurement<int32_t> measurement(DataType::INT32, IOID);
+    measurement.updateCurrentValue(100, AlarmStatus::ALARM_STATUS_HIGH);
+
+    ReportItem<int32_t> reportItem = measurement.reportItem();
+
+    ASSERT_EQ(100, reportItem.currentValue);
+    ASSERT_EQ(AlarmStatus::ALARM_STATUS_HIGH, reportItem.alarmStatus);
+    ASSERT_TRUE(reportItem.lastUpdateTime > 0);
+}
 
 }
