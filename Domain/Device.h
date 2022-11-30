@@ -27,12 +27,24 @@ struct device
 
 using device_t = struct device;
 
-
+enum ConnectionStatus
+{
+    Busy, Disconnected, Connected
+};
 class Device
 {
 public:
     Device();
-    virtual ~Device();
+    ~Device();
+
+
+
+private:
+    std::string _name;
+    DeviceType _deviceType;
+    uint16_t _requestTimeoutSeconds;
+    uint16_t rtuBackoffTimeoutSeconds;
+    uint16_t rtuBackoffCount;
 };
 
 } /* namespace dios */
