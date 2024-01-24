@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.doxygen.DoxygenBuilder_-DescriptorImpl plugin="doxygen@0.16">
+  <installations/>
+</hudson.plugins.doxygen.DoxygenBuilder_-DescriptorImpl>

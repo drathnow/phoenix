@@ -1,0 +1,7 @@
+# current release version definitions for executables for zios package.
+# this is very preliminary
+PKG_VER = 2.1.2
+ZIOS_VER = 2.1.2
+NETMAN_VER = 2.0.0
+WATCHDOG_VER = 2.0.0
+DBUPGRD_VER = 1.0.0

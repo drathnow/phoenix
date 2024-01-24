@@ -1,0 +1,9 @@
+eeprom.version=1.0
+brd.hwrev=0.0
+brd.serial=<serial-number>
+brd.pcbserial=simulator
+brd.key=AAAAAGFzO2ZkbGtqcHdlb2luYjtlb2luYjtza2xqZGY7YXNnams7c2FkbGtnajtna2xq
+
+COM1=/dev/ttyS0,9600:8N1,232,1
+COM2=/dev/ttyS3,9600:8N1,485,2
+COM3=/dev/ttyTX1,9600:8N1,232FC,3

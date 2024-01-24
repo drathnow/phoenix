@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<org.jenkinsci.plugins.valgrind.ValgrindPublisher_-ValgrindPublisherDescriptor plugin="valgrind@0.24">
+  <linesBefore>10</linesBefore>
+  <linesAfter>5</linesAfter>
+</org.jenkinsci.plugins.valgrind.ValgrindPublisher_-ValgrindPublisherDescriptor>

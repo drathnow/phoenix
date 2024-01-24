@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Analyze (kw) the ZIOS firmware FOR QUARTERLY</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>10</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+  </properties>
+  <scm class="hudson.plugins.mercurial.MercurialSCM" plugin="mercurial@1.54">
+    <installation>(Default)</installation>
+    <source>ssh://esmerc1/zedi/firmware/zedi3250/platform/ZIOS_quarterly</source>
+    <modules></modules>
+    <revisionType>BRANCH</revisionType>
+    <revision>tip</revision>
+    <subdir>ZIOS</subdir>
+    <clean>false</clean>
+    <browser class="hudson.plugins.mercurial.browser.RhodeCode">
+      <url>http://esmerc1/firmware/zedi3250/platform/ZIOS_quarterly/</url>
+    </browser>
+    <credentialsId></credentialsId>
+    <disableChangeLog>false</disableChangeLog>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <customWorkspace>/home/rdbuild/jenkins/jobs/quarterly/workspace</customWorkspace>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>export HUD_BUILD_NUMBER=$BUILD_NUMBER
+export ZIOS_HOME=$WORKSPACE/ZIOS
+#copy scripts to where they run
+cp $ZIOS_HOME/build/jenkins/scripts/*.sh $ZIOS_HOME
+$ZIOS_HOME/kwZIOS.sh --force</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <com.thalesgroup.hudson.plugins.klocwork.KloPublisher plugin="klocwork@1.18">
+      <kloConfig>
+        <webAPI>
+          <webAPIQuery>status:Analyze,Fix -status:&apos;Fix in&apos;</webAPIQuery>
+          <useWebAPI>true</useWebAPI>
+        </webAPI>
+        <trendGraph>
+          <xSize>500</xSize>
+          <ySize>300</ySize>
+          <displayAllError>true</displayAllError>
+          <displayHighSeverity>true</displayHighSeverity>
+          <displayLowSeverity>true</displayLowSeverity>
+          <interval>1</interval>
+          <trendNum>0</trendNum>
+        </trendGraph>
+        <buildGraph>
+          <xSize>500</xSize>
+          <ySize>300</ySize>
+          <neww>true</neww>
+          <existing>true</existing>
+          <fixed>true</fixed>
+        </buildGraph>
+        <configSeverityEvaluation>
+          <threshold></threshold>
+          <newThreshold></newThreshold>
+          <failureThreshold></failureThreshold>
+          <newFailureThreshold></newFailureThreshold>
+          <healthy></healthy>
+          <unHealthy></unHealthy>
+          <highSeverity>true</highSeverity>
+          <lowSeverity>true</lowSeverity>
+        </configSeverityEvaluation>
+        <klocworkReportPattern></klocworkReportPattern>
+        <linkReview>true</linkReview>
+        <linkBuildLog>true</linkBuildLog>
+        <linkParseLog>true</linkParseLog>
+        <publishBuildGraph>true</publishBuildGraph>
+        <publishProjectGraph>true</publishProjectGraph>
+        <host>zi1ssled2.zedisolutions.com</host>
+        <port>8070</port>
+        <useSSL>false</useSSL>
+        <project>ZIOS</project>
+      </kloConfig>
+    </com.thalesgroup.hudson.plugins.klocwork.KloPublisher>
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.40.5">
+      <recipientList>egan.bodell@zedi.ca</recipientList>
+      <configuredTriggers>
+        <hudson.plugins.emailext.plugins.trigger.FailureTrigger>
+          <email>
+            <recipientList></recipientList>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.FailureTrigger>
+      </configuredTriggers>
+      <contentType>default</contentType>
+      <defaultSubject>$DEFAULT_SUBJECT</defaultSubject>
+      <defaultContent>$DEFAULT_CONTENT</defaultContent>
+      <attachmentsPattern></attachmentsPattern>
+      <presendScript>$DEFAULT_PRESEND_SCRIPT</presendScript>
+      <attachBuildLog>false</attachBuildLog>
+      <compressBuildLog>false</compressBuildLog>
+      <replyTo>$DEFAULT_REPLYTO</replyTo>
+      <saveOutput>false</saveOutput>
+      <disabled>false</disabled>
+    </hudson.plugins.emailext.ExtendedEmailPublisher>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.locksandlatches.LockWrapper plugin="locks-and-latches@0.6">
+      <locks>
+        <hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
+          <name>klocwork</name>
+        </hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
+        <hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
+          <name>ZIOS</name>
+        </hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
+      </locks>
+    </hudson.plugins.locksandlatches.LockWrapper>
+  </buildWrappers>
+</project>

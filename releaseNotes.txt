@@ -1,0 +1,682 @@
+**********************************************************
+Jun 08
+Release 828 (Production release candidate 1.0.6 #3)
+    hg 2473
+    last release 1.0.5
+    New Features:
+    -   AI and RTD sensors types now supported
+    -   DO sensors added (manual set only)
+    -   Configuration points now persist values (as well as control points in system for AI/DI)
+    -   Security on LUI now active
+    -   LUI revamped
+    -   SMS messages for APN/Hostname setting supported
+    -   ATT information added to providers file so ATT is auto configured
+
+    BugFixes:
+    -   misc LUI fixes
+    -	fix scrub for non system points
+****************************************************************
+
+
+Jun 08
+Release 147
+    hg 2483
+    New Features:
+
+    Bug Fixes:
+    -	OT 34870 - fix scrub of non system points from system site
+    -	fix invalid user name
+
+
+**********************************************************
+May 27
+Release 823 (Production release candidate 1.0.6)
+    hg 2473
+    last release 1.0.5
+    New Features:
+    -   AI and RTD sensors types now supported
+    -   DO sensors added (manual set only)
+    -   Configuration points now persist values (as well as control points in system for AI/DI)
+    -   Security on LUI now active
+    -   LUI revamped
+    -   SMS messages for APN/Hostname setting supported
+    -   ATT information added to providers file so ATT is auto configured
+
+    BugFixes:
+    -   misc LUI fixes
+****************************************************************
+
+May 26
+Release 141
+    hg 2471
+    New Features:
+    -	OT 34525 - RTD sensor functionality added
+
+    Bug Fixes:
+    -	OT 34283 - suppression of UOM charater "-" (not a measure) from LUI
+    -	changes in Modem connection to 1st check registration then get operator. (Feedback from South America problem)
+    -	LUI now displays UOM as appendix on value instead of separate column
+    -	OT34729 - Fix problem in validation for ADMIN change password
+
+May 17
+Release 133
+    hg 2451
+    New Features:
+    -	new password recovery option for admin user
+    -	OT 30344, persistence of values for configuration points
+    -	updating of appearance of LUI
+
+    Bug Fixes:
+
+
+May 09
+Release 124
+    hg 2420
+    New Features:
+
+    Bug Fixes:
+    - OT 33097 fix issue in AI readings
+
+May 03
+Release 121
+    hg 2415
+    New Features:
+    - OT 34164 - LUI that allows configuration of Analog sensors (complete)
+    - OT 34176 - device sends fw revision code to server on connection (to facillitate OTAD)
+    - OT 33097 - sampling of  AI inputs (note that persistance of config points for AI not done yet)
+
+    Bug Fixes:
+    - Fix LUI on analog config screen, ma vs V fixed
+
+Apr 18
+Release 108
+    hg 2363
+    New Features:
+    - OT 33997/OT 33897/OT 34201 - control of AI Loop Power (and external 5V)
+    - OT 34174 - Support of UOM for AI inputs on DEVICE only(mostly done, NOT ON SERVER YET)
+    - OT 34164 - Hooks for  LUI that allows configuration of Analog sensors (pass 1)
+
+    Bug Fixes:
+    - Fix LUI and floating point validation on write
+
+Apr 04
+Release 99
+    hg 2337
+    New Features:
+
+    Bug Fixes:
+    - Fix LUI
+
+
+Mar 31
+Release 96
+    hg 2325
+    New Features:
+	- OT 33726 - Start of OTAD framework - NOT FUNCTIONAL.
+	- Change display of cell registration to be english, not numerical
+	- OT 25586 AI framework started
+	- OT33855 allow users to change passwords on LUI
+	- OT33855 guest cannot update any values
+	- add QA ATT VPN information into providers file so that it comes up automatically
+	- OT 33846 add manual DO capability (non persisted values yet)
+	- OT 33836 add configuration of DO points
+	- OT 33997 add power supply support (LOOP/5V) for AI
+	- OT 30200 revised LUI
+
+    Bug Fixes:
+    - fix IO Board template file
+
+
+Feb 12
+Release 79
+    hg 2263
+    New Features:
+	- OT 25307 - SMS setting of APN/host
+
+    Bug Fixes:
+    - refactored web interface code
+    MAIN LINE MERGES******
+    - Alarm state reset on disable of alarm
+    - Connection recycle timer reset to 24 hours from 5 minutes (config)
+    - OT33867 - fix for bridge connection sticky.
+
+
+Feb 12                       ************************* MAIN BRANCH PATCH ****************************************************
+Release 812
+    hg 2249
+    New Features:
+        NONE, Maintenance Patch
+
+    Bug Fixes:
+    - Alarm state reset on disable of alarm   (release 1.0.2)
+    - Connection recycle timer reset to 24 hours from 5 minutes (config) (release 1.0.3)
+    - OT33867 - fix for bridge connection sticky.  (release 1.0.3)
+
+
+Jan 21
+Release 69
+    hg 2239
+    New Features:
+
+    Bug Fixes:
+    - boolean now outputs 1/0 instead of true/false as string
+    - OT 33246 - Fix LUI no longer accessable
+
+
+Jan 20
+Release 66
+    hg 2228
+    New Features:
+
+    Bug Fixes:
+    - disabled alarm are now '-' instead of '0' with strikeout, on alarm display
+    - OT 33606 - popup consistency on report to server button click
+    - OT 32723 - LUI session expiry fix.
+
+Jan 14
+Release 59
+    hg 2216
+    New Features:
+
+    Bug Fixes:
+    - fix Boolean ALarm configuration
+    - OT 33606 - fix demand poll button for site page LUI
+    - Fix IOBOard tester fault.
+
+Jan 12
+Release 55
+    hg 2211
+    New Features:
+
+    Bug Fixes:
+    - fix Alarm Display on LUI
+    - fix alarm "NO" reset problem
+
+Jan 11
+Release 52
+    hg 2206
+    New Features:
+
+    Bug Fixes:
+    - fix segfault on alarm definition (introduced in build 50 bug fix)
+    - fix memory leak in alarm configuration
+
+Jan 08
+Release 50
+    hg 2198
+    New Features:
+	- alarm evaluation added
+
+    Bug Fixes:
+    - fix program fault on improper load of alarms from persister
+
+Jan 06
+Release 47
+    hg 2193
+    New Features:
+	- OT 33146 Alarm Configuration validation added
+    Bug FIxes:
+
+Dec 18
+Release 45
+    hg 2186
+    New Features:
+	- updated so versions to be accurate for release.
+    Bug FIxes:
+
+Dec 17
+Release 44
+    hg 2184
+    New Features:
+
+    Bug FIxes:
+    	- OT33503 fix DI16 issue
+
+Dec 17
+Release 43
+    hg 2182
+    New Features:
+
+    Bug FIxes:
+    	- misc memory leak fixes as found by SA tool
+    	- fix missing validaton on source address on modify point
+    	- OT33508 fix missing map process on modify iopoint
+    	- fix DP.10 not initialized error message printing all the time in logs
+    	- fix DI15/16 issue for IOBoardTester utility for Hardware testing team
+
+Dec 15
+Release 38
+    hg 2172
+    New Features:
+    -   reduced default logs to Debug from Trace, turned down logging on some modules.
+    -   OT 33147 Parse Source Address to releate to DI points
+    -   OT 33093 Create Parser to parse EEPROM definition of IOBOARD setup
+    -   OT 33130 Create Framework to interface DI points into RTE
+    Bug FIxes:
+
+
+Dec 08
+Release 32
+    hg 2151
+    New Features:
+
+    Bug FIxes:
+    -   Fix Temperature Read bug, only read once.
+
+
+Dec 07
+Release 31
+    hg 2148
+    New Features:
+    - added Filter functionality to ports and event pages LUI
+    - OT 33148 integrate IOBoard DI points into IO points.
+    Bug FIxes:
+    -   Changed LUI alarm page to be in line with ZA
+
+Nov 20
+Release 17
+    hg 2107
+    New Features:
+    - added detail Page on LUI
+    - Added Alarm info on LUI
+    Bug FIxes:
+    -   fix problem in LUI where Readonly points could be written to.
+
+NOTE***************************************************************************************************************
+    switched to new repo (Quarterly) here
+Oct 05
+Release 792
+    hg 2053
+    New Features:
+    - OT 31570 - Mfg modem tests added, integrated
+    - COM4 definitions added to EEPROM but suppressed for now (IO Board)
+    Bug FIxes:
+
+Sep 30
+Release 790
+    hg 2038
+    New Features:
+    - OT 32907 - write IPaddress to tmp file system for OTAD use
+    Bug FIxes:
+
+Sep23
+Release 787
+    hg 2031
+    New Features:
+    - new APN added for ATT Jasper SIM cards
+    - enhanced otad.sh cleanup script
+    Bug FIxes:
+
+Sep21
+Release 782
+    hg 2029
+    New Features:
+    Bug FIxes:
+    - fix problem in LUI main page linkin for CSS
+
+Sep17
+Release 780
+    hg 2027
+    New Features:
+    -   OT 32273 website "minified"
+    -   OT 32825 - functionality changed in "deploy scripts" to accommodate non root user because of root password change
+    Bug Fixes:
+
+Sep14
+Release 777
+    hg 2023
+    New Features:
+    -   OT 32824 LUI passwords changed - actually take effect :)
+    Bug Fixes:
+    -	fixed install script from last release
+    -	OT32812 , corrected typo in FIELD's password (error found by QA)
+
+
+Sep11
+Release 775
+    hg 2018
+    New Features:
+    -   OT 32824 LUI passwords changed
+    Bug Fixes:
+    -	OT32732  LUI freeze up on popups
+    -	OT32812  now creates (install only) passthrough ports on COM1,2,3
+
+Sep 10
+Release production 0.9.1
+    based on release 765
+
+Sep 09
+Release 765
+    hg 2012
+    New Features:
+    -   OT 32273 minified version of js (part 1)
+    Bug Fixes:
+    -   Fix problem in otad script which would only allow otad of ZIOS (would not allow patches)
+
+Sep 08
+Release 762
+    hg 2005
+    New Features:
+    -   OT 32271 Tellit modem separated into own library for PTRCB requirement of version
+    Bug Fixes:
+
+Sep 08
+Release 761
+    hg 2004
+    New Features:
+    -   Login Page changes
+    -   OT 32586 - provide for static content.
+    Bug Fixes:
+    -   OT 32399 - fixed bug in connector code for "hang up"
+    -   OT 32587 - allow "identical" creations
+    -   alignment in Nav Bar issue
+    -   OT 32642 - fix username
+    -   fix problem found in port creation
+
+
+Aug 31
+Release 753
+    hg 1984
+    New Features:
+    -   Passthrough uses special Epoll now instead of sharing with Session
+    -   OT 32541 added display for events
+    Bug Fixes:
+    -   added id to screen for events
+    -   fixed authentication override in test mode for testing
+    -   fix webUI / session  timeout
+    -   OT 32365 - fixed login
+    -   OT 32024 - fixed login navigation
+    -   misc klocwork issues
+
+Aug 05
+Release 740
+    hg 1953
+    New Features:
+    -   hooks added for LUI display of Events
+    -   OT 32030 added in backoff mechanism for failed registration and data connection
+    Bug Fixes:
+    -   misc klocwork code fixes
+
+Jul 30
+Release 735
+    hg 1936
+    New Features:
+    -   turned down logging levels on watchdog
+    Bug Fixes:
+
+Jul 30
+Release 734
+    hg 1935
+    New Features:
+
+    Bug Fixes:
+    -   added debug messages to passthrough in "trace" to print out which port messages are being "routed" to and from.
+
+Jul 29
+Release 733
+    hg 1930
+    New Features:
+    -   OT 31569 install scripts updated to support new install
+    -   OT 32514 Passthrough: Resend bytes in RemoteSocketEventHandler until all bytes are sent or there is a socket error
+    -   OT 32484 Passthrough: Clear the pass through port map on shutdown.
+    -   OT 31841 Passthrough: Clear the buffer on error or no bytes sent.  Refactor and added some unit tests for error conditions.
+    -   OT 32225 Passthrough: Use port send instead of socket write when sending data to port.
+
+    Bug Fixes:
+
+
+Jul 24
+Release 729
+    hg 1923
+    New Features:
+    -   OT 25440 Passthrough Thread added to watchdog.
+    -   OT 32226 RS485 enabled.
+
+    Bug Fixes:
+    -   Turned off optimization, seems to be causing some issues at moment.
+    -   OT 29559 Changed serial port init to fix spurious operation issues
+    -   OT 31841 buffering of RTU data into larger chunks in passthrough
+
+
+
+Jul 16
+Release 720
+    hg 1895
+    New Features:
+    -   OT 25440 Scheduler watchdog client added to basic zios watchdog
+
+    Bug Fixes:
+    -   OT 32433, 31841 Fix problem in buffering of packets for passthrough
+    -   fix problem with LUI ast optimization at level 1. (no optimization at this point)
+
+
+Jul 15
+Release 716
+    hg 1884
+    New Features:
+    -   OT 25440 basic Watchdog functionality added to zios
+    -   OT 25440 ActionManager/RTE watchdog clients added to basic zios watchdog
+
+    Bug Fixes:
+    -   OT 32429 Fix problems in zios on segfaults in release (at optimization level 2)
+
+
+Jul 06
+Release 703
+    hg 1853
+    New Features:
+    -   NetworkManager conf file added
+    -   Add new Jasper Bell M2M APN defaults
+    -   OT 32313, 32289 Scrub functionality implemented
+    -   OT 32151 NetworkMnager implement Watchdog API
+    -   OT 332315,32316,21317 watchdog recovery escalation added.
+
+    Bug Fixes:
+    -   Fix issue in ActionRequester
+    -   Fix issue in Passthrough ports not being restored
+    -   OT 31841 fixes to passthrough to concatenate bytes into buffer
+    -   Fix Network manager watchdog behavior on shutdown
+
+
+Jun 23
+Release 684
+    hg 1771
+    New Features:
+    -  NetworkManager now persists settings. (eg APN requested)
+    -  OT 32105 - Watchdog Manager communication from client
+    -  changed format of released tar file to use bzip2 instead of gzip
+
+    Bug Fixes:
+    -   IP address for host should allow 0 in dotted address
+    -   ActionRequester fixed (pertaining to passthrough issues)
+    -   fixed behavior of notification center
+
+
+Jun 22
+Release 677
+    hg 1755
+    New Features:
+    -
+
+    Bug Fixes:
+    -   OnTime 32264 - Move the removeActionHandler from open to the close function
+
+Jun 19
+Release 675
+    hg 1753
+    New Features:
+    -
+
+    Bug Fixes:
+    -   OT 32210 - Fix bug where action ahndler for passthrough was not being removed when listener closed remote client object
+
+
+Jun 19
+Release 674
+    hg 1751
+    New Features:
+    -   Ports now default to passthrough 506,507,508 for COM1,COM2,COM3
+    -   Route now has ability of network size, specified with /xx after server hostname. Default is /24
+
+    Bug Fixes:
+    -   OT 32256 fix problem demand poll not working after point rename
+
+
+Jun 17
+Release 669
+    hg 1731
+    New Features:
+    -   OT 32178 Event Scheduler now reacts properly to time changes.
+    -   OT 30143 LED control for polling/pasthrough connection added
+    -   Network Providers now read from config file instead of hardcoded
+    -   changed command line arguments/default behavior for zios - now runs silent by default, need --menu to run interactively
+
+    Bug Fixes:
+    -   OT 32174 fix problem with passthrough updating
+    -   remvoe locking on port update to allow update while passthrough
+    -   Fixed problem in watchdog.conf parsing
+
+
+Jun 15
+Release 662
+    hg 1705
+    New Features:
+
+    Bug Fixes:
+    -   watchdog.conf fixed zios startup line
+    -   passthrough hardcoding removed for port id
+    -
+
+Jun 15
+Release 660
+    hg 1699
+    New Features:
+    -   Startup scripts now start Watchdog instead of Zios
+    -   Port Display UI now added
+    -   Modem switches up to 460800 baud now automatically after starting
+
+    Bug Fixes:
+    -   OT 31945  Fix for demand poll (individual) not responding correctly.
+
+
+Jun 12, 2015
+Release 656
+    hg 1692
+    New Features:
+    -   isolate watchdog from shared library dependency
+    -   Add signal handling to Network Manager
+
+    Bug Fixes:
+    -   Misc fixes to Network manager
+    -   Scheduler (events) fixed for time change
+    -   bug fixed in portmanager for change of passthrough timeout not being recognized on modify.
+    -   OT 31867 Fixed cut-and-paste error.  Was specifying ADD for ActionType when it should have been UPDATE on Port update response
+    -   fixed problem with slow shutdown of Network Manager
+
+Jun 10, 2015
+Release 651
+    hg 1675
+    New Features:
+        -   New points from Modem -hardware points
+        -   Port defn now read from EEPROM if there
+
+    Bug Fixes:
+        -   OT 32148 - problem in passthrough (transceiver issue)
+        -   Misc fixes to Network Manager
+
+Jun 09, 2015
+Release 648
+    hg 1666
+    New Features:
+        -
+
+    Bug Fixes:
+        -   OT 32146 Duplicate Passthrough port issue fixed
+        -   Misc fixes to Network Manager
+
+Jun 08, 2015
+
+Release 644
+    hg 1643
+    New Features:
+        -   Signal strength LED now functional (flashes for different signal strengths, solid on for very strong)
+        -   OT 30104 sys.battery.voltage and sys.temperature now populated with proper values
+
+    Bug Fixes:
+        -   OT 32129 Net.ce.net.register does not show current status
+        -   add net.cell.net.localip to network manager and to ZIOS
+        -   fix setup/hold times on Asynchronous ports
+        -   Network manager now adds routing information
+
+Jun 04, 2015
+Release 639
+	hg 1623
+	New Features:
+		- Server LED now works with Connections
+
+	Bugs Fixed:
+        - misc fixes to Network Manager
+        - Connection manager would not abort connection attempt when disconnect method invoked
+        - OT 31617 fixed
+        - problem with ACK timeouts fixed
+        - add/delete System Port now returns SUCCESS on success , not SYSTEM_PORT (411)
+
+Jun 03, 2015
+Release 632:
+    hg 1603
+    New Features:
+            - Added NetworkManagerQueuePublisher to consume messages from the NetworkManager and create published messages.
+            - OT  31980 - added connection manager notification for special Network Manager points.
+            - Added support for secret key
+            - Second part of OT 31547. The connector initialize code will first check the configuration for a username and if it's not found there, it will look in SystemInfo for a serial number
+            - Added an interceptor/validator pattern to allow business rules to be applied.  The only rule so far is to update net.server.hostname and net.server.state when net.cell.data.state changes.  It
+               performs some simple validation (looks for non-empty hostname)
+            - Changed the FAKE modem to use an IMSI with 999999 as the first chars.  This will trigger the selection of QAQUART as the desired server.  This should let things run automatically on the linux
+              build server.
+            - Created IMSI prefix 999999 to use a fake APN and the qaquart bridge as the IP for testing the "FAKE" modem on the build server.
+            - add "RTU error" to NET points on bad write
+            - Watchdog added signal handling and now sigkills children on exit by default.
+            - Override APN results will only be returned if both the override APN and override hostname are set.  Otherwise the auto-detected values will be used.
+
+    Bugs Fixed:
+            - APN and Hostname are now always published in the next status update request.  This makes the "active" APN now visible, even if the data connection doesn't work
+            - OnTIme 32087 - Fix bug where the port was invalid after closing a connection
+
+May 27, 2015
+Release 617:
+    hg 1520
+    New Features:
+    - add ability to override key in EEPROM from one in config file for "testmode" (key is FakeKey, at same level as Username)
+    - add in ability to NOT get server address from file (comes from Network Manager usually) UNLESS zios started with --serveraddress parameter on command line. *********************
+    - Watchdog now reads from config file
+    - added more NET points from Network Manager
+
+    Bugs Fixed:
+    - OT 31358 Passthrough gets port from portManager now
+    - TimerQ code fixed
+    - Mutex creation fixed
+    - Port Manager locking on creation fixed
+    - Watchdog issues fixed on timeouts
+
+May 25, 2015
+Release 611:
+	hg 1485
+	New Features:
+	-	OT# 30989 PassThrough timeout
+	-	OT# 31520 Communication of points from Network Manager in RTE (RTE side only)
+	- 	OT# 21520 communication of points from RTE to Network Manager (RTE side only)
+
+	Bugs Fixed:
+	- Passthrough timeout plumbing fixes
+	- Watchdog upgrades for command line arguments
+	- Stablility changes for Network Manager (Cell)
+	- Protocol Stack issue fixed where device did NOT authenticate with server
+
+
+Release 596:
+	New Features:
+	-	PassThrough timeout plumbing (OT 30989)
+
+	Bugs Fixed:
+	-	bad port on local UI
+	-	Pass through bug fix

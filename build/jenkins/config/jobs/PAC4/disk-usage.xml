@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.disk__usage.ProjectDiskUsage plugin="disk-usage@0.28">
+  <diskUsageWithoutBuilds>164909</diskUsageWithoutBuilds>
+  <slaveWorkspacesUsage class="concurrent-hash-map">
+    <entry>
+      <string></string>
+      <concurrent-hash-map>
+        <entry>
+          <string>/home/rdbuild/jenkins/jobs/PAC4/workspace</string>
+          <long>13388155</long>
+        </entry>
+        <entry>
+          <string>/var/lib/jenkins/jobs/PAC4/workspace</string>
+          <long>14430730</long>
+        </entry>
+      </concurrent-hash-map>
+    </entry>
+  </slaveWorkspacesUsage>
+  <buildDiskUsage class="java.util.concurrent.CopyOnWriteArraySet">
+    <hudson.plugins.disk__usage.DiskUsageBuildInformation>
+      <id>2015-01-23_11-05-50</id>
+      <timestamp>1422036350000</timestamp>
+      <number>10</number>
+      <size>40346</size>
+    </hudson.plugins.disk__usage.DiskUsageBuildInformation>
+    <hudson.plugins.disk__usage.DiskUsageBuildInformation>
+      <id>2015-01-23_10-59-30</id>
+      <timestamp>1422035970000</timestamp>
+      <number>9</number>
+      <size>36983</size>
+    </hudson.plugins.disk__usage.DiskUsageBuildInformation>
+  </buildDiskUsage>
+  <allBuildsLoaded>false</allBuildsLoaded>
+</hudson.plugins.disk__usage.ProjectDiskUsage>

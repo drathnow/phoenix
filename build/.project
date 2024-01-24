@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>build</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>localdev.mk</name>
+			<type>1</type>
+			<locationURI>USER_HOME/.zdev/localdev.mk</locationURI>
+		</link>
+		<link>
+			<name>maketest.mk</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/maketest.mk</locationURI>
+		</link>
+		<link>
+			<name>platform.mk</name>
+			<type>1</type>
+			<location>/home/fgdev/.zdev/platform.mk</location>
+		</link>
+		<link>
+			<name>ubermakefile.mk</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/foofile</locationURI>
+		</link>
+		<link>
+			<name>zios.currentRelease.Versions</name>
+			<type>1</type>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/zios.currentRelease.Versions</locationURI>
+		</link>
+	</linkedResources>
+	<variableList>
+		<variable>
+			<name>USER_HOME</name>
+			<value>file:/home/daver</value>
+		</variable>
+	</variableList>
+</projectDescription>

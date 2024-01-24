@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Build the trunk (Main) of the zedpac firmware</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>10</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+  </properties>
+  <scm class="hudson.plugins.mercurial.MercurialSCM" plugin="mercurial@1.54">
+    <installation>(Default)</installation>
+    <source>ssh://esmerc1/zedi/firmware/PAC/hgzedpac</source>
+    <modules></modules>
+    <revisionType>BRANCH</revisionType>
+    <revision>tip</revision>
+    <subdir>Connect</subdir>
+    <clean>true</clean>
+    <browser class="hudson.plugins.mercurial.browser.RhodeCode">
+      <url>http://esmerc1/firmware/PAC/hgzedpac/</url>
+    </browser>
+    <credentialsId></credentialsId>
+    <disableChangeLog>false</disableChangeLog>
+  </scm>
+  <quietPeriod>120</quietPeriod>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <customWorkspace>/home/rdbuild/jenkins/jobs/Connect_Main/workspace</customWorkspace>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>export HUD_BUILD_NUMBER=$BUILD_NUMBER
+export ZPLT=xtsarm
+sh $WORKSPACE/Connect/Build/hudson/scripts/exec_klocwork.sh --force</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <com.thalesgroup.hudson.plugins.klocwork.KloPublisher plugin="klocwork@1.18">
+      <kloConfig>
+        <webAPI>
+          <webAPIQuery>status:Analyze,Fix -status:&apos;Fix in&apos;</webAPIQuery>
+          <useWebAPI>true</useWebAPI>
+        </webAPI>
+        <trendGraph>
+          <xSize>500</xSize>
+          <ySize>300</ySize>
+          <displayAllError>true</displayAllError>
+          <displayHighSeverity>true</displayHighSeverity>
+          <displayLowSeverity>true</displayLowSeverity>
+          <interval>1</interval>
+          <trendNum>0</trendNum>
+        </trendGraph>
+        <buildGraph>
+          <xSize>500</xSize>
+          <ySize>300</ySize>
+          <neww>true</neww>
+          <existing>true</existing>
+          <fixed>true</fixed>
+        </buildGraph>
+        <configSeverityEvaluation>
+          <threshold></threshold>
+          <newThreshold></newThreshold>
+          <failureThreshold></failureThreshold>
+          <newFailureThreshold></newFailureThreshold>
+          <healthy></healthy>
+          <unHealthy></unHealthy>
+          <highSeverity>true</highSeverity>
+          <lowSeverity>true</lowSeverity>
+        </configSeverityEvaluation>
+        <klocworkReportPattern></klocworkReportPattern>
+        <linkReview>true</linkReview>
+        <linkBuildLog>true</linkBuildLog>
+        <linkParseLog>true</linkParseLog>
+        <publishBuildGraph>true</publishBuildGraph>
+        <publishProjectGraph>true</publishProjectGraph>
+        <host>zi1ssled2.zedisolutions.com</host>
+        <port>8070</port>
+        <useSSL>false</useSSL>
+        <project>zediConnect</project>
+      </kloConfig>
+    </com.thalesgroup.hudson.plugins.klocwork.KloPublisher>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.locksandlatches.LockWrapper plugin="locks-and-latches@0.6">
+      <locks>
+        <hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
+          <name>klocwork</name>
+        </hudson.plugins.locksandlatches.LockWrapper_-LockWaitConfig>
+      </locks>
+    </hudson.plugins.locksandlatches.LockWrapper>
+  </buildWrappers>
+</project>

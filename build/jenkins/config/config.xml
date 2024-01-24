@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+  <disabledAdministrativeMonitors/>
+  <version>1.598</version>
+  <numExecutors>2</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
+    <permission>hudson.model.Computer.Configure:michaelh</permission>
+    <permission>hudson.model.Computer.Configure:rdbuild</permission>
+    <permission>hudson.model.Computer.Configure:td</permission>
+    <permission>hudson.model.Computer.Connect:michaelh</permission>
+    <permission>hudson.model.Computer.Connect:rdbuild</permission>
+    <permission>hudson.model.Computer.Connect:td</permission>
+    <permission>hudson.model.Computer.Create:michaelh</permission>
+    <permission>hudson.model.Computer.Create:rdbuild</permission>
+    <permission>hudson.model.Computer.Create:td</permission>
+    <permission>hudson.model.Computer.Delete:michaelh</permission>
+    <permission>hudson.model.Computer.Delete:rdbuild</permission>
+    <permission>hudson.model.Computer.Delete:td</permission>
+    <permission>hudson.model.Computer.Disconnect:michaelh</permission>
+    <permission>hudson.model.Computer.Disconnect:rdbuild</permission>
+    <permission>hudson.model.Computer.Disconnect:td</permission>
+    <permission>hudson.model.Hudson.Administer:eganb</permission>
+    <permission>hudson.model.Hudson.Administer:michaelh</permission>
+    <permission>hudson.model.Hudson.Administer:rdbuild</permission>
+    <permission>hudson.model.Hudson.Administer:td</permission>
+    <permission>hudson.model.Hudson.ConfigureUpdateCenter:eganb</permission>
+    <permission>hudson.model.Hudson.Read:anonymous</permission>
+    <permission>hudson.model.Hudson.Read:eganb</permission>
+    <permission>hudson.model.Hudson.Read:michaelh</permission>
+    <permission>hudson.model.Hudson.Read:rdbuild</permission>
+    <permission>hudson.model.Hudson.Read:td</permission>
+    <permission>hudson.model.Hudson.RunScripts:eganb</permission>
+    <permission>hudson.model.Hudson.RunScripts:michaelh</permission>
+    <permission>hudson.model.Hudson.RunScripts:rdbuild</permission>
+    <permission>hudson.model.Hudson.RunScripts:td</permission>
+    <permission>hudson.model.Hudson.UploadPlugins:eganb</permission>
+    <permission>hudson.model.Item.Build:michaelh</permission>
+    <permission>hudson.model.Item.Build:rdbuild</permission>
+    <permission>hudson.model.Item.Build:td</permission>
+    <permission>hudson.model.Item.Configure:michaelh</permission>
+    <permission>hudson.model.Item.Configure:rdbuild</permission>
+    <permission>hudson.model.Item.Configure:td</permission>
+    <permission>hudson.model.Item.Create:michaelh</permission>
+    <permission>hudson.model.Item.Create:rdbuild</permission>
+    <permission>hudson.model.Item.Create:td</permission>
+    <permission>hudson.model.Item.Delete:michaelh</permission>
+    <permission>hudson.model.Item.Delete:td</permission>
+    <permission>hudson.model.Item.Read:anonymous</permission>
+    <permission>hudson.model.Item.Read:michaelh</permission>
+    <permission>hudson.model.Item.Read:rdbuild</permission>
+    <permission>hudson.model.Item.Read:td</permission>
+    <permission>hudson.model.Item.Workspace:michaelh</permission>
+    <permission>hudson.model.Item.Workspace:rdbuild</permission>
+    <permission>hudson.model.Item.Workspace:td</permission>
+    <permission>hudson.model.Run.Delete:michaelh</permission>
+    <permission>hudson.model.Run.Delete:rdbuild</permission>
+    <permission>hudson.model.Run.Delete:td</permission>
+    <permission>hudson.model.Run.Update:michaelh</permission>
+    <permission>hudson.model.Run.Update:rdbuild</permission>
+    <permission>hudson.model.Run.Update:td</permission>
+    <permission>hudson.model.View.Configure:michaelh</permission>
+    <permission>hudson.model.View.Configure:td</permission>
+    <permission>hudson.model.View.Create:michaelh</permission>
+    <permission>hudson.model.View.Create:td</permission>
+    <permission>hudson.model.View.Delete:michaelh</permission>
+    <permission>hudson.model.View.Delete:rdbuild</permission>
+    <permission>hudson.model.View.Delete:td</permission>
+    <permission>hudson.model.View.Read:michaelh</permission>
+    <permission>hudson.model.View.Read:td</permission>
+    <permission>hudson.scm.SCM.Tag:michaelh</permission>
+    <permission>hudson.scm.SCM.Tag:rdbuild</permission>
+    <permission>hudson.scm.SCM.Tag:td</permission>
+  </authorizationStrategy>
+  <securityRealm class="hudson.security.PAMSecurityRealm" plugin="pam-auth@1.2">
+    <serviceName>sshd</serviceName>
+  </securityRealm>
+  <disableRememberMe>false</disableRememberMe>
+  <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+  <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
+  <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+  <systemMessage>Welcome to ZIOS firmware continuous integration.</systemMessage>
+  <markupFormatter class="hudson.markup.RawHtmlMarkupFormatter" plugin="antisamy-markup-formatter@1.3">
+    <disableSyntaxHighlighting>false</disableSyntaxHighlighting>
+  </markupFormatter>
+  <jdks/>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+  <clouds/>
+  <quietPeriod>120</quietPeriod>
+  <scmCheckoutRetryCount>3</scmCheckoutRetryCount>
+  <views>
+    <hudson.model.AllView>
+      <owner class="hudson" reference="../../.."/>
+      <name>All</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+    </hudson.model.AllView>
+    <listView>
+      <owner class="hudson" reference="../../.."/>
+      <name>ZedPAC</name>
+      <description>All Things ZedPAC</description>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>Connect_Main</string>
+        <string>Connect_Main_Nightly1_Doxygen</string>
+        <string>Connect_Main_Nightly2_Klocwork</string>
+        <string>Connect_Main_Nightly3_NonReentrantSysCalls</string>
+        <string>Connect_Main_Nightly4_Valgrind</string>
+        <string>Main_Nightly</string>
+        <string>ZedPAC_Lab_Log_Monitor</string>
+        <string>ZedPAC_Lab_Monitor</string>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+      <recurse>false</recurse>
+    </listView>
+    <hudson.plugins.view.dashboard.Dashboard plugin="dashboard-view@2.9.7">
+      <owner class="hudson" reference="../../.."/>
+      <name>ZIOS</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
+        <string>ZIOS kernel</string>
+        <string>ZIOS_MAIN</string>
+        <string>ZIOS_MAIN_TEST</string>
+        <string>ZIOS_Nightly5_Klocwork</string>
+        <string>ZIOS_Nightly6_Doxygen</string>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+      <recurse>true</recurse>
+      <useCssStyle>false</useCssStyle>
+      <includeStdJobList>true</includeStdJobList>
+      <hideJenkinsPanels>false</hideJenkinsPanels>
+      <leftPortletWidth>50%</leftPortletWidth>
+      <rightPortletWidth>50%</rightPortletWidth>
+      <leftPortlets/>
+      <rightPortlets/>
+      <topPortlets/>
+      <bottomPortlets>
+        <hudson.plugins.view.dashboard.test.TestStatisticsChart>
+          <id>dashboard_portlet_20372</id>
+          <name>Test Statistics Chart</name>
+        </hudson.plugins.view.dashboard.test.TestStatisticsChart>
+      </bottomPortlets>
+    </hudson.plugins.view.dashboard.Dashboard>
+    <hudson.plugins.view.dashboard.Dashboard plugin="dashboard-view@2.9.7">
+      <owner class="hudson" reference="../../.."/>
+      <name>Doxygen</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>Connect_Main_Nightly1_Doxygen</string>
+        <string>ZIOS_Nightly6_Doxygen</string>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+      <recurse>false</recurse>
+      <useCssStyle>false</useCssStyle>
+      <includeStdJobList>true</includeStdJobList>
+      <hideJenkinsPanels>false</hideJenkinsPanels>
+      <leftPortletWidth>50%</leftPortletWidth>
+      <rightPortletWidth>50%</rightPortletWidth>
+      <leftPortlets/>
+      <rightPortlets/>
+      <topPortlets/>
+      <bottomPortlets/>
+    </hudson.plugins.view.dashboard.Dashboard>
+    <hudson.plugins.view.dashboard.Dashboard plugin="dashboard-view@2.9.7">
+      <owner class="hudson" reference="../../.."/>
+      <name>Klocworks</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../hudson.plugins.view.dashboard.Dashboard[2]/jobNames/comparator"/>
+        <string>Connect_Main_Nightly2_Klocwork</string>
+        <string>ZIOS_Nightly5_Klocwork</string>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+      <recurse>false</recurse>
+      <useCssStyle>false</useCssStyle>
+      <includeStdJobList>true</includeStdJobList>
+      <hideJenkinsPanels>false</hideJenkinsPanels>
+      <leftPortletWidth>50%</leftPortletWidth>
+      <rightPortletWidth>50%</rightPortletWidth>
+      <leftPortlets/>
+      <rightPortlets/>
+      <topPortlets>
+        <hudson.plugins.view.dashboard.core.UnstableJobsPortlet>
+          <id>dashboard_portlet_14163</id>
+          <name>Unstable Jobs</name>
+          <showOnlyFailedJobs>false</showOnlyFailedJobs>
+          <recurse>false</recurse>
+        </hudson.plugins.view.dashboard.core.UnstableJobsPortlet>
+      </topPortlets>
+      <bottomPortlets/>
+    </hudson.plugins.view.dashboard.Dashboard>
+    <listView>
+      <owner class="hudson" reference="../../.."/>
+      <name>PAC4</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>PAC4</string>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+      <recurse>false</recurse>
+    </listView>
+  </views>
+  <primaryView>All</primaryView>
+  <slaveAgentPort>0</slaveAgentPort>
+  <label></label>
+  <nodeProperties/>
+  <globalNodeProperties/>
+</hudson>

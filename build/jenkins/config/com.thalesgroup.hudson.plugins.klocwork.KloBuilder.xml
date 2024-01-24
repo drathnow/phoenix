@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<com.thalesgroup.hudson.plugins.klocwork.KloBuilderDescriptor plugin="klocwork@1.17.6">
+  <installations>
+    <com.thalesgroup.hudson.plugins.klocwork.model.KloInstallation>
+      <name>zi1ssled2_klocwork_10</name>
+      <executablePath>/opt/klockwork</executablePath>
+      <projectHost>zi1ssled2</projectHost>
+      <projectPort>8087</projectPort>
+      <useSSL>false</useSSL>
+      <licenseHost>esbuild1</licenseHost>
+      <licensePort>27000</licensePort>
+    </com.thalesgroup.hudson.plugins.klocwork.model.KloInstallation>
+  </installations>
+</com.thalesgroup.hudson.plugins.klocwork.KloBuilderDescriptor>

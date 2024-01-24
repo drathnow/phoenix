@@ -1,0 +1,55 @@
+-include ../build/Makeenv.mk
+
+#define outputLIB file
+OUT_EXE = TestRunner
+
+#modify LIBPATH... with local needed paths
+LIB_PATH += -L../sharedlibs/output
+
+# modify includes for local includes
+INCLUDES += -I"../ZediCommon"
+
+#define Libraries needed by this build here (linking)
+LIBS := -lgtest 
+LIBS += -lgmock 
+LIBS += -llog4cplus 
+LIBS += -lpthread 
+LIBS += -lZediCommon
+LIBS += -ldl 
+LIBS += -lcjson
+
+# All Target (default)
+all: $(OUT_DIR) dependents $(OUT_DIR)/$(OUT_EXE)
+
+# Add inputs and outputs from these tool invocations to the build variables 
+
+dependents: 
+	cd ../ZediCommon && $(MAKE)
+
+# make sure the output dir exists.
+$(OUT_DIR):
+	$(MKDIR) $(OUT_DIR)
+
+# Tool invocations
+$(OUT_DIR)/$(OUT_EXE): $(OBJS) $(USER_OBJS) dependents
+	@echo 'Building target: $@'
+	@echo 'Invoking: GCC C++ Linker'
+	$(CXX) -o $@ $(OBJS) $(USER_OBJS) $(LIB_PATH) $(LIBS) $(L_FLAGS)
+	@echo 'Finished building target: $@'
+
+# Other Targets
+cleanall: clean
+	-cd ../ZediCommon && $(MAKE) clean
+
+runtest: $(OUT_DIR)/$(OUT_EXE)
+	LD_LIBRARY_PATH="../sharedlibs/output" ./output/$(OUT_EXE)
+
+clean:
+	-$(RM) $(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(LIBRARIES)$(CPP_DEPS)$(CXX_DEPS)$(C_UPPER_DEPS) $(OUT_DIR)/$(OUT_EXE)
+	-@echo ' '
+
+# no post build for this project
+post-build:
+
+.PHONY: all clean dependents cleanall outdir
+.SECONDARY: post-build

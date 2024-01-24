@@ -1,0 +1,5 @@
+eeprom.version=1.0
+brd.hwrev=1.1
+brd.pcbserial=PCB123456
+modem.driver=FAKE
+

@@ -1,0 +1,52 @@
+################################################################################
+# based on managed file, modified to be generic
+# overall makefile
+################################################################################
+
+# pull in common make pieces
+MAKE_DIR=build/
+-include $(MAKE_DIR)makeenv.mk
+
+DEPLOY_BASE=deploy
+
+DEPLOY_PLATFORM=$(DEPLOY_BASE)/rootfiles
+DEPLOY_DIR=$(DEPLOY_PLATFORM)/rootimage
+DEPLOY_TAR=rootfiles.tbz2
+SCRIPT_DIR=build/scripts
+ZIOS_HOME=$(PWD)
+ROOT_DIR=../ltib/config/platform/zedi3250/merge/root
+
+# deploy will make up tar files ready to deploy
+deploy: cleandeploy $(DEPLOY_PLATFORM)/$(DEPLOY_TAR)
+	@echo 'Finished target: $@'
+
+# make sure the output dir exists.
+$(DEPLOY_DIR):
+	$(MKDIR) $(DEPLOY_DIR)
+
+# tar file creation 
+$(DEPLOY_PLATFORM)/$(DEPLOY_TAR): $(DEPLOY_DIR) image
+	@echo 'Building target: $@'
+	@echo ''
+	@cd $(DEPLOY_DIR) && tar -cjf $(DEPLOY_TAR) *
+# move the finished tgz file to the deploy platform.
+	@mv $(DEPLOY_DIR)/$(DEPLOY_TAR) $(DEPLOY_PLATFORM)/$(DEPLOY_TAR)
+	@echo 'Finished building target: $@'
+
+# image creation
+image: 
+	$(SCRIPT_DIR)/create_rootfiles.sh $(ROOT_DIR) $(DEPLOY_DIR) $(ZIOS_HOME) $(DEPLOY_TAR)
+
+# make sure the deploy directory is cleaned.
+cleandeploy:
+	@echo "rm -rf $(DEPLOY_DIR)"        # make sure dir gone...
+	@rm -rf $(DEPLOY_DIR)        # make sure dir gone...
+
+# Other Targets
+clean:
+	-@echo ' '
+
+post-build:
+
+.PHONY: all clean dependents outdir image cleandeploy
+.SECONDARY: post-build

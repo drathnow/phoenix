@@ -1,0 +1,75 @@
+#!/bin/sh
+# @file
+#
+# @copyright
+# Copyright 2008, Zedi Inc.  All rights reserved.
+# This file contains confidential intellectual property of Zedi Inc.
+#
+# @details
+# Script to generate HTML source code documentation for the ZIOS project
+# using the doxygen tool.  Input is read from $ZIOS_HOME/Source and is
+# written to the specified output directory.
+#
+# Usage: genConnectSrcDocs <output_dir>
+#
+# The Doxyfile configuration file contains hardcoded paths for xxxxx
+# directory layout; do NOT use this config file directly.  This script will
+# override those paths with valid paths for your environment.
+#
+# @HISTORY
+# Created Apr 02, 2014 by eb: from original script
+# IncrDev Jan 21, 2009 by fl: print config file path
+# Created Aug 29, 2008 by farrenl: 
+# @ENDHISTORY
+#
+
+# : define usage statement function
+usage() {
+    echo "Usage: `basename $0` <output_dir>"
+}
+
+# : sanity checks
+if [ \( -z "$ZIOS_HOME" \) -o \( ! -d "$ZIOS_HOME" \) ]; then
+    echo "ZIOS_HOME environment variable undefined or directory does not exist." >&2
+    usage >&2
+    exit 1
+fi
+
+# : parse command line options
+if [ $# -ne 1 ]; then
+    echo "Missing output path." >&2
+    usage >&2
+    exit 1
+fi
+if [ ! -d "$1" ]; then
+    echo "Output directory does not exist." >&2
+    usage >&2
+    exit 1
+fi
+
+# : initialization
+#INPUT=$ZIOS_HOME/Source
+OUTPUT=$1/Main
+OUTPUTN=$1/NetManager
+DOXYGEN=doxygen
+CONFIG=$ZIOS_HOME/Documentation/Main.doxyfile
+#CONFIGN=$ZIOS_HOME/Documentation/NetManager.doxyfile
+
+
+# : run doxygen overriding path options
+echo "Running doxygen with $CONFIG ..."
+#echo "Running doxygen on $INPUT ..."
+(cd $ZIOS_HOME/Documentation;
+ echo "Running in directory $PWD..."
+ (cat $CONFIG;
+ echo "OUTPUT_DIRECTORY = $OUTPUT" )| $DOXYGEN - 
+# (cat $CONFIGN;
+# echo "OUTPUT_DIRECTORY = $OUTPUTN" )| $DOXYGEN - 
+)
+# echo "STRIP_FROM_PATH  = $INPUT";
+exit_status=$?
+
+# : cleanup and return
+echo "Output written to $OUTPUT"
+#echo "Output written to $OUTPUTN"
+exit $exit_status

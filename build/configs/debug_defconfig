@@ -1,0 +1,23 @@
+CC = gcc
+CXX = g++
+AR = ar
+AS = as
+LD = ld
+LD_VERBOSE = -Wl,--verbose
+STRIP = strip
+DSB = 
+DEFINES = -DZTRACE -DZDEV
+GCC_FLAGS = -O0 -g3 -Wall -c -fmessage-length=0 -fPIC -std=c++17
+CC_FLAGS = $(GCC_FLAGS)
+L_FLAGS = 
+
+LIB_PATH = -L/usr/local/lib
+INCLUDES = -I/usr/local/include
+
+PLT=Debug
+
+#
+# Define variable to tell ZIOS what hardware platform we are going to be using.  In this case, we are using
+# a dummy hardware layer to fake out all the required hardware artifacts.
+#
+PLATFORM_LIBRARY = dummy

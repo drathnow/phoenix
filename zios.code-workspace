@@ -1,0 +1,170 @@
+{
+	"folders": [
+		{
+			"path": "AppIncludes"
+		},
+		{
+			"path": "BaseClasses"
+		},
+		{
+			"path": "BaseClassesTest"
+		},
+		{
+			"path": "build"
+		},
+		{
+			"path": "CommandHandler"
+		},
+		{
+			"path": "CommandHandlerTest"
+		},
+		{
+			"path": "ConnectionManager"
+		},
+		{
+			"path": "ConnectionManagerTest"
+		},
+		{
+			"path": "EventHandler"
+		},
+		{
+			"path": "EventHandlerTest"
+		},
+		{
+			"path": "Fakepppd"
+		},
+		{
+			"path": "IOBoardTester"
+		},
+		{
+			"path": "LE910B1ModemDriver"
+		},
+		{
+			"path": "lpc3250"
+		},
+		{
+			"path": "lpc3250Test"
+		},
+		{
+			"path": "Modbus"
+		},
+		{
+			"path": "ModbusTest"
+		},
+		{
+			"path": "ModemTester"
+		},
+		{
+			"path": "MQWrapper"
+		},
+		{
+			"path": "MQWrapperTest"
+		},
+		{
+			"path": "NetworkManager"
+		},
+		{
+			"path": "NetworkManagerCommon"
+		},
+		{
+			"path": "NetworkManagerCommonTest"
+		},
+		{
+			"path": "NetworkMonitorLib"
+		},
+		{
+			"path": "NetworkMonitorLibTest"
+		},
+		{
+			"path": "OTAD"
+		},
+		{
+			"path": "OTADTest"
+		},
+		{
+			"path": "PassThrough"
+		},
+		{
+			"path": "PassThroughTest"
+		},
+		{
+			"path": "Ports"
+		},
+		{
+			"path": "PortsTest"
+		},
+		{
+			"path": "RealTimeEngine"
+		},
+		{
+			"path": "RealTimeEngineTest"
+		},
+		{
+			"path": "Reporting"
+		},
+		{
+			"path": "ReportingTest"
+		},
+		{
+			"path": "Scheduling"
+		},
+		{
+			"path": "SchedulingTest"
+		},
+		{
+			"path": "SchemaPersistenceManager"
+		},
+		{
+			"path": "SchemaPersistenceManagerTest"
+		},
+		{
+			"path": "Session"
+		},
+		{
+			"path": "SessionTest"
+		},
+		{
+			"path": "TestSupport"
+		},
+		{
+			"path": "tools"
+		},
+		{
+			"path": "Watchdog"
+		},
+		{
+			"path": "WatchdogLib"
+		},
+		{
+			"path": "WatchdogLibTest"
+		},
+		{
+			"path": "ZediCommon"
+		},
+		{
+			"path": "ZediCommonTest"
+		},
+		{
+			"path": "zhal"
+		},
+		{
+			"path": "zhaltest"
+		},
+		{
+			"path": "zios"
+		},
+		{
+			"path": "zioslib"
+		},
+		{
+			"path": "zioslibTest"
+		},
+		{
+			"path": "ZiosWeb"
+		},
+		{
+			"path": "ZiosWebTest"
+		}
+	],
+	"settings": {}
+  }

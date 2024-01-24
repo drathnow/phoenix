@@ -1,0 +1,24 @@
+CROSS_COMPILER_DIR = /usr/local/arm-buildroot-linux-uclibcgnueabi_sdk-buildroot/bin
+CROSS_COMPILER_BIN_PREFIX = /usr/local/arm-buildroot-linux-uclibcgnueabi_sdk-buildroot/bin/arm-linux-
+INCLUDES = -I/usr/local/arm-buildroot-linux-uclibcgnueabi_sdk-buildroot/arm-buildroot-linux-uclibcgnueabi/sysroot/usr/include
+LIB_PATH = -L/usr/local/arm-buildroot-linux-uclibcgnueabi_sdk-buildroot/arm-buildroot-linux-uclibcgnueabi/sysroot/usr/lib
+
+CC    := $(CROSS_COMPILER_BIN_PREFIX)$(CC)
+CXX   := $(CROSS_COMPILER_BIN_PREFIX)$(CXX)
+AR    := $(CROSS_COMPILER_BIN_PREFIX)$(AR)
+AS    := $(CROSS_COMPILER_BIN_PREFIX)$(AS)
+LD    := $(CROSS_COMPILER_BIN_PREFIX)$(LD)
+STRIP := $(CROSS_COMPILER_BIN_PREFIX)$(STRIP)
+
+DSB   := STRIP
+DEFINES = -D_ONARM=LPC3250_K51 -DNDEBUG
+
+GCC_FLAGS = -O0 -Wall -c -fmessage-length=0  -Wno-psabi -ftrack-macro-expansion=0 -fPIC
+CC_FLAGS = $(GCC_FLAGS)
+
+PLT=ReleaseARM
+
+#
+# Define variable to tell ZIOS what hardware platform we are going to be using
+#
+PLATFORM_LIBRARY=lpc3250

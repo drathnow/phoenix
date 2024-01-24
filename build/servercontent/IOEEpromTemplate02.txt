@@ -1,0 +1,145 @@
+#
+# The IO Board EEProm contains 5 partiations.
+#
+#   1 - General information
+#   2 - GPIO defintions
+#   3 - Power Module defintions
+#   4 - Analog Input Defintions
+#   5 - RTD Definitions
+#
+eeprom.version=2
+brd.type=IO-1
+brd.hwrev=2.0
+brd.pcbserial=%serial-number%
+
+# The LPC3250 has a number of gpio chips. The exact number depends on whether the
+# the IO board is present (FG600) or not (FG400).  These chips are found under
+# /sys/bus/gpio/devices and called "gpiochipX" where X is a chip number. However,
+# the numbers are not consistent between the FG400 and FG600, which can pose a problem
+# when trying to write common code between these to devices.  For that reason,
+# we chose to use the chip labels, which are consistent across both devices.  Below is
+# a list of the chip names and labels:
+#
+#              FG400
+#       Chip Name   Label
+#       -------------------
+#       gpiochip0   gpio_p0
+#       gpiochip1   gpio_p1
+#       gpiochip2   gpio_p2
+#       gpiochip3   gpio_p3
+#       gpiochip4   gpi_p3
+#       gpiochip5   gpo_p3
+#
+#              FG600
+#       Chip Name   Label
+#       -------------------
+#       gpiochip0   2-0021
+#       gpiochip1   gpio_p0
+#       gpiochip2   gpio_p1
+#       gpiochip3   gpio_p2
+#       gpiochip4   gpio_p3
+#       gpiochip5   gpi_p3
+#       gpiochip6   gpo_p3
+#
+#
+# GPIOs for the IO board
+#
+AIDI1_LOOP=chip=2-0021;line=0;ro=0;inv=0
+AIDI2_LOOP=chip=2-0021;line=1;ro=0;inv=0
+AIDI3_LOOP=chip=2-0021;line=2;ro=0;inv=0
+AIDI4_LOOP=chip=2-0021;line=3;ro=0;inv=0
+AIDI5_LOOP=chip=2-0021;line=4;ro=0;inv=0
+AIDI6_LOOP=chip=2-0021;line=5;ro=0;inv=0
+AIDI7_LOOP=chip=2-0021;line=6;ro=0;inv=0
+AIDI8_LOOP=chip=2-0021;line=7;ro=0;inv=0
+AIDI1_SWS=chip=2-0021;line=8;ro=0;inv=0
+AIDI2_SWS=chip=2-0021;line=9;ro=0;inv=0
+AIDI3_SWS=chip=2-0021;line=10;ro=0;inv=0
+AIDI4_SWS=chip=2-0021;line=11;ro=0;inv=0
+AIDI5_SWS=chip=2-0021;line=12;ro=0;inv=0
+AIDI6_SWS=chip=2-0021;line=13;ro=0;inv=0
+AIDI7_SWS=chip=2-0021;line=14;ro=0;inv=0
+AIDI8_SWS=chip=2-0021;line=15;ro=0;inv=0
+DI.1=chip=gpio_p0;line=0;ro=1;inv=1;sws=AIDI1_SWS
+DI.2=chip=gpio_p0;line=1;ro=1;inv=1;sws=AIDI2_SWS
+DI.3=chip=gpio_p0;line=2;ro=1;inv=1;sws=AIDI3_SWS
+DI.4=chip=gpio_p0;line=3;ro=1;inv=1;sws=AIDI4_SWS
+DI.5=chip=gpio_p0;line=4;ro=1;inv=1;sws=AIDI5_SWS
+DI.6=chip=gpio_p0;line=5;ro=1;inv=1;sws=AIDI6_SWS
+DI.7=chip=gpio_p0;line=6;ro=1;inv=1;sws=AIDI7_SWS
+DI.8=chip=gpio_p0;line=7;ro=1;inv=1;sws=AIDI8_SWS
+DI.9=chip=gpio_p2;line=0;ro=1;inv=1
+DI.10=chip=gpio_p2;line=1;ro=1;inv=1
+DI.11=chip=gpio_p2;line=2;ro=1;inv=1
+DI.12=chip=gpio_p2;line=3;ro=1;inv=1
+DI.13=chip=gpio_p2;line=4;ro=1;inv=1
+DI.14=chip=gpio_p2;line=5;ro=1;inv=1
+DI.15=chip=gpi_p3;line=2;ro=1;inv=1
+DI.16=chip=gpi_p3;line=7;ro=1;inv=1
+DO.9=chip=gpio_p1;line=16;ro=0;inv=0
+DO.10=chip=gpio_p1;line=17;ro=0;inv=0
+DO.11=chip=gpio_p1;line=18;ro=0;inv=0
+DO.12=chip=gpio_p1;line=19;ro=0;inv=0
+DO.13=chip=gpio_p1;line=20;ro=0;inv=0
+DO.14=chip=gpio_p1;line=21;ro=0;inv=0
+DO.15=chip=gpio_p1;line=22;ro=0;inv=0
+DO.16=chip=gpio_p1;line=23;ro=0;inv=0
+SENS_MUX.1=chip=gpo_p3;line=3;ro=0;inv=0
+POW.LOOP_FLT=chip=gpio_p2;line=6;ro=1;inv=0
+POW.5V_FLT=chip=gpio_p2;line=7;ro=1;inv=0
+POW.LOOP=chip=gpio_p2;line=8;ro=0;inv=0
+POW.5V=chip=gpio_p2;line=10;ro=0;inv=0
+
+#
+# Power supplies
+#
+POW.LOOP=chip=gpio_p2;enable=POW.LOOP;fault=POW.LOOP_FLT;delay=2000;range=24,12;select=9;int=0
+POW.5V=chip=gpio_p2;enable=POW.5V;fault=POW.5V_FLT;delay=0;int=0
+
+#
+# Analog Inputs
+#
+AI.1=muxchan=0;adcchan=1;swsgpio=AIDI1_LOOP
+AI.2=muxchan=1;adcchan=1;swsgpio=AIDI2_LOOP
+AI.3=muxchan=2;adcchan=1;swsgpio=AIDI3_LOOP
+AI.4=muxchan=3;adcchan=1;swsgpio=AIDI4_LOOP
+AI.5=muxchan=4;adcchan=1;swsgpio=AIDI5_LOOP
+AI.6=muxchan=5;adcchan=1;swsgpio=AIDI6_LOOP
+AI.7=muxchan=6;adcchan=1;swsgpio=AIDI7_LOOP
+AI.8=muxchan=7;adcchan=1;swsgpio=AIDI8_LOOP
+
+#
+# RTDs
+#
+# Assume 1 ADC must be used for all channels
+# senschan=channel to measure diff voltage from RTD
+# refchan=channel to measure diff voltage across reference resistor
+# gndchan=channel to measure "zero" diff voltage, for compensating ADC offset errors
+# delay=usec to wait after turning on power and taking a reading (micro seconds)
+#
+# Circuit assumptions:
+#   - constant voltage or current is supplied through a precision ref. resistor
+#   - "ref" channel measures voltage drop across ref resistor
+#   - "sense" channel measures voltage drop across target resistor
+#   - "gnd" channel measures "zero" voltage drop from muxes (should be ~zero)
+#   - need to be supplied the value (in ohms) of ref resistor
+#
+# In order to read a value from the sense, reference, and ground pins we need to first
+# select the channel of the SN74LV4051APWR multiplexer (mux) and then read the approriate
+# channel on the ADS8344 ADC. These two numbers are encoded into a single 8 bit number
+# where bits 0-2 are the mux channel and bits 3-5 are the adc channel number:
+#
+#        5  4  3  2  1  0
+# +--+--+--+--+--+--+--+--+
+# |  |  |  |  |  |  |  |  |
+# +--+--+--+--+--+--+--+--+
+#        <muxadr> <adcchan>
+#         3 bits   3 bits
+#
+#
+RTD.1.I=senschan=16;refchan=17;gndchan=18;delay=2000
+RTD.2.I=senschan=19;refchan=20;gndchan=21;delay=2000
+RTD.1=senschan=24;refchan=25;gndchan=26;delay=2000
+RTD.2=senschan=27;refchan=28;gndchan=29;delay=2000
+
+�

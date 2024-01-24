@@ -1,0 +1,4 @@
+eeprom.version=1.0
+brd.hwrev=1.3
+brd.pcbserial=MOB15270013
+modem.driver=TELIT-HE910

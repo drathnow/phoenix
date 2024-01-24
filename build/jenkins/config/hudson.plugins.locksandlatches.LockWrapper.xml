@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.locksandlatches.LockWrapper_-DescriptorImpl plugin="locks-and-latches@0.6">
+  <locks>
+    <hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
+      <name>doxygen</name>
+    </hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
+    <hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
+      <name>klocwork</name>
+    </hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
+    <hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
+      <name>LabMonitor</name>
+    </hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
+    <hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
+      <name>ZIOS</name>
+    </hudson.plugins.locksandlatches.LockWrapper_-LockConfig>
+  </locks>
+</hudson.plugins.locksandlatches.LockWrapper_-DescriptorImpl>

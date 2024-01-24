@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "../AppIncludes",
+                "../RealTimeEngine",
+                "../Reporting",
+                "../ConnectionManager",
+                "../BaseClasses",
+                "../ZediCommon",
+                "../EventHandler",
+                "../Scheduling",
+                "../ZiosWeb",
+                "../CommandHandler",
+                "../Ports",
+                "../SchemaPersistenceManager",
+                "../PassThrough",
+                "../zioslib",
+                "../MQWrapper",
+                "../Modbus",
+                "../WatchdogLib",
+                "../MQWrapper",
+                "../zhal",
+                "../OTAD",
+                "../Session"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

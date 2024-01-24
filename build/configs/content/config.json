@@ -1,0 +1,79 @@
+{
+    "ReportDeliveryService": {
+        "MaxBufferSize": 2048,
+        "AckTimeoutSeconds": 120,
+        "RetryStrategy": {
+            "Name": "FixedInterval",
+            "MaxRetries": 3,
+            "SecondsBetweenRetries": 30
+        },
+        "Persistence": {
+            "Directory" : "report",
+            "MaxFileSize" : 64000
+        }
+    },
+   "Web" : {
+        "Enable": "true",
+        "PortNumber" : 5500,
+        "BackLog" : 50,
+        "SessionTimeout" : "01:00:00",
+        "LoginTimeout" : "00:03:00",
+        "MaxSessions" : 50,
+        "SessionIdLength": 16,
+        "Users": {
+            "Guest": {
+                "Password": "0a534f33e075e5891480f997d701ed2e7879d9aa10ca35ed56e08e7b"
+            },
+            "Field": {
+                "Password": "a07beeec35f32f60a1083ed6984f2aad4df89cdaac57afd62a7fe3b4"
+            },
+            "Admin": {
+                "Password": "6bc29f386c975a62e37fff81936add02228340cb7ed77b4e94f7379e"
+            }
+        }
+    },
+    "TimeSync" : {
+        "Enable" : "true",
+        "RoundTripThreshold": "00:00:10",
+        "StartTime_comment" : "00:00:00",
+        "Interval": "12:00:00",
+        "AdjustTimeThreshold" : "00:00:05",
+        "MaxTimeThreshold" : "00:05:00",
+        "HWClockTimeSetThreshold" : "00:05:00",
+        "DeveloperMode_comment": "true"
+    },
+    "Connector" : {
+        "ServerAddress_internal": "192.168.128.120",
+        "ServerAddress_telus": "192.168.101.21",
+        "ServerAddress": "192.168.128.120",
+        "RemotePort": 3100,
+        "LocalPort" : 3200,
+        "MaxPacketSize": 2048,
+        "KeepAliveStrategy" : {
+            "Enable" : "true",
+            "HeartbeatSeconds" : 300,
+            "ResponseTimeoutSeconds" : 10
+        },
+        "RecycleTimer" : {
+            "Enable" : "true",
+            "Interval" : "24:00:00"
+        },
+        "RetryStrategy": {
+            "Name": "ProgressiveWait",
+            "DefWaitTimeSeconds": 30,
+            "ProgressiveDelaySeconds": 10,
+            "MaxDelaySeconds": 60,
+            "MaxRetries": 0
+        },
+        "ControlHandling": {
+            "ThreadPoolSize": 4
+        },
+        "Authentication" : {
+           "Username" : "TEST-000001",
+           "HashType": {
+               "Name" : "SHA1",
+               "IterationCount":  1024
+           }
+        }
+    }
+}

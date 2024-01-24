@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.sidebar__link.SidebarLinkPlugin plugin="sidebar-link@1.6">
+  <links>
+    <hudson.plugins.sidebar__link.LinkAction>
+      <url>http://zi1ssled2:8070/klocwork/insight-review.html</url>
+      <text>Klockworks</text>
+      <icon>installer.gif</icon>
+    </hudson.plugins.sidebar__link.LinkAction>
+    <hudson.plugins.sidebar__link.LinkAction>
+      <url>http://zi1ssled2/ZIOS/develbuilds/?C=M;O=D</url>
+      <text>development deploys</text>
+      <icon>document.gif</icon>
+    </hudson.plugins.sidebar__link.LinkAction>
+  </links>
+</hudson.plugins.sidebar__link.SidebarLinkPlugin>

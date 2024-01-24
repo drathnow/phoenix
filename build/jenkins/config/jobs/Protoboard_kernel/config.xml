@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>this will build the kernel for proto board. Assumes you have picked the board as zedi at lease 1 before running 1st time.</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.24"/>
+  </properties>
+  <scm class="hudson.plugins.mercurial.MercurialSCM" plugin="mercurial@1.51">
+    <installation>(Default)</installation>
+    <source>ssh://esmerc1/zedi/firmware/zedi3250/protoboard/ltib</source>
+    <modules></modules>
+    <revisionType>BRANCH</revisionType>
+    <revision>default</revision>
+    <subdir>ltib</subdir>
+    <clean>false</clean>
+    <browser class="hudson.plugins.mercurial.browser.RhodeCode">
+      <url>http://esmerc1/firmware/zedi3250/protoboard/ltib/</url>
+    </browser>
+    <credentialsId></credentialsId>
+    <disableChangeLog>false</disableChangeLog>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>true</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.SCMTrigger>
+      <spec>#every 10 minutes&#xd;
+H/10 * * * *&#xd;
+</spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <customWorkspace>/home/rdbuild/jenkins/jobs/protokernel/workspace</customWorkspace>
+  <builders>
+    <hudson.tasks.Shell>
+      <command># must execute from ltib subdir...
+# 1st change to executable dir
+cd $WORKSPACE/ltib
+
+# set up the minimal platform config file iff it doesn&apos;t already exist..
+if [ ! -f $WORKSPACE/ltib/.config ]; then
+echo \# &gt; $WORKSPACE/ltib/.config
+echo \# Automatically generated make config: don\&apos;t edit &gt;&gt; $WORKSPACE/ltib/.config
+echo \# LTIB version: LTIB_RELEASE &gt;&gt; $WORKSPACE/ltib/.config
+echo \# &gt;&gt; $WORKSPACE/ltib/.config
+echo CONFIG_CONFIG_TITLE=\&quot;GNU/Linux Target Image Builder : Platform Selection\&quot; &gt;&gt; $WORKSPACE/ltib/.config
+echo CONFIG_PLATFORM_zedi3250=y &gt;&gt; $WORKSPACE/ltib/.config
+echo CONFIG_PLATFORM_DIR=\&quot;config/platform/zedi3250\&quot; &gt;&gt; $WORKSPACE/ltib/.config
+fi
+
+#copy the hg config file for the kernel over the .dev file so it is always used.
+cp $WORKSPACE/ltib/config/platform/zedi3250/linux-2.6.27.8-zedi3250.config $WORKSPACE/ltib/config/platform/zedi3250/linux-2.6.27.8-zedi3250.config.dev
+
+#copy over Uboot and general config file from hg to .dev file so it is always used
+cp $WORKSPACE/ltib/config/platform/zedi3250/defconfig $WORKSPACE/ltib/config/platform/zedi3250/.config
+
+# now invoke the ltib builder
+sh $WORKSPACE/ltib/ltib</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.45">
+      <healthy></healthy>
+      <unHealthy></unHealthy>
+      <thresholdLimit>low</thresholdLimit>
+      <pluginName>[WARNINGS] </pluginName>
+      <defaultEncoding></defaultEncoding>
+      <canRunOnFailed>false</canRunOnFailed>
+      <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
+      <useStableBuildAsReference>false</useStableBuildAsReference>
+      <useDeltaValues>false</useDeltaValues>
+      <thresholds plugin="analysis-core@1.67">
+        <unstableTotalAll></unstableTotalAll>
+        <unstableTotalHigh></unstableTotalHigh>
+        <unstableTotalNormal></unstableTotalNormal>
+        <unstableTotalLow></unstableTotalLow>
+        <failedTotalAll></failedTotalAll>
+        <failedTotalHigh></failedTotalHigh>
+        <failedTotalNormal></failedTotalNormal>
+        <failedTotalLow></failedTotalLow>
+      </thresholds>
+      <shouldDetectModules>false</shouldDetectModules>
+      <dontComputeNew>true</dontComputeNew>
+      <doNotResolveRelativePaths>true</doNotResolveRelativePaths>
+      <parserConfigurations/>
+      <consoleParsers>
+        <hudson.plugins.warnings.ConsoleParser>
+          <parserName>GNU Make + GNU C Compiler (gcc)</parserName>
+        </hudson.plugins.warnings.ConsoleParser>
+      </consoleParsers>
+    </hudson.plugins.warnings.WarningsPublisher>
+  </publishers>
+  <buildWrappers/>
+</project>

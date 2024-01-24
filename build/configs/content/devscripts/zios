@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# zios     Starts and stops zios
+#
+# Script to start, stop, or retart ZIOS on NON-Field Gateway devices.
+#
+# chkconfig: - 58 74
+# description: zios from Zedi Inc.
+# http://www.zedi.ca/
+
+### BEGIN INIT INFO
+# Provides: zios
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Short-Description: start and stop zios
+# Description: zios from Zedi Inc.
+### END INIT INFO
+
+PIDFILE=/var/run/zwatchdog.pid
+SCRIPT=/zioshome/zios/wdstart.sh
+OPTS="--ignore-kicker"
+ENABLED="yes"
+
+[ -f /etc/default/zios ] && . /etc/default/zios
+
+start() {
+    echo "Starting zios..."
+    start-stop-daemon --start --quiet --oknodo --pidfile $PIDFILE --exec $SCRIPT -- $OPTS
+}
+
+stop() {
+    echo "Stopping zios..."
+    start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE
+}
+
+[ "$ENABLED" = "yes" ] || exit
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        stop
+        start
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 2
+esac
+

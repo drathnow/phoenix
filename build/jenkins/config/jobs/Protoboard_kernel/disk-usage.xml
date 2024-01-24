@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.plugins.disk__usage.ProjectDiskUsage plugin="disk-usage@0.25">
+  <diskUsageWithoutBuilds>9036366</diskUsageWithoutBuilds>
+  <slaveWorkspacesUsage class="concurrent-hash-map">
+    <entry>
+      <string></string>
+      <concurrent-hash-map>
+        <entry>
+          <string>/var/lib/jenkins/workspace/Protoboard kernel</string>
+          <long>4096</long>
+        </entry>
+        <entry>
+          <string>/var/lib/jenkins/jobs/Protoboard_kernel/workspace</string>
+          <long>4096</long>
+        </entry>
+      </concurrent-hash-map>
+    </entry>
+  </slaveWorkspacesUsage>
+  <buildDiskUsage/>
+</hudson.plugins.disk__usage.ProjectDiskUsage>

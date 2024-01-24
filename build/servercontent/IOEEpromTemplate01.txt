@@ -1,0 +1,256 @@
+# File version 1.10
+EEPROM.version=2
+brd.type=IO-1
+brd.hwrev=2.0
+brd.pcbserial=IOBxxxxx
+
+# Digital Ports
+# These are driver objects meant to bridge abstract digital IO model
+# to concrete implementations, typically hardware specific
+#
+# Naming convention:
+#   When refering to a specific digital value, rules are:
+#     variable=<name of Digital Port>-<Bit#>[*]
+#
+#   The * indicates that the polarity of the signal is inverted and is optional.
+#
+# LPC3250 implementation:
+# DP.0 = P0 (0-7)
+# DP.1 = P1 (16-23)
+# DP.2 = P2 (0-12)
+# DP.3 = GPI, GPO, GPIO pins, various assignments
+# ZIBRD refers to the zedi_board kernel driver, which has IOCTL commands
+# for the internal IO points, implemented as 32-bit registers.  This driver
+# requires a port number to be supplied, mapped here as the address
+#
+# DP.10= I2C port, (0-15), address=0x21
+#
+# dev=device name, used by factory methods
+# ad=address of an instance
+# val=initial value for output
+# dir=initial pin direction (0=in, 1=out)
+# ZIBRD uses IOPort IOCTL on zedi_board driver
+DP.0=dev=ZIBRD.IOPort;ad=0;val=0xFF;dir=0x00
+DP.1=dev=ZIBRD.IOPort;ad=1;val=0x0;dir=0xFF0000
+DP.2=dev=ZIBRD.IOPort;ad=2;val=0x0;dir=0x1F00
+DP.3=dev=ZIBRD.IOPort;ad=3;val=0x0;dir=0x0
+
+# ADCMUX uses ADC MUX IOCTL on zedi_board driver
+# ad=0 (ignored), dir is always 1's as this is a GPO (on all active pins) that means mux range 0-7
+DP.4=dev=ZIBRD.ADCMUX;ad=0;val=0;dir=0x7
+
+# SENSMUX uses SENSOR MUX IOCTL on zedi_board driver
+# ad=0 (ignored), dir is always 1's as this is a GPO (on all active pins) that means mux range 0-3
+DP.5=dev=ZIBRD.SENSMUX;ad=0;val=0;dir=0x3
+
+# i2c 16 bit port extender
+# dev = driver device used for this
+# ad = address on i2c (0x21)
+# val = initial value on lines at boot
+# dir = initial direction on lines at boot (0 = input, 1 = output )
+DP.10=dev=PCA6416;ad=33;val=00;dir=0xFFFF
+
+# Digital Inputs
+# label= board specific label on silkscreen
+# dev = Digital Port driver with channel ( note * means invert)
+# DI 1-8 are on AI/DI pins
+DI.1=label=AIDI1;dev=DP.0-0*
+DI.2=label=AIDI2;dev=DP.0-1*
+DI.3=label=AIDI3;dev=DP.0-2*
+DI.4=label=AIDI4;dev=DP.0-3*
+DI.5=label=AIDI5;dev=DP.0-4*
+DI.6=label=AIDI6;dev=DP.0-5*
+DI.7=label=AIDI7;dev=DP.0-6*
+DI.8=label=AIDI8;dev=DP.0-7*
+
+# DI 9-16 are on DIO pins
+# Note DI 15-16 break pattern
+DI.9=label=DIO9;dev=DP.2-0*
+DI.10=label=DIO10;dev=DP.2-1*
+DI.11=label=DIO11;dev=DP.2-2*
+DI.12=label=DIO12;dev=DP.2-3*
+DI.13=label=DIO13;dev=DP.2-4*
+DI.14=label=DIO14;dev=DP.2-5*
+DI.15=label=DIO15;dev=DP.3-2*
+DI.16=label=DIO16;dev=DP.3-7*
+
+# Digital Outputs
+# label= board specific label on silkscreen
+# dev = Digital Port driver
+# ch  = channel (bit) on the DP
+# type= OD --> open drain, high value turns on current sink
+#       PP --> push-pull, non-inverting buffer
+#
+# DO 9-16 are on DIO pins
+# Setting value high turns ON current sink, output is pulled to GND
+# Setting value low turns OFF current sink, output will float, typically to ext pull-up
+#
+# type=
+DO.9=label=DIO9;dev=DP.1-16;type=OD
+DO.10=label=DIO10;dev=DP.1-17;type=OD
+DO.11=label=DIO11;dev=DP.1-18;type=OD
+DO.12=label=DIO12;dev=DP.1-19;type=OD
+DO.13=label=DIO13;dev=DP.1-20;type=OD
+DO.14=label=DIO14;dev=DP.1-21;type=OD
+DO.15=label=DIO15;dev=DP.1-22;type=OD
+DO.16=label=DIO16;dev=DP.1-23;type=OD
+
+# Power Supplies
+# "POW" objects model a software enableable power supply
+# label=(optional) name of the supply, typically the external label visible to the user
+# en=digital port output to turn on the supply (required)
+# endelay = time in usec to allow for powersupply to stabilize before using ... eg: RTD / ANA power
+# fault=digital port input to indicate if the supply has faulted (optional)
+#       If a supply has faulted, it must be disabled and re-enabled to clear the fault
+# faultdelay=min time (msec) that the supply must be disabled to clear a fault (optional, default=0)
+# delay=min time (msec) for a supply to be stable after enabling (optional, default=0)
+# selX=? 0 or more select lines to form an index of software selectable voltage ranges(optional)
+# range=enumeration of valid voltages based on selX codes (1 or more) (optional)
+# internal=(optional) if 1 then is not displayed to user or exposed, is for internal use only.
+#
+# an example of a power supply with 3 valid values
+#
+#  sel1 sel0  Voltage
+#  ------------------
+#     0    0  5V
+#     0    1  invalid
+#     1    0  24V
+#     1    1  12V
+#  POW.LOOP.2=label=LOOP2;en=DP.2-8;fault=DP.2-6;sel0=P2.9;sel1=P2.10;range={5,,24,12}
+
+# Dry contact current scan
+# When enabled, provides a weak current drive to digital input pins, allowing direct
+# connection to a on/off switch that is connected between the input and GND.
+#
+POW.SWSCAN=label=;en=DP.5-1;internal=1;range={5}
+
+# Analog loop power supply
+POW.LOOP=label=LOOP;en=DP.2-8;fault=DP.2-6;sel0=DP.2-9;range={24,12}
+
+# 5V Nominal power supply
+POW.5V=label=5V;en=DP.2-10;fault=DP.2-7;range={5}
+
+# RTD power enable
+# no fault or label
+# internal=1 means internal function, may not be interesting to user
+POW.RTD=label=;en=DP.2-11;endelay=2;internal=1;
+
+# Analog power enable
+# no fault or label
+POW.ANA=label=;en=DP.2-12;endelay=2;internal=1
+
+# ADC
+# ADC block models an ability to read an integer value from a converter using a
+# logical channel.  The ADC can interpret the channel freely.  e.g. it could drive
+# external MUXes as well as internal channel select to create large numbers of inputs.
+#
+# driver = A/D driver module - contains things like max, min, settle time?
+# scale = scaling factor used by A/D (Vadc = CODEadc/scale * ref) (e.g. 65536 for ad58344)
+#        ADJ - scaling factor can be provided by ADC driver as it knows the physical properties of the device
+# ref = reference voltage applied to A/D
+# add = spi "address" of A/D
+# muxdev=device to supply additional mux select lines
+#
+# In this file, the channel numbers are assumed to be 6 bits:
+# bits: 5-3 --> internal MUX
+# bits: 2-0 --> external MUX
+# Example channel encoding:
+# Also consider parameters defining channel settling times
+# ?? - link to analog power selection, min delay after turning it on
+ADC.1=driver=ads8344;ref=2.5;add=0;muxdev=DP.4;pow=POW.ANA
+
+# Analog Inputs (F - filtered)
+# label = board specific label on silkscreen
+# dev = A/D device and channel that input uses (see channel encoding above)
+# scale = scaling factor from front end (if applicable) (Vai = Vadc * scale) + offset
+#          Iai=Vai/Rterm
+# offset = offset of front end (if applicable)
+# chandelay = min # of usec to wait after changing channel before conversion is valid (hint to ADC driver)
+AI.1=label=AIDI1;dev=ADC.1-0;scale=2.0;offset=0;chandelay=4000
+AI.2=label=AIDI2;dev=ADC.1-1;scale=2.0;offset=0;chandelay=4000
+AI.3=label=AIDI3;dev=ADC.1-2;scale=2.0;offset=0;chandelay=4000
+AI.4=label=AIDI4;dev=ADC.1-3;scale=2.0;offset=0;chandelay=4000
+AI.5=label=AIDI5;dev=ADC.1-4;scale=2.0;offset=0;chandelay=4000
+AI.6=label=AIDI6;dev=ADC.1-5;scale=2.0;offset=0;chandelay=4000
+AI.7=label=AIDI7;dev=ADC.1-6;scale=2.0;offset=0;chandelay=4000
+AI.8=label=AIDI8;dev=ADC.1-7;scale=2.0;offset=0;chandelay=4000
+
+AI.1.F=label=AIDI1;dev=ADC.1-8;scale=2.0;offset=0;chandelay=4160
+AI.2.F=label=AIDI2;dev=ADC.1-9;scale=2.0;offset=0;chandelay=4160
+AI.3.F=label=AIDI3;dev=ADC.1-10;scale=2.0;offset=0;chandelay=4160
+AI.4.F=label=AIDI4;dev=ADC.1-11;scale=2.0;offset=0;chandelay=4160
+AI.5.F=label=AIDI5;dev=ADC.1-12;scale=2.0;offset=0;chandelay=4160
+AI.6.F=label=AIDI6;dev=ADC.1-13;scale=2.0;offset=0;chandelay=4160
+AI.7.F=label=AIDI7;dev=ADC.1-14;scale=2.0;offset=0;chandelay=4160
+AI.8.F=label=AIDI8;dev=ADC.1-15;scale=2.0;offset=0;chandelay=4160
+
+# RTD devices (I non  filtered)
+#
+# Assume 1 ADC must be used for all channels
+# label=silkscreen display label
+# type=method to measure RTD.  "4w" only support right now
+# dev=analog converter used by RTD
+# sense=channel to measure diff voltage from RTD
+# ref=channel to measure diff voltage across reference resistor
+# gnd=channel to measure "zero" diff voltage, for compensating ADC offset errors
+# rtdpow="POW" object to enable drive current to the RTD , note has intrinsic settling delay
+# chandelay=usec to wait after changing channels before reading ADC (default is 0)
+#
+# Circuit assumptions:
+#   - constant voltage or current is supplied through a precision ref. resistor
+#   - "ref" channel measures voltage drop across ref resistor
+#   - "sense" channel measures voltage drop across target resistor
+#   - "gnd" channel measures "zero" voltage drop from muxes (should be ~zero)
+#   - need to be supplied the value (in ohms) of ref resistor
+#
+#
+RTD.1.I=label=RTD1;type=4w;dev=ADC.1;sense=16;ref=17;gnd=18;refres=150.0;rtdpow=POW.RTD;chandelay=1000;gain=10.09;factor=.9963
+RTD.2.I=label=RTD2;type=4w;dev=ADC.1;sense=19;ref=20;gnd=21;refres=150.0;rtdpow=POW.RTD;chandelay=1000;gain=10.09;factor=.9963
+
+# NOTE - Kyle thinks we really should use the LPF version
+RTD.1=label=RTD1;type=4w;dev=ADC.1;sense=24;ref=25;gnd=26;refres=150.0;rtdpow=POW.RTD;chandelay=1080;gain=10.09;factor=.9963
+RTD.2=label=RTD2;type=4w;dev=ADC.1;sense=27;ref=28;gnd=29;refres=150.0;rtdpow=POW.RTD;chandelay=1080;gain=10.09;factor=.9963
+
+# Pulse counters
+# NOTE: Yes, the channel order IS 3,2,4
+# label = board specific label on silkscreen
+# dev = driver used to handle pulse counter
+# ad = "address" of pulse counter in driver (id used by driver)
+PULSE.1=label=DIO14;dev=ZIBRD.Pulse;ad=3
+PULSE.2=label=DIO15;dev=ZIBRD.Pulse;ad=2
+PULSE.3=label=DIO16;dev=ZIBRD.Pulse;ad=4
+
+# Pin objects
+# Model the physical connection to an external Pin
+# Supports typical end-point configurations, e.g. current loop terminals, labelling, etc.
+#  label=physical label of the pin
+#  order=integer, used to sort display to match external form factor
+#  loopen=digital output, enables current loop termination resisitor (optional)
+#  loopres=resistance in ohms of the current loop termination resistor (optional, require if loopen present)
+#  swscanen=digital output, enables injection of switch scanning current (optional)
+#
+#Power
+PIN.1=label=LOOP;order=1
+PIN.2=label=5V;order=2
+# AIDI
+PIN.3=label=AIDI1;order=3;loopen=DP.10-0;loopres=250.0;swscanen=DP.10-8
+PIN.4=label=AIDI2;order=4;loopen=DP.10-1;loopres=250.0;swscanen=DP.10-9
+PIN.5=label=AIDI3;order=5;loopen=DP.10-2;loopres=250.0;swscanen=DP.10-10
+PIN.6=label=AIDI4;order=6;loopen=DP.10-3;loopres=250.0;swscanen=DP.10-11
+PIN.7=label=AIDI5;order=7;loopen=DP.10-4;loopres=250.0;swscanen=DP.10-12
+PIN.8=label=AIDI6;order=8;loopen=DP.10-5;loopres=250.0;swscanen=DP.10-13
+PIN.9=label=AIDI7;order=9;loopen=DP.10-6;loopres=250.0;swscanen=DP.10-14
+PIN.10=label=AIDI8;order=10;loopen=DP.10-7;loopres=250.0;swscanen=DP.10-15
+#RTD
+PIN.11=label=RTD1;order=11
+PIN.12=label=RTD2;order=12
+# DIO
+PIN.13=label=DIO9;order=13
+PIN.14=label=DIO10;order=14
+PIN.15=label=DIO11;order=15
+PIN.16=label=DIO12;order=16
+PIN.17=label=DIO13;order=17
+PIN.18=label=DIO14;order=18
+PIN.19=label=DIO15;order=19
+PIN.20=label=DIO16;order=20
+
